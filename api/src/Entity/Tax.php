@@ -3,6 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,9 +32,35 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
- *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true}
+ *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "get_change_logs"={
+ *              "path"="/taxes/{id}/change_log",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Changelogs",
+ *                  "description"="Gets al the change logs for this resource"
+ *              }
+ *          },
+ *          "get_audit_trail"={
+ *              "path"="/taxes/{id}/audit_trail",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Audittrail",
+ *                  "description"="Gets the audit trail for this resource"
+ *              }
+ *          }
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\TaxRepository")
+ * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
+ * 
+ * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(SearchFilter::class)
  */
 class Tax
 {
@@ -52,6 +83,7 @@ class Tax
      *
      * @example my offer
      *
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      * @Assert\NotNull
      * @Assert\Length(
@@ -66,6 +98,7 @@ class Tax
      *
      * @example This is the best product ever
      *
+     * @Gedmo\Versioned
      * @Assert\Length(
      *      max = 2550
      * )
@@ -79,6 +112,7 @@ class Tax
      *
      * @example 50.00
      *
+     * @Gedmo\Versioned
      * @Groups({"read","write"})
      * @Assert\NotNull
      * @Groups({"read","write"})
@@ -91,6 +125,7 @@ class Tax
      *
      * @example EUR
      *
+     * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
      * @ORM\Column(type="string")
@@ -102,6 +137,7 @@ class Tax
      *
      * @example 9
      *
+     * @Gedmo\Versioned
      * @Assert\NotBlank
      * @Assert\PositiveOrZero
      * @Groups({"read", "write"})

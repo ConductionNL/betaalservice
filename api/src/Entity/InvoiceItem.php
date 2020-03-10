@@ -3,6 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,9 +31,35 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
- *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true}
+ *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "get_change_logs"={
+ *              "path"="/invoice_items/{id}/change_log",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Changelogs",
+ *                  "description"="Gets al the change logs for this resource"
+ *              }
+ *          },
+ *          "get_audit_trail"={
+ *              "path"="/invoice_items/{id}/audit_trail",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Audittrail",
+ *                  "description"="Gets the audit trail for this resource"
+ *              }
+ *          }
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceItemRepository")
+ * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
+ * 
+ * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(SearchFilter::class)
  */
 class InvoiceItem
 {
@@ -48,6 +79,7 @@ class InvoiceItem
     /**
      * @var string The name of the object
      *
+     * @Gedmo\Versioned
      * @example My InvoiceItem
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -60,6 +92,7 @@ class InvoiceItem
     /**
      * @var string The description of the InvoiceItem
      *
+     * @Gedmo\Versioned
      * @example This is the best invoice item ever
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -84,6 +117,7 @@ class InvoiceItem
      *
      * @example http://example.org/offers/1
      *
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      * @Groups({"read","write"})
      * @Assert\Url
@@ -95,6 +129,7 @@ class InvoiceItem
     /**
      * @var string The product this item represents. DEPRECATED: REPLACED BY OFFER
      *
+     * @Gedmo\Versioned
      * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      * @MaxDepth(1)
@@ -111,6 +146,7 @@ class InvoiceItem
      *
      * @example 1
      *
+     * @Gedmo\Versioned
      * @Groups({"read","write"})
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
@@ -123,6 +159,7 @@ class InvoiceItem
      *
      * @example 50.00
      *
+     * @Gedmo\Versioned
      * @Groups({"read","write"})
      * @Assert\NotNull
      * @ORM\Column(type="decimal", precision=8, scale=2)
@@ -134,6 +171,7 @@ class InvoiceItem
      *
      * @example EUR
      *
+     * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
      * @ORM\Column(type="string")

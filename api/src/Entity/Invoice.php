@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+
 use Doctrine\Common\Collections\Criteria;
 use Money\Currency;
 use Money\Money;
@@ -33,6 +36,27 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}, "enable_max_depth"=true},
  *     denormalizationContext={"groups"={"write"}, "enable_max_depth"=true},
+ *     itemOperations={
+ *          "get",
+ *          "put",
+ *          "delete",
+ *          "get_change_logs"={
+ *              "path"="/invoices/{id}/change_log",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Changelogs",
+ *                  "description"="Gets al the change logs for this resource"
+ *              }
+ *          },
+ *          "get_audit_trail"={
+ *              "path"="/invoices/{id}/audit_trail",
+ *              "method"="get",
+ *              "swagger_context" = {
+ *                  "summary"="Audittrail",
+ *                  "description"="Gets the audit trail for this resource"
+ *              }
+ *          }
+ *     },
  *     collectionOperations={
  *          "get",
  *          "post",
@@ -47,8 +71,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
+ * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
  * @ORM\Table(name="invoices")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
+ * @ApiFilter(SearchFilter::class)
  */
 class Invoice
 {
@@ -70,6 +99,7 @@ class Invoice
     /**
      * @var string The name of the invoice
      *
+     * @Gedmo\Versioned
      * @example My Invoice
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -83,6 +113,7 @@ class Invoice
     /**
      * @var string The description of the invoice
      *
+     * @Gedmo\Versioned
      * @example This is the best invoice ever
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -97,22 +128,24 @@ class Invoice
      *
      * @example 6666-2019-0000000012
      *
+     * @Gedmo\Versioned
      * @Groups({"read"})
-     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Assert\Length(
      *     max = 255
      * )
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      */
     private $reference;
 
     /**
      * @var string The autoincrementing id part of the reference, unique on a organization-year-id basis
      *
-     * @ORM\Column(type="integer", length=11, nullable=true)
+     * @Gedmo\Versioned
      * @Assert\Length(
      *     max = 11
      * )
+     * @ORM\Column(type="integer", length=11, nullable=true)
      */
     private $referenceId;
 
@@ -121,6 +154,7 @@ class Invoice
      *
      * @example 002851234
      *
+     * @Gedmo\Versioned
      * @Assert\NotNull
      * @Assert\Length(
      *     max = 255
@@ -145,6 +179,7 @@ class Invoice
      *
      * @example 50.00
      *
+     * @Gedmo\Versioned
      * @Groups({"read","write"})
      * @Assert\NotNull
      * @ORM\Column(type="decimal", precision=8, scale=2)
@@ -156,6 +191,7 @@ class Invoice
      *
      * @example EUR
      *
+     * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
      * @ORM\Column(type="string")
