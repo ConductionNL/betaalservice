@@ -12,7 +12,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        # In order to read the docs we must allow anonymous GET reqoust on root    
+        # In order to read the docs we must allow anonymous GET reqoust on root 
+        public:
+            pattern:  ^/payments/mollie_webhook
+            methods: [POST]
+            security: false
         docs:
             anonymous: true
             pattern:  ^/$
