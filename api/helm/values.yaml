@@ -5,8 +5,8 @@
 settings:
   registryBase: docker.io/conduction
   projectName: pc
-  name: pc
-  title: Proto component commonground
+  name: bc
+  title: Betaal Service
   version: V.0.1
   id: &#039;&#039;
   description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
@@ -15,7 +15,7 @@ settings:
   demo: pc.zaakonline.nl
   container: https://hub.docker.com/repository/docker/conduction/pc-php
   domain: conduction.nl
-  subdomain: pc
+  subdomain: bc
   organisationName: Conduction
   email: info@conduction.nl
   country: Netherlands
