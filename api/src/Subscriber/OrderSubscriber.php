@@ -98,6 +98,9 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->setCustomer($order['customer']);
         $invoice->setOrder($order['@id']);
         $invoice->setDescription($order['description']);
+        if(key_exists('remark', $order) && $order['remark'] != null){
+            $invoice->setRemark($order['remark']);
+        }
 
         // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['targetOrganization']);
@@ -148,7 +151,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->em->persist($organization);
         $this->em->persist($invoice);
         $this->em->flush();
-        
+
         // recalculate all the invoice totals
         $invoice->calculateTotals();
 
