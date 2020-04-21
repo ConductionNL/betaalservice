@@ -79,7 +79,7 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $needed = array(
-            '@id',
+            'url',
             'name',
             'description',
             'customer'
@@ -96,7 +96,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice = new Invoice();
         $invoice->setName($order['name']);
         $invoice->setCustomer($order['customer']);
-        $invoice->setOrder($order['@id']);
+        $invoice->setOrder($order['url']);
         $invoice->setDescription($order['description']);
         if(key_exists('remark', $order) && $order['remark'] != null){
             $invoice->setRemark($order['remark']);
