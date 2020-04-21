@@ -154,9 +154,23 @@ final class SwaggerDecorator implements NormalizerInterface
         if (array_key_exists('servers', $docs)) {
             $docs['servers'] = [];
         }
+
+        if($this->params->get('app_env') == 'prod'){
+            $docs['servers'][] = ['name'=>$this->params->get('app_domain'),'url'=>''.$this->params->get('app_name').'.'.$this->params->get('app_domain'),];
+        }
+        else{
+            $docs['servers'][] = ['name'=>$this->params->get('app_domain'),'url'=>''.$this->params->get('app_name').'.'.$this->params->get('app_env').'.'.$this->params->get('app_domain'),];
+        }
+
+
+        /*
+        app_domain
         foreach ($this->params->get('common_ground.oas.servers') as $key => $value) {
             $docs['servers'][$key] = $value;
         }
+        */
+
+
 
         // Lets set the external documentation
         if (array_key_exists('externalDocs', $docs)) {
@@ -442,7 +456,7 @@ final class SwaggerDecorator implements NormalizerInterface
                         $groups = $propertyAnnotation->getGroups();
                         break;
 
-                        // Constrainds (Validation)
+                    // Constrainds (Validation)
                     case "Assert\Date":
                         $atributes['type'] = 'string';
                         $atributes['format'] = 'date';
