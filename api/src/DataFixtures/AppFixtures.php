@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
 
         $service = new Service();
         $service->setType('mollie');
-        $service->setOrganization($organization)
+        $service->setOrganization($organization);
 //        $service->
         $manager->persist($service);
         $manager->flush();
