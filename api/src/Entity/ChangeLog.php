@@ -159,7 +159,7 @@ class ChangeLog extends AbstractLogEntry
      *
      * @Assert\DateTime
      * @Groups({"read"})
-     * @Gedmo\Timestampable(on="create")
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModified;
