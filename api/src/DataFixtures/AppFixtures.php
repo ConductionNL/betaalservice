@@ -33,6 +33,7 @@ class AppFixtures extends Fixture
         $service = new Service();
         $service->setType('mollie');
         $service->setOrganization($organization);
+        $service->setAuthorization('!changeMe!');
 //        $service->
         $manager->persist($service);
         $manager->flush();
