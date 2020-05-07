@@ -58,7 +58,7 @@ class InvoiceSubscriber implements EventSubscriber
                 $organisation = $this->em->getRepository('App\Entity\Organization')->findOrCreateByRsin($entity->getTargetOrganization());
                 $this->em->persist($organisation);
                 $this->em->flush();
-                $entity->addOrganization($organisation);
+                $entity->setOrganization($organisation);
             }
 
             $referenceId = $this->em->getRepository('App\Entity\Invoice')->getNextReferenceId($organisation);
