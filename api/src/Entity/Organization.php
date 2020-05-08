@@ -72,6 +72,7 @@ class Organization
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @Assert\NotNull
+     *
      * @Assert\Length(
      *     max=4
      * )
@@ -103,7 +104,7 @@ class Organization
      *
      * @MaxDepth(1)
      * @Groups({"read","write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="organization")
+     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="organization" , cascade={"persist"})
      */
     private $services;
 
