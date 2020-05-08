@@ -201,7 +201,7 @@ class InvoiceItem
      * @var DateTime The moment this request was created by the submitter
      *
      * @Groups({"read"})
-     * @Gedmo\Timestampable(on="updte")
+     * @Gedmo\Timestampable(on="upadte")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModified;
