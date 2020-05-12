@@ -92,7 +92,7 @@ class Service
      * @var Organization The organization this payment provider is linked to
      *
      * @Groups({"read","write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="services")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="services", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $organization;
