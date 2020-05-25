@@ -4,7 +4,7 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: pc
+  projectName: bc
   name: bc
   title: Betaal Service
   version: V.0.1
