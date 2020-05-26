@@ -83,7 +83,8 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
         if($result instanceof Invoice && $method != 'DELETE')
         {
             $paymentService = $result->getOrganization()->getServices()[0];
-            switch ($paymentService->getType()){
+            if($paymentService){
+                switch ($paymentService->getType()){
                 case 'mollie':
                     $mollieService = new MollieService($paymentService);
                     $paymentUrl = $mollieService->createPayment($result, $event->getRequest());
@@ -93,7 +94,9 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
                     $sumupService = new SumUpService($paymentService);
                     $paymentUrl = $sumupService->createPayment($result);
                     $result->setPaymentUrl($paymentUrl);
+                }
             }
+
             $json = $this->serializer->serialize(
                 $result,
                 $renderType, ['enable_max_depth'=>true]
