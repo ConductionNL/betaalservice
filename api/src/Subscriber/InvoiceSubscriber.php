@@ -1,10 +1,7 @@
 <?php
 
-
 namespace App\Subscriber;
 
-
-use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
 use App\Entity\Organization;
 use Doctrine\Common\EventSubscriber;
@@ -12,8 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class InvoiceSubscriber implements EventSubscriber
@@ -45,16 +40,15 @@ class InvoiceSubscriber implements EventSubscriber
     public function index(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
-        if(!($entity  instanceof Invoice))
-        {
+        if (!($entity  instanceof Invoice)) {
             //var_dump('a');
             return $entity;
         }
         //var_dump('b');
-        if(!$entity->getReference()){
+        if (!$entity->getReference()) {
             $organisation = $entity->getOrganization();
 
-            if(!$organisation || !($organisation instanceof Organization)){
+            if (!$organisation || !($organisation instanceof Organization)) {
                 $organisation = $this->em->getRepository('App\Entity\Organization')->findOrCreateByRsin($entity->getTargetOrganization());
                 $this->em->persist($organisation);
                 $this->em->flush();

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Subscriber;
-
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
@@ -14,13 +12,10 @@ use App\Service\MollieService;
 use App\Service\SumUpService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use PhpParser\Error;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -34,7 +29,6 @@ class OrderSubscriber implements EventSubscriberInterface
 
     public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
     {
-
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
@@ -47,13 +41,14 @@ class OrderSubscriber implements EventSubscriberInterface
             KernelEvents::REQUEST => ['invoice', EventPriorities::PRE_DESERIALIZE],
         ];
     }
+
     public function invoice(RequestEvent $event)
     {
 //        $result = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-        $order =  json_decode($event->getRequest()->getContent(), true);
+        $order = json_decode($event->getRequest()->getContent(), true);
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
@@ -73,46 +68,41 @@ class OrderSubscriber implements EventSubscriberInterface
                 $renderType = 'json';
         }
 
-        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $order == null))
-        {
+        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $order == null)) {
             return;
         }
 
-        $needed = array(
+        $needed = [
             'url',
             'name',
             'description',
-            'customer'
-        );
+            'customer',
+        ];
 
-        foreach($needed as $requirement){
-            if(!key_exists($requirement, $order) || $order[$requirement] == null)
-            {
+        foreach ($needed as $requirement) {
+            if (!array_key_exists($requirement, $order) || $order[$requirement] == null) {
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
             }
         }
-
 
         $invoice = new Invoice();
         $invoice->setName($order['name']);
         $invoice->setCustomer($order['customer']);
         $invoice->setOrder($order['url']);
         $invoice->setDescription($order['description']);
-        if(key_exists('remark', $order) && $order['remark'] != null){
+        if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
 
         // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['targetOrganization']);
 
-        if (!($organization instanceof Organization))
-        {
-        	// invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
+        if (!($organization instanceof Organization)) {
+            // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
             $organization = new Organization();
             $organization->setRsin($order['targetOrganization']);
-            if(key_exists('organization', $order) && key_exists('shortCode',$order['organization']))
-            {
-            	$organization->setShortCode($order['organization']['shortCode']);
+            if (array_key_exists('organization', $order) && array_key_exists('shortCode', $order['organization'])) {
+                $organization->setShortCode($order['organization']['shortCode']);
             }
         }
 
@@ -120,10 +110,8 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $invoice->setTargetOrganization($order['targetOrganization']);
 
-        if(key_exists('items',$order))
-        {
-            foreach($order['items'] as $item){
-
+        if (array_key_exists('items', $order)) {
+            foreach ($order['items'] as $item) {
                 $invoiceItem = new InvoiceItem();
                 $invoiceItem->setName($item['name']);
                 $invoiceItem->setDescription($item['description']);
@@ -133,7 +121,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 $invoiceItem->setQuantity($item['quantity']);
                 $invoice->addItem($invoiceItem);
 
-                foreach($item['taxes'] as $taxPost){
+                foreach ($item['taxes'] as $taxPost) {
                     $tax = new Tax();
                     $tax->setName($taxPost['name']);
                     $tax->setDescription($taxPost['description']);
@@ -145,8 +133,6 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
-
-
         // Lets throw it in the db
         $this->em->persist($organization);
         $this->em->persist($invoice);
@@ -156,8 +142,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->calculateTotals();
 
         // Only create payment links if a payment service is configured
-        if(count($invoice->getOrganization()->getServices()) >0 )
-        {
+        if (count($invoice->getOrganization()->getServices()) > 0) {
             //var_dump(count($invoice->getOrganization()->getServices()));
             $paymentService = $invoice->getOrganization()->getServices()[0];
             switch ($paymentService->getType()) {
@@ -175,17 +160,17 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $json = $this->serializer->serialize(
             $invoice,
-            $renderType, ['enable_max_depth'=>true]
+            $renderType,
+            ['enable_max_depth'=> true]
         );
 
-		// Creating a response
+        // Creating a response
         $response = new Response(
             $json,
             Response::HTTP_CREATED,
             ['content-type' => $contentType]
         );
         $event->setResponse($response);
-
 
         return $invoice;
     }
