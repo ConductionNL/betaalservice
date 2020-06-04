@@ -4,7 +4,7 @@ metadata:
   annotations:
     # add an annotation indicating the issuer to use.
     cert-manager.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: {{ .Values.settings.name }}-{{ .Values.settings.env }}-letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: {{ .Values.settings.name }}-{{ .Values.settings.env }}-ingress
   labels:
     app.kubernetes.io/name: {{ .Values.settings.name }}-ingress
@@ -16,18 +16,17 @@ spec:
   tls: 
   - hosts: 
     - {{ $.Values.settings.domain }}
-#    - {{ .Values.settings.domain }}
-    secretName: {{ .Values.settings.name }}-{{ .Values.settings.env }}-cert
+    secretName: {{ template "fullname" . }}
   rules:
-    {{- if eq $.Values.settings.env "prod" }}
-        {{ if .Values.settings.name }}
-    - host: {{ $.Values.settings.subdomain }}.{{ $.Values.settings.domain }}
-      http:
-          paths:
-            - backend:
-                serviceName: {{ $.Values.settings.name }}
-                servicePort: 80
-        {{ else }}
+    {{- if and (eq $.Values.settings.env "prod") $.Values.settings.subdomain }}
+
+      - host: {{ $.Values.settings.subdomain }}.{{ $.Values.settings.domain }}
+        http:
+            paths:
+                  - backend:
+                      serviceName: {{ $.Values.settings.name }}
+                      servicePort: 80
+    {{- else if eq $.Values.settings.env "prod" }}
     - host {{ $.Values.settings.domain }}
       http:
           paths:
@@ -40,7 +39,6 @@ spec:
             - backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
-        {{ end }}
     {{- else }}      
     - host: {{ $.Values.settings.subdomain }}.{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}
       http:
