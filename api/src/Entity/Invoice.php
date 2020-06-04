@@ -2,21 +2,20 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-
-use Doctrine\Common\Collections\Criteria;
-use Money\Currency;
-use Money\Money;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Money\Currency;
+use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -71,10 +70,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
- * @Gedmo\Loggable(logEntryClass="App\Entity\ChangeLog")
+ * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  * @ORM\Table(name="invoices")
  * @ORM\HasLifecycleCallbacks
- * 
+ *
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
@@ -100,6 +99,7 @@ class Invoice
      * @var string The name of the invoice
      *
      * @Gedmo\Versioned
+     *
      * @example My Invoice
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -114,6 +114,7 @@ class Invoice
      * @var string The description of the invoice
      *
      * @Gedmo\Versioned
+     *
      * @example This is the best invoice ever
      * @Groups({"read","write"})
      * @Assert\Length(
@@ -254,6 +255,7 @@ class Invoice
 
     /**
      * @var string The customer that receives this invoice
+     *
      * @example https://example.org/people/1
      *
      * @Groups({"read","write"})
@@ -290,68 +292,62 @@ class Invoice
     private $paid = false;
 
     /**
-     *
      *  @ORM\PrePersist
      *  @ORM\PreUpdate
      *
      *  */
     public function prePersist()
     {
-    	$this->calculateTotals();
+        $this->calculateTotals();
     }
 
     public function calculateTotals()
     {
-    	/*@todo we should support non euro */
-    	$price = new Money(0, new Currency('EUR'));
-    	$taxes = [];
+        /*@todo we should support non euro */
+        $price = new Money(0, new Currency('EUR'));
+        $taxes = [];
 
-    	foreach ($this->items as $item){
+        foreach ($this->items as $item) {
 
-    		// Calculate Invoice Price
-    		//
-    		if(is_string ($item->getPrice())){
-    			//Value is a string, so presumably a float
-    			$float = floatval($item->getPrice());
-    			$float = $float*100;
-    			$itemPrice = new Money((int) $float, new Currency($item->getPriceCurrency()));
+            // Calculate Invoice Price
+            //
+            if (is_string($item->getPrice())) {
+                //Value is a string, so presumably a float
+                $float = floatval($item->getPrice());
+                $float = $float * 100;
+                $itemPrice = new Money((int) $float, new Currency($item->getPriceCurrency()));
+            } else {
+                // Calculate Invoice Price
+                $itemPrice = new Money($item->getPrice(), new Currency($item->getPriceCurrency()));
+            }
 
-    		}
-    		else{
-    			// Calculate Invoice Price
-    			$itemPrice = new Money($item->getPrice(), new Currency($item->getPriceCurrency()));
+            $itemPrice = $itemPrice->multiply($item->getQuantity());
+            $price = $price->add($itemPrice);
 
+            // Calculate Taxes
+            /*@todo we should index index on something else do, there might be diferend taxes on the same percantage. Als not all taxes are a percentage */
+            foreach ($item->getTaxes() as $tax) {
+                if (!array_key_exists($tax->getPercentage(), $taxes)) {
+                    $tax[$tax->getPercentage()] = $itemPrice->multiply($tax->getPercentage() / 100);
+                } else {
+                    $taxPrice = $itemPrice->multiply($tax->getPercentage() / 100);
+                    $tax[$tax->getPercentage()] = $tax[$tax->getPercentage()]->add($taxPrice);
+                }
+            }
+        }
 
-    		}
-
-    		$itemPrice = $itemPrice->multiply($item->getQuantity());
-    		$price = $price->add($itemPrice);
-
-    		// Calculate Taxes
-    		/*@todo we should index index on something else do, there might be diferend taxes on the same percantage. Als not all taxes are a percentage */
-    		foreach($item->getTaxes() as $tax){
-    			if(!array_key_exists($tax->getPercentage(), $taxes)){
-    				$tax[$tax->getPercentage()] = $itemPrice->multiply($tax->getPercentage()/100);
-    			}
-    			else{
-    				$taxPrice = $itemPrice->multiply($tax->getPercentage()/100);
-    				$tax[$tax->getPercentage()] = $tax[$tax->getPercentage()]->add($taxPrice);
-    			}
-    		}
-
-    	}
-
-    	$this->taxes = $taxes;
-    	$this->price = number_format($price->getAmount()/100, 2, '.', "");
-    	$this->priceCurrency = $price->getCurrency();
+        $this->taxes = $taxes;
+        $this->price = number_format($price->getAmount() / 100, 2, '.', '');
+        $this->priceCurrency = $price->getCurrency();
     }
 
-    public function getAllPaidPayments(){
+    public function getAllPaidPayments()
+    {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('status', 'paid'));
+
         return $this->getPayments()->matching($criteria);
     }
-
 
     public function __construct()
     {
@@ -485,6 +481,7 @@ class Invoice
 
         return $this;
     }
+
     public function getDateModified(): ?DateTimeInterface
     {
         return $this->dateModified;
@@ -510,11 +507,11 @@ class Invoice
     }
 
     /**
-     * @return Array
+     * @return array
      */
-    public function getTaxes(): Array
+    public function getTaxes(): array
     {
-    	return $this->taxes;
+        return $this->taxes;
     }
 
     public function getOrder(): ?string
@@ -610,13 +607,10 @@ class Invoice
 
     public function getPaid(): ?bool
     {
-        if( count($this->getAllPaidPayments()) >= 1 ) {
+        if (count($this->getAllPaidPayments()) >= 1) {
             return true;
         }
+
         return false;
     }
-
-
-
-
 }

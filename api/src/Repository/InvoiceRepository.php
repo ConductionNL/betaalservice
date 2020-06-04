@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Invoice;
-use App\Entity\Organization;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,6 +18,7 @@ class InvoiceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Invoice::class);
     }
+
     public function getNextReferenceId($organization, $date = null)
     {
         //if(!$date){
@@ -35,16 +35,15 @@ class InvoiceRepository extends ServiceEntityRepository
             ->andWhere('r.dateCreated <= :end')
             ->setParameter('end', $end)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
-        if(!$result){
+        if (!$result) {
             return 1;
-        }
-        else{
+        } else {
             return $result['reference_id'] + 1;
         }
     }
+
     // /**
     //  * @return Invoice[] Returns an array of Invoice objects
     //  */
