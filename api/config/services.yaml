@@ -45,7 +45,7 @@ services:
 #                arguments:
 #                    - '%env(REDIS_HOST)%'
 #                    - '%env(int:REDIS_PORT)%'
-#            # If you need key prefix, uncomment line belows
+#            # If you need key prefix, uncomment line belows blablabla
 #            # - method: setOption
 #            #   arguments:
 #            #       - !php/const Redis::OPT_PREFIX
