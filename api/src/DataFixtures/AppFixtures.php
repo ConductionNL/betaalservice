@@ -24,9 +24,9 @@ class AppFixtures extends Fixture
     {
         // Lets make sure we only run these fixtures on larping enviroment
         if (
-            strpos($this->params->get('app_domain'), "huwelijksplanner.online") == false &&
+            strpos($this->params->get('app_domain'), 'huwelijksplanner.online') == false &&
             $this->params->get('app_domain') != 'huwelijksplanner.online' &&
-            strpos($this->params->get('app_domain'), "utrecht.commonground.nu") == false &&
+            strpos($this->params->get('app_domain'), 'utrecht.commonground.nu') == false &&
             $this->params->get('app_domain') != 'utrecht.commonground.nu'
         ) {
             return false;
