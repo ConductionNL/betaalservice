@@ -31,7 +31,8 @@ parameters:
   env(APP_LOGO): "zaakonline.nl"
   env(APP_HOME): "zaakonline.nl"
   env(APP_SUBDOMAIN): "pc"
-  env(APP_DEMO): "pc.zaakonline.nl"
+  env(APP_DEMO): "pc.zaakonline.nl" 
+  env(APP_BUILD_ALL_FIXTURES): false
 
   env(APP_CONTAINER): ""
   env(APP_REPRO): ""
@@ -57,6 +58,7 @@ parameters:
   app_container: "%env(APP_CONTAINER)%"
   app_repro: "%env(APP_REPRO)%"
   app_web: "%env(APP_WEB)%"
+  app_build_al_fixtures: "%env(APP_BUILD_ALL_FIXTURES)%"
 
   # Organisatie details
   env(GOOGLE_TAG_MANAGER_ID): ""
