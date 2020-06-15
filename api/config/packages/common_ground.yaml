@@ -48,7 +48,7 @@ parameters:
   app_name: "%env(APP_NAME)%"
   app_id: "%env(APP_ID)%"
   app_description: "%env(APP_DESCRIPTION)%"
-  app_domain: "%env(APP_ENV)%"
+  app_domain: "%env(APP_DOMAIN)%"
   app_type: "%env(APP_TYPE)%"
   app_title: "%env(APP_TITLE)%"
   app_logo: "%env(APP_LOGO)%"
@@ -167,6 +167,10 @@ parameters:
   env(APP_COMMONGROUND_IRC_LOCATION): "https://irc.%env(APP_ENV)%"
   env(APP_COMMONGROUND_IRC_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
 
+  # Instemmingen Interface
+  env(APP_COMMONGROUND_IRC_UI_LOCATION): "https://irc-ui.%env(APP_DOMAIN)%"
+  env(APP_COMMONGROUND_IRC_UI_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
+
   # OmgevingenComponent
   env(APP_COMMONGROUND_EVC_LOCATION): "https://evc.%env(APP_ENV)%"
   env(APP_COMMONGROUND_EVC_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
@@ -226,7 +230,7 @@ parameters:
   env(APP_COMMONGROUND_PC_LOCATION): "https://pc.%env(APP_ENV)%"
   env(APP_COMMONGROUND_PC_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
   # UserInterface
-  env(APP_COMMONGROUND_UI_LOCATION): "https://ui.%env(APP_ENV)%"
+  env(APP_COMMONGROUND_UI_LOCATION): "https://%env(APP_DOMAIN)%"
   env(APP_COMMONGROUND_UI_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
   #a AuthenticatieComponent
   env(APP_COMMONGROUND_AUTH_LOCATION): "https://auth.%env(APP_ENV)%"
@@ -389,6 +393,9 @@ parameters:
     irc:
       location: "%env(APP_COMMONGROUND_IRC_LOCATION)%"
       apikey: "%env(APP_COMMONGROUND_IRC_APIKEY)%"
+    irc-ui:
+      location: "%env(APP_COMMONGROUND_IRC_UI_LOCATION)%"
+      apikey: "%env(APP_COMMONGROUND_IRC_UI_APIKEY)%"
     mrc:
       location: "%env(APP_COMMONGROUND_MRC_LOCATION)%"
       apikey: "%env(APP_COMMONGROUND_MRC_APIKEY)%"
