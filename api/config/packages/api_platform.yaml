@@ -44,7 +44,13 @@ api_platform:
     show_webby: false
     enable_swagger_ui: false
     enable_re_doc: true
-    
+
+    # We need pagination for very long tables
+    collection:
+        pagination:
+            client_items_per_page: true # Disabled by default
+            items_per_page_parameter_name: limit # Default value
+            
     # In the NL api strategie we use snake case for naming
     # name_converter: 'Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter'
     
