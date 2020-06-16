@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $organization = new Organization();
         $organization->setRsin('002220647');
         $organization->setShortCode('UT');
-        $organization->setRedirectUrl($this->commonGroundService->cleanUrl('https://huwelijksplanner.online/betalen/betaald'));
+        $organization->setRedirectUrl($this->commonGroundService->cleanUrl('https://dev.huwelijksplanner.online/betalen/betaald'));
         $manager->persist($organization);
 
         $service = new Service();
