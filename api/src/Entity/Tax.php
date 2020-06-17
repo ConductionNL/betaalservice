@@ -251,24 +251,24 @@ class Tax
     /**
      * @return Collection|Offer[]
      */
-    public function getOffers(): Collection
+    public function getInvoiceItems(): Collection
     {
-        return $this->products;
+        return $this->invoiceItems;
     }
 
-    public function addOffer(Offer $offer): self
+    public function addInvoiceItem(InvoiceItem $offer): self
     {
-        if (!$this->offers->contains($offer)) {
-            $this->offers[] = $offer;
+        if (!$this->invoiceItems->contains($offer)) {
+            $this->invoiceItems[] = $offer;
         }
 
         return $this;
     }
 
-    public function removeOffer(Offer $product): self
+    public function removeInvoiceItem(InvoiceItem $product): self
     {
-        if ($this->offers->contains($offer)) {
-            $this->offers->removeElement($offer);
+        if ($this->invoiceItems->contains($offer)) {
+            $this->invoiceItems->removeElement($offer);
         }
 
         return $this;
