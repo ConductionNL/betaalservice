@@ -311,7 +311,7 @@ class InvoiceItem
     {
         if (!$this->taxes->contains($tax)) {
             $this->taxes[] = $tax;
-            $tax->addOffer($this);
+            $tax->addInvoiceItem($this);
         }
 
         return $this;
@@ -321,7 +321,7 @@ class InvoiceItem
     {
         if ($this->taxes->contains($tax)) {
             $this->taxes->removeElement($tax);
-            $gtax->removeProduct($this);
+            $tax->removeInvoiceItem($this);
         }
 
         return $this;

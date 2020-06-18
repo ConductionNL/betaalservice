@@ -24,9 +24,9 @@ class AppFixtures extends Fixture
     {
         // Lets make sure we only run these fixtures on larping enviroment
         if (
-            strpos($this->params->get('app_domain'), "huwelijksplanner.online") == false &&
+            strpos($this->params->get('app_domain'), 'huwelijksplanner.online') == false &&
             $this->params->get('app_domain') != 'huwelijksplanner.online' &&
-            strpos($this->params->get('app_domain'), "utrecht.commonground.nu") == false &&
+            strpos($this->params->get('app_domain'), 'utrecht.commonground.nu') == false &&
             $this->params->get('app_domain') != 'utrecht.commonground.nu'
         ) {
             return false;
@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $organization = new Organization();
         $organization->setRsin('002220647');
         $organization->setShortCode('UT');
-        $organization->setRedirectUrl($this->commonGroundService->cleanUrl('https://utrecht.commonground.nu/betalen/betaald'));
+        $organization->setRedirectUrl($this->commonGroundService->cleanUrl('https://dev.huwelijksplanner.online/betalen/betaald'));
         $manager->persist($organization);
 
         $service = new Service();
