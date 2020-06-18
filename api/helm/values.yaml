@@ -23,6 +23,7 @@ settings:
   locality: Amsterdam
   unit: Common-Ground
   env: dev
+  web: false
   debug: 1
   cache: 1
   replicaCount: 1

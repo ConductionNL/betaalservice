@@ -20,7 +20,7 @@ FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
 ENV KUBE_LATEST_VERSION="v1.17.3"
 # Note: Latest version of helm may be found at:
 # https://github.com/kubernetes/helm/releases
-ENV HELM_VERSION="v2.14.1"
+ENV HELM_VERSION="v3.2.1"
 
 # do not use .env files in production
 COPY .env ./srv/api
