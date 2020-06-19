@@ -31,12 +31,14 @@ parameters:
   env(APP_LOGO): "zaakonline.nl"
   env(APP_HOME): "zaakonline.nl"
   env(APP_SUBDOMAIN): "pc"
-  env(APP_DEMO): "pc.zaakonline.nl" 
+  env(APP_DEMO): "pc.zaakonline.nl"
+  env(APP_WEB): false
+  env(APP_INTERNAL): false
   env(APP_BUILD_ALL_FIXTURES): false
 
   env(APP_CONTAINER): ""
   env(APP_REPRO): ""
-
+  
   app_env: "%env(APP_ENV)%"
   app_debug: "%env(APP_DEBUG)%"
   app_cache: "%env(APP_CACHE)%"
@@ -58,6 +60,7 @@ parameters:
   app_container: "%env(APP_CONTAINER)%"
   app_repro: "%env(APP_REPRO)%"
   app_web: "%env(APP_WEB)%"
+  app_web: "%env(APP_INTERNAL)%"
   app_build_al_fixtures: "%env(APP_BUILD_ALL_FIXTURES)%"
 
   # Organisatie details
