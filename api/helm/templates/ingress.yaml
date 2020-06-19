@@ -1,3 +1,4 @@
+{{ if or (eq .Values.settings.type "application") .Values.settings.web }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -47,3 +48,4 @@ spec:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
     {{- end }}
+{{ end }}

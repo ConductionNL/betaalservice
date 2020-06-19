@@ -14,7 +14,7 @@ settings:
   repro: https://github.com/ConductionNL/proto-component
   demo: pc.zaakonline.nl
   container: https://hub.docker.com/repository/docker/conduction/bc-php
-  domain: conduction.nl
+  domain: dev
   subdomain: bc
   organisationName: Conduction
   email: info@conduction.nl
@@ -23,6 +23,7 @@ settings:
   locality: Amsterdam
   unit: Common-Ground
   env: dev
+  web: false
   debug: 1
   cache: 1
   replicaCount: 1
