@@ -149,9 +149,6 @@ parameters:
     env(APP_COMMONGROUND_KIC_ID): "%env(APP_COMMONGROUND_ID)%"
     env(APP_COMMONGROUND_KIC_SECRET): "%env(APP_COMMONGROUND_SECRET)%"
     
-    # BasisRegistratiePersonen
-    env(APP_COMMONGROUND_BRP_LOCATION): "https://brp.%env(APP_ENV)%"
-    env(APP_COMMONGROUND_BRP_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
     # BasisAdressenGemeenten
     env(APP_COMMONGROUND_BAG_LOCATION): "https://bag.basisregistraties.overheid.nl/api/v1/"
     env(APP_COMMONGROUND_BAG_APIKEY): "%env(APP_COMMONGROUND_KEY)%"
@@ -236,9 +233,6 @@ parameters:
         nlx_out:
             location: "%env(APP_COMMONGROUND_NLX_OUT_LOCATION)%"
             apikey: "%env(APP_COMMONGROUND_NLX_OUT_APIKEY)%"
-        brp:
-            location: "%env(APP_COMMONGROUND_BRP_LOCATION)%"
-            apikey: "%env(APP_COMMONGROUND_BRP_APIKEY)%"
         bag:
             location: "%env(APP_COMMONGROUND_BAG_LOCATION)%"
             apikey: "%env(APP_COMMONGROUND_BAG_APIKEY)%"
