@@ -1,13 +1,13 @@
 openapi: 3.0.2
 info:
   title: 'Proto component commonground'
-  version: V.0.1
+  version: V1.0
   description: |
     API Details
     - Component: Proto component commonground
     - Reference: pc
     - Enviroment: dev
-    - Version: V.0.1
+    - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/pc-php) 
     - Datamodel: [postman](/schema/pc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
@@ -2427,12 +2427,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-17 08:55:32'
+        example: '2020-07-17 11:35:57'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-17 08:55:32'
+        example: '2020-07-17 11:35:57'
     required: []
   AuditTrail-write:
     properties:
@@ -2480,12 +2480,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-17 08:55:32'
+        example: '2020-07-17 11:35:57'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-17 08:55:32'
+        example: '2020-07-17 11:35:57'
     required: []
   ChangeLog-write:
     properties:

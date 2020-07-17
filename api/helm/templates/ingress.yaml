@@ -25,22 +25,22 @@ spec:
       - host: {{ $.Values.settings.domain }}
         http:
           paths:
-            - path: /api/v1/{{ $.Values.settings.subpath }}/(.*) 
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}/(.*) 
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
-            - path: /api/v1/{{ $.Values.settings.subpath }}(.*) 
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}(.*) 
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
       - host: www.{{ $.Values.settings.domain }}
         http:
           paths:
-            - path: /api/v1/{{ $.Values.settings.subpath }}/(.*) 
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}/(.*) 
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
-            - path: /api/v1/{{ $.Values.settings.subpath }}(.*) 
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}(.*) 
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
@@ -87,11 +87,11 @@ spec:
         http:
           paths:
 
-            - path: /api/v1/{{ $.Values.settings.subpath }}/(.*)
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}/(.*)
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
-            - path: /api/v1/{{ $.Values.settings.subpath }}(.*)
+            - path: /api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}(.*)
               backend:
                 serviceName: {{ $.Values.settings.name }}
                 servicePort: 80
