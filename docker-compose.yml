@@ -40,6 +40,7 @@ services:
       - APP_ID=${APP_ID}
       - APP_DOMAIN=${APP_DOMAIN}
       - APP_SUBDOMAIN=${APP_SUBDOMAIN}
+      - APP_SUBPATH=${APP_SUBPATH}
       - APP_DEMO=${APP_DEMO}
       - APP_REPRO=${APP_REPRO}
       - APP_CONTAINER=${APP_CONTAINER}

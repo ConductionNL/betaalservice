@@ -300,6 +300,7 @@ twig:
         app_logo: "%env(APP_LOGO)%"
         app_home: "%env(APP_HOME)%"
         app_subdomain: "%env(APP_SUBDOMAIN)%"
+        app_subpath: "%env(APP_SUBPATH)%"
         app_demo: "%env(APP_DEMO)%"
         app_container: "%env(APP_CONTAINER)%"
         app_repro: "%env(APP_REPRO)%"
