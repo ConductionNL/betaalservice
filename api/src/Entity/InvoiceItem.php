@@ -185,7 +185,7 @@ class InvoiceItem
      *
      * @MaxDepth(1)
      * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Tax", mappedBy="invoiceItems")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tax", mappedBy="invoiceItems")
      */
     private $taxes;
 
