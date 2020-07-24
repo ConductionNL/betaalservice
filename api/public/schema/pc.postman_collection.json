@@ -5004,6 +5004,14 @@
 							"     // assert that the response has a valid JSON body\r",
 							"     pm.response.to.be.withBody;\r",
 							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed\r",
+							"});\r",
+							"pm.test(\"status must be 'pass'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(jsonData);\r",
+							"    //var payloadData = JSON.parse(jsonData.Payload); //parsed payload\r",
+							"\r",
+							"    //console.log(payloadData.Id);\r",
+							"    pm.expect(jsonData.status).to.equal('pass');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -5015,8 +5023,8 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/health+json",
-						"type": "text"
+						"type": "text",
+						"value": "application/health+json"
 					}
 				],
 				"url": {
@@ -5068,12 +5076,12 @@
 	],
 	"variable": [
 		{
-			"id": "23764466-ad47-4067-9a28-7228c04a7cd1",
+			"id": "ae9f3c16-930d-4a89-8fce-766728304474",
 			"key": "baseUrl",
 			"value": "pc.dev.zuid-drecht.nl"
 		},
 		{
-			"id": "30f4639b-889f-4aa9-bce9-7c9a54c3ddc0",
+			"id": "07beb0e9-4b17-4d9f-80b9-d14f1989ba6d",
 			"key": "authorization",
 			"value": "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
 		}
