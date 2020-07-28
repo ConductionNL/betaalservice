@@ -19,6 +19,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+            - name: Install Newman
+              run: npm install -g newman
             - name: Setting APP_NAME
               run: |
                   export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
@@ -68,7 +71,9 @@ jobs:
             #  run: docker-compose exec -T php bin/console doctrine:schema:validate
             - name: Security Checks
               run: docker-compose exec -T php composer req sensiolabs/security-checker
-
+            - name: Run Postman Tests
+              if: contains( github.ref, 'master' ) == false && contains( github.base_ref, 'master' ) == false
+              run: newman run api/public/schema/*.postman_collection.json
             - name: Chores
               run: docker-compose down
             - name: Login to DockerHub Registry
