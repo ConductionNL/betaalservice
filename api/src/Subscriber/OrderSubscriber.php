@@ -73,9 +73,7 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $needed = [
-            'url',
-            'name',
-            'description',
+            '@id',
             'customer',
         ];
 
@@ -85,22 +83,29 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
+
         $invoice = new Invoice();
-        $invoice->setName($order['name']);
-        $invoice->setCustomer($order['customer']);
-        $invoice->setOrder($order['url']);
-        $invoice->setDescription($order['description']);
+
+        if(array_key_exists('name',$order) && $order['name'] ){
+            $invoice->setName($order['name']);
+        }
+        if(array_key_exists('description',$order) && $order['description'] ){
+            $invoice->setDescription($order['description']);
+        }
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
 
+        $invoice->setCustomer($order['customer']);
+        $invoice->setOrder($order['@id']);
+
         // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['targetOrganization']);
+        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
 
         if (!($organization instanceof Organization)) {
             // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
             $organization = new Organization();
-            $organization->setRsin($order['targetOrganization']);
+            $organization->setRsin($order['organization']);
             if (array_key_exists('organization', $order) && array_key_exists('shortCode', $order['organization'])) {
                 $organization->setShortCode($order['organization']['shortCode']);
             }
