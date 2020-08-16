@@ -49,6 +49,8 @@ class OrderSubscriber implements EventSubscriberInterface
         $route = $event->getRequest()->attributes->get('_route');
 
         $order = json_decode($event->getRequest()->getContent(), true);
+
+        var_dump(json_decode($event->getRequest()->getContent(), true));
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
@@ -98,7 +100,7 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $invoice->setCustomer($order["customer"]);
-        $invoice->setOrder($order["@id"]);
+        $invoice->setOrder($order["url"]);
 
         // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
