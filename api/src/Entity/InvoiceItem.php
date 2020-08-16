@@ -85,8 +85,7 @@ class InvoiceItem
      * @Assert\Length(
      *     max=255
      * )
-     * @Assert\NotNull
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
     /**
@@ -119,10 +118,9 @@ class InvoiceItem
      * @example http://example.org/offers/1
      *
      * @Gedmo\Versioned
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"read","write"})
      * @Assert\Url
-     * @Assert\NotNull
      * @MaxDepth(1)
      */
     private $offer;

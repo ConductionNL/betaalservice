@@ -76,10 +76,10 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $needed = [
             'url',
-            'customer',
-            'organization',
 
         ];
+
+        //$order = $this->commonGroundService->getResource($order['url']);
 
         foreach ($needed as $requirement) {
             if (!array_key_exists($requirement, $order) || $order[$requirement] == null) {
@@ -89,8 +89,8 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $invoice = new Invoice();
 
-        if(array_key_exists('name',$order) && $order['name'] ){
-            $invoice->setName($order['name']);
+        if(array_key_exists('reference',$order) && $order['reference'] ){
+            $invoice->setName($order['reference']);
         }
         if(array_key_exists('description',$order) && $order['description'] ){
             $invoice->setDescription($order['description']);
@@ -114,10 +114,19 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
+        $invoice->setPrice($order["price"]);
+        $invoice->setPriceCurrency($order["priceCurrency"]);
         $invoice->setOrganization($organization);
-
         $invoice->setTargetOrganization($order['organization']);
 
+        $invoiceItem = new InvoiceItem();
+        $invoiceItem->setName($order['reference']);
+        $invoiceItem->setPrice($order['price']);
+        $invoiceItem->setPriceCurrency($order['priceCurrency']);
+        $invoiceItem->setQuantity(1);
+        $invoice->addItem($invoiceItem);
+
+        /*
         if (array_key_exists('items', $order)) {
             foreach ($order['items'] as $item) {
                 $invoiceItem = new InvoiceItem();
@@ -140,6 +149,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
             }
         }
+        */
 
         // Lets throw it in the db
         $this->em->persist($organization);
