@@ -74,10 +74,11 @@ class OrderSubscriber implements EventSubscriberInterface
             return;
         }
 
-        /*
         $needed = [
-            '@id',
+            'url',
             'customer',
+            'organization',
+
         ];
 
         foreach ($needed as $requirement) {
@@ -85,7 +86,6 @@ class OrderSubscriber implements EventSubscriberInterface
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
             }
         }
-        */
 
         $invoice = new Invoice();
 
@@ -102,7 +102,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->setCustomer($order["customer"]);
         $invoice->setOrder($order["url"]);
 
-        // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
+        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
 
         if (!($organization instanceof Organization)) {
@@ -116,7 +116,7 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $invoice->setOrganization($organization);
 
-        $invoice->setTargetOrganization($order['targetOrganization']);
+        $invoice->setTargetOrganization($order['organization']);
 
         if (array_key_exists('items', $order)) {
             foreach ($order['items'] as $item) {
