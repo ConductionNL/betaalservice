@@ -41,23 +41,7 @@ class InvoiceSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
         if (!($entity  instanceof Invoice)) {
-            //var_dump('a');
             return $entity;
-        }
-        //var_dump('b');
-        if (!$entity->getReference()) {
-            $organisation = $entity->getOrganization();
-
-            if (!$organisation || !($organisation instanceof Organization)) {
-                $organisation = $this->em->getRepository('App\Entity\Organization')->findOrCreateByRsin($entity->getTargetOrganization());
-                $this->em->persist($organisation);
-                $this->em->flush();
-                $entity->setOrganization($organisation);
-            }
-
-            $referenceId = $this->em->getRepository('App\Entity\Invoice')->getNextReferenceId($organisation);
-            $entity->setReferenceId($referenceId);
-            $entity->setReference($organisation->getShortCode().'-'.date('Y').'-'.$referenceId);
         }
 
         return $entity;
