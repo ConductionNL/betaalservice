@@ -23,13 +23,13 @@ class MollieService
         try {
             $this->mollie->setApiKey($service->getAuthorization());
         } catch (ApiException $e) {
-            echo '<section><h2>Error: could not authenticate with Mollie API</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Error: could not authenticate with Mollie API</h2><pre>'.$e->getMessage().'</pre></section>';
         }
     }
 
     public function createPayment(Invoice $invoice, Request $request): string
     {
-        //var_dump($request);
+
         $domain = $request->getHttpHost();
         if ($request->isSecure()) {
             $protocol = 'https://';
@@ -57,7 +57,7 @@ class MollieService
                         'order_id' => $invoice->getReference(),
                     ],
                 ]);
-                //var_dump($molliePayment->id);
+
                 return $molliePayment->getCheckoutUrl();
             } catch (ApiException $e) {
                 return '<section><h2>Could not connect to payment provider</h2>'.$e->getMessage().'</section>';
@@ -77,9 +77,9 @@ class MollieService
             return $payment;
         } else {
             $invoiceReference = $molliePayment->metadata->order_id;
-            //var_dump($invoiceReference);
+
             $invoice = $manager->getRepository('App:Invoice')->findBy(['reference'=>$invoiceReference]);
-            //var_dump(count($invoice));
+
             if (is_array($invoice)) {
                 $invoice = end($invoice);
             }
