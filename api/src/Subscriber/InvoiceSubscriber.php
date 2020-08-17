@@ -10,7 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 
 //use App\Entity\Request as CCRequest;
 
@@ -20,12 +21,14 @@ class InvoiceSubscriber implements EventSubscriberInterface
     private $em;
     private $serializer;
     private $nlxLogService;
+    private $commonGroundService;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->commonGroundService = $commonGroundService;
     }
 
     public static function getSubscribedEvents()
