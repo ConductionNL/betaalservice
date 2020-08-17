@@ -25,11 +25,6 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    
-    App\Subscriber\InvoiceSubscriber:
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-
     'Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter': ~
 
     # We use a custom swagger decorator to add the commonground specific docs 
