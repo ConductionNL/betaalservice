@@ -12,7 +12,7 @@ info:
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/bc-php) 
     - Datamodel: [postman](/schema/bc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
 paths:
   /audit_trails:
@@ -9102,6 +9102,7 @@ components:
         name:
           description: 'The name of the invoice'
           type: string
+          nullable: true
         description:
           description: 'The description of the invoice'
           type: string
@@ -9167,22 +9168,17 @@ components:
           type: boolean
           nullable: true
       required:
-        - name
         - targetOrganization
         - price
         - customer
     Invoice-write:
       type: object
       description: 'An entity representing an invoice.'
-      required:
-        - name
-        - targetOrganization
-        - price
-        - customer
       properties:
         name:
           description: 'The name of the invoice'
           type: string
+          nullable: true
         description:
           description: 'The description of the invoice'
           type: string
@@ -9220,6 +9216,10 @@ components:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
+      required:
+        - targetOrganization
+        - price
+        - customer
     'Invoice:jsonld-read':
       type: object
       description: 'An entity representing an invoice.'
@@ -9243,6 +9243,7 @@ components:
         name:
           description: 'The name of the invoice'
           type: string
+          nullable: true
         description:
           description: 'The description of the invoice'
           type: string
@@ -9308,18 +9309,12 @@ components:
           type: boolean
           nullable: true
       required:
-        - name
         - targetOrganization
         - price
         - customer
     'Invoice:jsonld-write':
       type: object
       description: 'An entity representing an invoice.'
-      required:
-        - name
-        - targetOrganization
-        - price
-        - customer
       properties:
         '@context':
           readOnly: true
@@ -9333,6 +9328,7 @@ components:
         name:
           description: 'The name of the invoice'
           type: string
+          nullable: true
         description:
           description: 'The description of the invoice'
           type: string
@@ -9370,6 +9366,10 @@ components:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
+      required:
+        - targetOrganization
+        - price
+        - customer
     InvoiceItem-read:
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -9383,6 +9383,7 @@ components:
         name:
           description: 'The name of the object'
           type: string
+          nullable: true
         description:
           description: 'The description of the InvoiceItem'
           type: string
@@ -9395,6 +9396,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         product:
           description: 'The product this item represents. DEPRECATED: REPLACED BY OFFER'
           type: string
@@ -9426,24 +9428,17 @@ components:
           format: date-time
           nullable: true
       required:
-        - name
         - invoice
-        - offer
         - quantity
         - price
     InvoiceItem-write:
       type: object
       description: 'An entity representing an item of an invoice.'
-      required:
-        - name
-        - invoice
-        - offer
-        - quantity
-        - price
       properties:
         name:
           description: 'The name of the object'
           type: string
+          nullable: true
         description:
           description: 'The description of the InvoiceItem'
           type: string
@@ -9456,6 +9451,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         product:
           description: 'The product this item represents. DEPRECATED: REPLACED BY OFFER'
           type: string
@@ -9476,6 +9472,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tax-write'
+      required:
+        - invoice
+        - quantity
+        - price
     'InvoiceItem:jsonld-read':
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -9498,6 +9498,7 @@ components:
         name:
           description: 'The name of the object'
           type: string
+          nullable: true
         description:
           description: 'The description of the InvoiceItem'
           type: string
@@ -9510,6 +9511,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         product:
           description: 'The product this item represents. DEPRECATED: REPLACED BY OFFER'
           type: string
@@ -9541,20 +9543,12 @@ components:
           format: date-time
           nullable: true
       required:
-        - name
         - invoice
-        - offer
         - quantity
         - price
     'InvoiceItem:jsonld-write':
       type: object
       description: 'An entity representing an item of an invoice.'
-      required:
-        - name
-        - invoice
-        - offer
-        - quantity
-        - price
       properties:
         '@context':
           readOnly: true
@@ -9568,6 +9562,7 @@ components:
         name:
           description: 'The name of the object'
           type: string
+          nullable: true
         description:
           description: 'The description of the InvoiceItem'
           type: string
@@ -9580,6 +9575,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         product:
           description: 'The product this item represents. DEPRECATED: REPLACED BY OFFER'
           type: string
@@ -9600,6 +9596,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tax:jsonld-write'
+      required:
+        - invoice
+        - quantity
+        - price
     Organization-read:
       type: object
       description: ''
@@ -10249,7 +10249,6 @@ definitions:
         description: 'The payments of this Invoice'
         type: \Payment
     required:
-      - name
       - targetOrganization
       - price
       - customer
@@ -10298,7 +10297,6 @@ definitions:
         description: 'The payments of this Invoice'
         type: \Payment
     required:
-      - name
       - targetOrganization
       - price
       - customer
@@ -10353,8 +10351,6 @@ definitions:
         description: 'The taxes that affect this offer'
         type: \ArrayCollection
     required:
-      - name
-      - offer
       - price
       - invoice
   InvoiceItem-write:
@@ -10397,8 +10393,6 @@ definitions:
         description: 'The taxes that affect this offer'
         type: \ArrayCollection
     required:
-      - name
-      - offer
       - price
       - invoice
   Organization-read:
@@ -10722,12 +10716,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-20 16:04:19'
+        example: '2020-08-16 18:43:58'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-20 16:04:19'
+        example: '2020-08-16 18:43:58'
     required: []
   AuditTrail-write:
     properties:
@@ -10775,12 +10769,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-20 16:04:19'
+        example: '2020-08-16 18:43:58'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-20 16:04:19'
+        example: '2020-08-16 18:43:58'
     required: []
   ChangeLog-write:
     properties:
