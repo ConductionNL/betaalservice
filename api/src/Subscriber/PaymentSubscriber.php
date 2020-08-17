@@ -60,7 +60,7 @@ class PaymentSubscriber implements EventSubscriberInterface
                 $contentType = 'application/json';
                 $renderType = 'json';
         }
-        //var_dump($route);
+
         if ($route == 'api_payments_post_webhook_collection') {
             //var_dump('a');
             $providerId = $event->getRequest()->query->get('provider');

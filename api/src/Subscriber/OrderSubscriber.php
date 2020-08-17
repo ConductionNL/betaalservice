@@ -49,6 +49,8 @@ class OrderSubscriber implements EventSubscriberInterface
         $route = $event->getRequest()->attributes->get('_route');
 
         $order = json_decode($event->getRequest()->getContent(), true);
+
+        var_dump(json_decode($event->getRequest()->getContent(), true));
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
@@ -74,10 +76,10 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $needed = [
             'url',
-            'name',
-            'description',
-            'customer',
+
         ];
+
+        //$order = $this->commonGroundService->getResource($order['url']);
 
         foreach ($needed as $requirement) {
             if (!array_key_exists($requirement, $order) || $order[$requirement] == null) {
@@ -86,30 +88,45 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $invoice = new Invoice();
-        $invoice->setName($order['name']);
-        $invoice->setCustomer($order['customer']);
-        $invoice->setOrder($order['url']);
-        $invoice->setDescription($order['description']);
+
+        if(array_key_exists('reference',$order) && $order['reference'] ){
+            $invoice->setName($order['reference']);
+        }
+        if(array_key_exists('description',$order) && $order['description'] ){
+            $invoice->setDescription($order['description']);
+        }
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
 
-        // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['targetOrganization']);
+        $invoice->setCustomer($order["customer"]);
+        $invoice->setOrder($order["url"]);
+
+        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
+        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
 
         if (!($organization instanceof Organization)) {
             // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
             $organization = new Organization();
-            $organization->setRsin($order['targetOrganization']);
+            $organization->setRsin($order['organization']);
             if (array_key_exists('organization', $order) && array_key_exists('shortCode', $order['organization'])) {
                 $organization->setShortCode($order['organization']['shortCode']);
             }
         }
 
+        $invoice->setPrice($order["price"]);
+        $invoice->setPriceCurrency($order["priceCurrency"]);
         $invoice->setOrganization($organization);
+        $invoice->setTargetOrganization($order['organization']);
 
-        $invoice->setTargetOrganization($order['targetOrganization']);
+        $invoiceItem = new InvoiceItem();
+        $invoiceItem->setName($order['reference']);
+        $invoiceItem->setPrice($order['price']);
+        $invoiceItem->setPriceCurrency($order['priceCurrency']);
+        $invoiceItem->setQuantity(1);
+        $invoice->addItem($invoiceItem);
 
+        /*
         if (array_key_exists('items', $order)) {
             foreach ($order['items'] as $item) {
                 $invoiceItem = new InvoiceItem();
@@ -132,6 +149,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
             }
         }
+        */
 
         // Lets throw it in the db
         $this->em->persist($organization);
