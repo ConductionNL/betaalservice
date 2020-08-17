@@ -10,6 +10,7 @@ use App\Entity\Payment;
 use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,13 +27,16 @@ class OrderSubscriber implements EventSubscriberInterface
     private $em;
     private $serializer;
     private $client;
+    private $commonGroundService;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
         $this->client = new Client();
+        $this->commonGroundService = $commonGroundService;
     }
 
     public static function getSubscribedEvents()
@@ -48,7 +52,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-        $order = json_decode($event->getRequest()->getContent(), true);
+        $post = json_decode($event->getRequest()->getContent(), true);
 
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
@@ -69,7 +73,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 $renderType = 'json';
         }
 
-        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $order == null)) {
+        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $post == null)) {
             return;
         }
 
@@ -78,13 +82,14 @@ class OrderSubscriber implements EventSubscriberInterface
 
         ];
 
-        //$order = $this->commonGroundService->getResource($order['url']);
 
         foreach ($needed as $requirement) {
-            if (!array_key_exists($requirement, $order) || $order[$requirement] == null) {
+            if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
             }
         }
+
+        $order = $this->commonGroundService->getResource($post['url']);
 
         $invoice = new Invoice();
 
@@ -97,8 +102,9 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
-
-        $invoice->setCustomer($order["customer"]);
+        if (array_key_exists('customer', $order) && $order['customer'] != null) {
+            $invoice->setCustomer($order['customer']);
+        }
         $invoice->setOrder($order["url"]);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
