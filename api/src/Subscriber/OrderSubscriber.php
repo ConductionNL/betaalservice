@@ -50,7 +50,6 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $order = json_decode($event->getRequest()->getContent(), true);
 
-        var_dump(json_decode($event->getRequest()->getContent(), true));
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
