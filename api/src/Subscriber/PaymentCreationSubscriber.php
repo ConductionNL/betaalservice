@@ -44,7 +44,6 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
