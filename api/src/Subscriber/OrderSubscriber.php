@@ -10,6 +10,7 @@ use App\Entity\Payment;
 use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,13 +27,16 @@ class OrderSubscriber implements EventSubscriberInterface
     private $em;
     private $serializer;
     private $client;
+    private $commonGroundService;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
         $this->client = new Client();
+        $this->commonGroundService = $commonGroundService;
     }
 
     public static function getSubscribedEvents()
@@ -48,7 +52,8 @@ class OrderSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-        $order = json_decode($event->getRequest()->getContent(), true);
+        $post = json_decode($event->getRequest()->getContent(), true);
+
         $contentType = $event->getRequest()->headers->get('accept');
         if (!$contentType) {
             $contentType = $event->getRequest()->headers->get('Accept');
@@ -68,48 +73,65 @@ class OrderSubscriber implements EventSubscriberInterface
                 $renderType = 'json';
         }
 
-        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $order == null)) {
+        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $post == null)) {
             return;
         }
 
         $needed = [
             'url',
-            'name',
-            'description',
-            'customer',
+
         ];
 
+
         foreach ($needed as $requirement) {
-            if (!array_key_exists($requirement, $order) || $order[$requirement] == null) {
+            if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
             }
         }
 
+        $order = $this->commonGroundService->getResource($post['url']);
+
         $invoice = new Invoice();
-        $invoice->setName($order['name']);
-        $invoice->setCustomer($order['customer']);
-        $invoice->setOrder($order['url']);
-        $invoice->setDescription($order['description']);
+
+        if(array_key_exists('reference',$order) && $order['reference'] ){
+            $invoice->setName($order['reference']);
+        }
+        if(array_key_exists('description',$order) && $order['description'] ){
+            $invoice->setDescription($order['description']);
+        }
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
+        if (array_key_exists('customer', $order) && $order['customer'] != null) {
+            $invoice->setCustomer($order['customer']);
+        }
+        $invoice->setOrder($order["@id"]);
 
-        // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['targetOrganization']);
+        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
+        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
 
         if (!($organization instanceof Organization)) {
             // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
             $organization = new Organization();
-            $organization->setRsin($order['targetOrganization']);
+            $organization->setRsin($order['organization']);
             if (array_key_exists('organization', $order) && array_key_exists('shortCode', $order['organization'])) {
                 $organization->setShortCode($order['organization']['shortCode']);
             }
         }
 
+        $invoice->setPrice($order["price"]);
+        $invoice->setPriceCurrency($order["priceCurrency"]);
         $invoice->setOrganization($organization);
+        $invoice->setTargetOrganization($order['organization']);
 
-        $invoice->setTargetOrganization($order['targetOrganization']);
+        $invoiceItem = new InvoiceItem();
+        $invoiceItem->setName($order['reference']);
+        $invoiceItem->setPrice($order['price']);
+        $invoiceItem->setPriceCurrency($order['priceCurrency']);
+        $invoiceItem->setQuantity(1);
+        $invoice->addItem($invoiceItem);
 
+        /*
         if (array_key_exists('items', $order)) {
             foreach ($order['items'] as $item) {
                 $invoiceItem = new InvoiceItem();
@@ -132,6 +154,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
             }
         }
+        */
 
         // Lets throw it in the db
         $this->em->persist($organization);

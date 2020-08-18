@@ -474,12 +474,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConductionNL/CommonGroundBundle.git",
-                "reference": "c1a6ecdb134f15ccb8595576204569da0b5321fa"
+                "reference": "156b7a4b632e27debcf49b480ae593276c8cc5f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/c1a6ecdb134f15ccb8595576204569da0b5321fa",
-                "reference": "c1a6ecdb134f15ccb8595576204569da0b5321fa",
+                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/156b7a4b632e27debcf49b480ae593276c8cc5f5",
+                "reference": "156b7a4b632e27debcf49b480ae593276c8cc5f5",
                 "shasum": ""
             },
             "require": {
@@ -557,7 +557,7 @@
                 "postcode",
                 "rsin"
             ],
-            "time": "2020-05-22T14:28:47+00:00"
+            "time": "2020-08-16T09:22:43+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1822,12 +1822,12 @@
             "version": "0.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/njh/easyrdf.git",
+                "url": "https://github.com/easyrdf/easyrdf.git",
                 "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/njh/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
+                "url": "https://api.github.com/repos/easyrdf/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "shasum": ""
             },

@@ -80,11 +80,6 @@ spec:
                   configMapKeyRef:
                       name: {{ template "fullname" . }}
                       key: app-type
-            - name: APP_WEB
-              valueFrom:
-                  configMapKeyRef:
-                      name: {{ template "fullname" . }}
-                      key: app-web
             {{ if .Values.settings.id }}
             - name: APP_ID
               valueFrom:
@@ -180,6 +175,11 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-archive
+            - name: APP_WEB
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: app-web
             
             # bla bla      
             - name: CORS_ALLOW_ORIGIN

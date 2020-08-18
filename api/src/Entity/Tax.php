@@ -149,7 +149,7 @@ class Tax
      *
      * @MaxDepth(1)
      * @Groups({"read","write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\InvoiceItem", inversedBy="taxes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\InvoiceItem", inversedBy="taxes")
      */
     private $invoiceItems;
 
@@ -173,7 +173,7 @@ class Tax
 
     public function __construct()
     {
-        $this->eligibleCustomerTypes = new ArrayCollection();
+        $this->invoiceItems = new ArrayCollection();
     }
 
     public function getId(): Uuid
@@ -249,26 +249,26 @@ class Tax
     }
 
     /**
-     * @return Collection|Offer[]
+     * @return Collection|InvoiceItem[]
      */
     public function getInvoiceItems(): Collection
     {
         return $this->invoiceItems;
     }
 
-    public function addInvoiceItem(InvoiceItem $offer): self
+    public function addInvoiceItem(InvoiceItem $invoiceItem): self
     {
-        if (!$this->invoiceItems->contains($offer)) {
-            $this->invoiceItems[] = $offer;
+        if (!$this->invoiceItems->contains($invoiceItem)) {
+            $this->invoiceItems[] = $invoiceItem;
         }
 
         return $this;
     }
 
-    public function removeInvoiceItem(InvoiceItem $product): self
+    public function removeInvoiceItem(InvoiceItem $invoiceItem): self
     {
-        if ($this->invoiceItems->contains($offer)) {
-            $this->invoiceItems->removeElement($offer);
+        if ($this->invoiceItems->contains($invoiceItem)) {
+            $this->invoiceItems->removeElement($invoiceItem);
         }
 
         return $this;

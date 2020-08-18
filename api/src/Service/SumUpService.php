@@ -35,7 +35,7 @@ class SumUpService
             $this->customerService = $this->sumup->getCustomerService();
             $this->customService = $this->sumup->getCustomService();
         } catch (SumUpSDKException $e) {
-            echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
         }
     }
 
@@ -57,15 +57,15 @@ class SumUpService
                 $description
             );
         } catch (SumUpAuthenticationException $e) {
-            echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpResponseException $e) {
-            echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpSDKException $e) {
-            echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         }
@@ -80,15 +80,15 @@ class SumUpService
             try {
                 $result = $this->checkoutService->findById($payment->getPaymentÏd());
             } catch (SumUpAuthenticationException $e) {
-                echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             } catch (SumUpResponseException $e) {
-                echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             } catch (SumUpSDKException $e) {
-                echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             }
@@ -110,15 +110,15 @@ class SumUpService
                     $request['cardToken']
                 );
             } catch (SumUpAuthenticationException $e) {
-                echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             } catch (SumUpResponseException $e) {
-                echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             } catch (SumUpSDKException $e) {
-                echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+                // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
 
                 return null;
             }
@@ -148,15 +148,15 @@ class SumUpService
                 $customerDetails
             );
         } catch (SumUpAuthenticationException $e) {
-            echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpResponseException $e) {
-            echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpSDKException $e) {
-            echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         }
@@ -179,15 +179,15 @@ class SumUpService
             ]);
             $response = $this->customerService->getPaymentInstruments($customerId);
         } catch (SumUpAuthenticationException $e) {
-            echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not authenticate with payment provider</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpResponseException $e) {
-            echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>Could not create payment at payment provier</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         } catch (SumUpSDKException $e) {
-            echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
+            // echo '<section><h2>SumUp SDK Error</h2><pre>'.$e->getMessage().'</pre></section>';
 
             return null;
         }

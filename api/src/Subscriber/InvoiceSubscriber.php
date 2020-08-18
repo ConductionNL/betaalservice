@@ -2,64 +2,65 @@
 
 namespace App\Subscriber;
 
-use App\Entity\Invoice;
+use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\Order;
 use App\Entity\Organization;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Serializer\SerializerInterface;;
+use Conduction\CommonGroundBundle\Service\CommonGroundService;
 
-class InvoiceSubscriber implements EventSubscriber
+//use App\Entity\Request as CCRequest;
+
+class InvoiceSubscriber implements EventSubscriberInterface
 {
     private $params;
     private $em;
     private $serializer;
     private $nlxLogService;
+    private $commonGroundService;
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->commonGroundService = $commonGroundService;
     }
 
-    public function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return [
-            Events::prePersist,
+            KernelEvents::VIEW => ['newInvoice', EventPriorities::PRE_VALIDATE],
         ];
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function newInvoice(ViewEvent $event)
     {
-        $this->index($args);
-    }
+        $result = $event->getControllerResult();
+        $method = $event->getRequest()->getMethod();
+        $route = $event->getRequest()->attributes->get('_route');
 
-    public function index(LifecycleEventArgs $args)
-    {
-        $entity = $args->getObject();
-        if (!($entity  instanceof Invoice)) {
-            //var_dump('a');
-            return $entity;
+        if (!$result instanceof Order || $route != 'api_invoices_post_collection') {
+            return;
         }
-        //var_dump('b');
-        if (!$entity->getReference()) {
-            $organisation = $entity->getOrganization();
 
-            if (!$organisation || !($organisation instanceof Organization)) {
-                $organisation = $this->em->getRepository('App\Entity\Organization')->findOrCreateByRsin($entity->getTargetOrganization());
-                $this->em->persist($organisation);
-                $this->em->flush();
-                $entity->setOrganization($organisation);
+        if (!$result->getReference()) {
+            $organization = json_decode($event->getRequest()->getContent(), true)['organization'];
+            $referenceId = $this->em->getRepository('App\Entity\Invoice')->getNextReferenceId($organization);
+            $result->setReferenceId($referenceId);
+            $organization = $this->commonGroundService->getResource($organization);
+            if (array_key_exists('shortcode', $organization) && $organization['shortcode'] != null) {
+                $shortcode = $organization['shortcode'];
+            } else {
+                $shortcode = $organization['name'];
             }
-
-            $referenceId = $this->em->getRepository('App\Entity\Invoice')->getNextReferenceId($organisation);
-            $entity->setReferenceId($referenceId);
-            $entity->setReference($organisation->getShortCode().'-'.date('Y').'-'.$referenceId);
+            $result->setReference($shortcode.'-'.date('Y').'-'.$referenceId);
         }
 
-        return $entity;
+        return $result;
     }
 }
