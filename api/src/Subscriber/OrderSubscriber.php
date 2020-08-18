@@ -29,7 +29,6 @@ class OrderSubscriber implements EventSubscriberInterface
     private $client;
     private $commonGroundService;
 
-
     public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
@@ -82,7 +81,6 @@ class OrderSubscriber implements EventSubscriberInterface
 
         ];
 
-
         foreach ($needed as $requirement) {
             if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
@@ -93,10 +91,10 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $invoice = new Invoice();
 
-        if(array_key_exists('reference',$order) && $order['reference'] ){
+        if (array_key_exists('reference', $order) && $order['reference']) {
             $invoice->setName($order['reference']);
         }
-        if(array_key_exists('description',$order) && $order['description'] ){
+        if (array_key_exists('description', $order) && $order['description']) {
             $invoice->setDescription($order['description']);
         }
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
@@ -105,7 +103,7 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('customer', $order) && $order['customer'] != null) {
             $invoice->setCustomer($order['customer']);
         }
-        $invoice->setOrder($order["@id"]);
+        $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
@@ -119,8 +117,8 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
-        $invoice->setPrice($order["price"]);
-        $invoice->setPriceCurrency($order["priceCurrency"]);
+        $invoice->setPrice($order['price']);
+        $invoice->setPriceCurrency($order['priceCurrency']);
         $invoice->setOrganization($organization);
         $invoice->setTargetOrganization($order['organization']);
 

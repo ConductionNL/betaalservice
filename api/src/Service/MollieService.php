@@ -29,7 +29,6 @@ class MollieService
 
     public function createPayment(Invoice $invoice, Request $request): string
     {
-
         $domain = $request->getHttpHost();
         if ($request->isSecure()) {
             $protocol = 'https://';

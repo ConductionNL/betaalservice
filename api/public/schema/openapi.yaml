@@ -3377,6 +3377,44 @@ paths:
           schema:
             type: string
         -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: order
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'order[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: reference
           in: query
           required: false
@@ -10716,12 +10754,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-17 14:09:46'
+        example: '2020-08-18 13:42:13'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-17 14:09:46'
+        example: '2020-08-18 13:42:13'
     required: []
   AuditTrail-write:
     properties:
@@ -10769,12 +10807,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-17 14:09:46'
+        example: '2020-08-18 13:42:13'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-17 14:09:46'
+        example: '2020-08-18 13:42:13'
     required: []
   ChangeLog-write:
     properties:

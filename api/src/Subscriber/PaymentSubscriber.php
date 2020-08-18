@@ -32,7 +32,6 @@ class PaymentSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-
         return [
             KernelEvents::REQUEST => ['payment', EventPriorities::PRE_DESERIALIZE],
         ];
