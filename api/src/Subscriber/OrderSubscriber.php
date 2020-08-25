@@ -163,11 +163,11 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->calculateTotals();
 
         // Only create payment links if a payment service is configured
-        if(
+        if (
             (!$paymentService = $invoice->getService()) &&
             $invoice->getOrganization() != null &&
             count($invoice->getOrganization()->getServices()) > 0
-        ){
+        ) {
             $paymentService = $invoice->getOrganization()->getServices()[0];
         }
         if (isset($paymentService)) {

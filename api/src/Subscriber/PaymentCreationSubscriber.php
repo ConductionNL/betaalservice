@@ -74,11 +74,11 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
                 break;
         }
         if ($result instanceof Invoice && $method != 'DELETE') {
-            if(
+            if (
                 (!$paymentService = $result->getService()) &&
                 $result->getOrganization() != null &&
                 count($result->getOrganization()->getServices()) > 0
-            ){
+            ) {
                 $paymentService = $result->getOrganization()->getServices()[0];
             }
             if (isset($paymentService)) {
