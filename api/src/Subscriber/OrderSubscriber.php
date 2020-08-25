@@ -163,9 +163,14 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->calculateTotals();
 
         // Only create payment links if a payment service is configured
-        if (count($invoice->getOrganization()->getServices()) > 0) {
-            //var_dump(count($invoice->getOrganization()->getServices()));
+        if (
+            (!$paymentService = $invoice->getService()) &&
+            $invoice->getOrganization() != null &&
+            count($invoice->getOrganization()->getServices()) > 0
+        ) {
             $paymentService = $invoice->getOrganization()->getServices()[0];
+        }
+        if (isset($paymentService)) {
             switch ($paymentService->getType()) {
                 case 'mollie':
                     $mollieService = new MollieService($paymentService);
@@ -176,6 +181,7 @@ class OrderSubscriber implements EventSubscriberInterface
                     $sumupService = new SumUpService($paymentService);
                     $paymentUrl = $sumupService->createPayment($invoice);
                     $invoice->setPaymentUrl($paymentUrl);
+                    break;
             }
         }
 
