@@ -29,7 +29,6 @@ class OrderSubscriber implements EventSubscriberInterface
     private $client;
     private $commonGroundService;
 
-
     public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, SerializerInterface $serializer, CommonGroundService $commonGroundService)
     {
         $this->params = $params;
@@ -82,7 +81,6 @@ class OrderSubscriber implements EventSubscriberInterface
 
         ];
 
-
         foreach ($needed as $requirement) {
             if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
                 throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
@@ -93,10 +91,10 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $invoice = new Invoice();
 
-        if(array_key_exists('reference',$order) && $order['reference'] ){
+        if (array_key_exists('reference', $order) && $order['reference']) {
             $invoice->setName($order['reference']);
         }
-        if(array_key_exists('description',$order) && $order['description'] ){
+        if (array_key_exists('description', $order) && $order['description']) {
             $invoice->setDescription($order['description']);
         }
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
@@ -105,7 +103,7 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('customer', $order) && $order['customer'] != null) {
             $invoice->setCustomer($order['customer']);
         }
-        $invoice->setOrder($order["url"]);
+        $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
@@ -119,8 +117,8 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
-        $invoice->setPrice($order["price"]);
-        $invoice->setPriceCurrency($order["priceCurrency"]);
+        $invoice->setPrice($order['price']);
+        $invoice->setPriceCurrency($order['priceCurrency']);
         $invoice->setOrganization($organization);
         $invoice->setTargetOrganization($order['organization']);
 
@@ -165,9 +163,14 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->calculateTotals();
 
         // Only create payment links if a payment service is configured
-        if (count($invoice->getOrganization()->getServices()) > 0) {
-            //var_dump(count($invoice->getOrganization()->getServices()));
+        if (
+            (!$paymentService = $invoice->getService()) &&
+            $invoice->getOrganization() != null &&
+            count($invoice->getOrganization()->getServices()) > 0
+        ) {
             $paymentService = $invoice->getOrganization()->getServices()[0];
+        }
+        if (isset($paymentService)) {
             switch ($paymentService->getType()) {
                 case 'mollie':
                     $mollieService = new MollieService($paymentService);
@@ -178,6 +181,7 @@ class OrderSubscriber implements EventSubscriberInterface
                     $sumupService = new SumUpService($paymentService);
                     $paymentUrl = $sumupService->createPayment($invoice);
                     $invoice->setPaymentUrl($paymentUrl);
+                    break;
             }
         }
 

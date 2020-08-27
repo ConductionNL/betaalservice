@@ -12,7 +12,7 @@ info:
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/bc-php) 
     - Datamodel: [postman](/schema/bc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
+    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
     
 paths:
   /audit_trails:
@@ -3376,6 +3376,44 @@ paths:
           required: false
           schema:
             type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: order
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'order[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
         -
           name: reference
           in: query
@@ -9114,6 +9152,7 @@ components:
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
+          nullable: true
         items:
           description: 'The items in this invoice'
           type: array
@@ -9156,6 +9195,11 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        organization:
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Organization-read'
         paymentUrl:
           type: string
           nullable: true
@@ -9165,8 +9209,14 @@ components:
           nullable: true
         paid:
           readOnly: true
-          type: boolean
+          description: 'Indicator whether the invoice is paid or not'
+          type: string
+        service:
+          description: 'The chosen payment service for the invoice'
           nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Service-read'
       required:
         - targetOrganization
         - price
@@ -9186,6 +9236,7 @@ components:
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
+          nullable: true
         items:
           description: 'The items in this invoice'
           type: array
@@ -9216,6 +9267,12 @@ components:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
+        service:
+          description: 'The chosen payment service for the invoice'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Service-write'
       required:
         - targetOrganization
         - price
@@ -9255,6 +9312,7 @@ components:
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
+          nullable: true
         items:
           description: 'The items in this invoice'
           type: array
@@ -9297,6 +9355,11 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        organization:
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Organization:jsonld-read'
         paymentUrl:
           type: string
           nullable: true
@@ -9306,8 +9369,14 @@ components:
           nullable: true
         paid:
           readOnly: true
-          type: boolean
+          description: 'Indicator whether the invoice is paid or not'
+          type: string
+        service:
+          description: 'The chosen payment service for the invoice'
           nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Service:jsonld-read'
       required:
         - targetOrganization
         - price
@@ -9336,6 +9405,7 @@ components:
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
+          nullable: true
         items:
           description: 'The items in this invoice'
           type: array
@@ -9366,6 +9436,12 @@ components:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
+        service:
+          description: 'The chosen payment service for the invoice'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Service:jsonld-write'
       required:
         - targetOrganization
         - price
@@ -10248,6 +10324,10 @@ definitions:
       payments:
         description: 'The payments of this Invoice'
         type: \Payment
+      organization: []
+      service:
+        description: 'The chosen payment service for the invoice'
+        type: \Service
     required:
       - targetOrganization
       - price
@@ -10296,6 +10376,9 @@ definitions:
       payments:
         description: 'The payments of this Invoice'
         type: \Payment
+      service:
+        description: 'The chosen payment service for the invoice'
+        type: \Service
     required:
       - targetOrganization
       - price
@@ -10395,53 +10478,77 @@ definitions:
     required:
       - price
       - invoice
-  Organization-read:
+  Tax-read:
     properties:
       id:
         description: 'The UUID identifier of this object'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      shortCode:
-        maxLength: 4
-      rsin:
-        maxLength: 16
-        minLength: 4
-      redirectUrl:
-        description: 'The url payment providers should return to'
+      name:
+        description: 'The name of this tax'
         type: string
-        format: url
+        example: 'my offer'
+        maxLength: 255
+      description:
+        description: 'An short description of this tax'
+        type: string
+        example: 'This is the best product ever'
+        maxLength: 2550
+      price:
+        description: 'The price of this tax'
+        type: string
+        example: '50.00'
+      priceCurrency:
+        description: 'The currency of this tax in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
+        type: string
+        example: EUR
+      percentage:
+        description: 'The tax percentage for this offer as an integer e.g. 9% makes 9'
+        type: int
+        example: '9'
       dateCreated:
         description: 'The moment this request was created'
         type: \Datetime
       dateModified:
         description: 'The moment this request last Modified'
         type: \Datetime
-      services:
-        description: 'The payment providers configured for this organization'
+      invoiceItems:
+        description: 'The offers that use this tax'
         type: \ArrayCollection
     required:
-      - shortCode
-      - rsin
-      - redirectUrl
-  Organization-write:
+      - name
+      - price
+  Tax-write:
     properties:
-      shortCode:
-        maxLength: 4
-      rsin:
-        maxLength: 16
-        minLength: 4
-      redirectUrl:
-        description: 'The url payment providers should return to'
+      name:
+        description: 'The name of this tax'
         type: string
-        format: url
-      services:
-        description: 'The payment providers configured for this organization'
+        example: 'my offer'
+        maxLength: 255
+      description:
+        description: 'An short description of this tax'
+        type: string
+        example: 'This is the best product ever'
+        maxLength: 2550
+      price:
+        description: 'The price of this tax'
+        type: string
+        example: '50.00'
+      priceCurrency:
+        description: 'The currency of this tax in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
+        type: string
+        example: EUR
+      percentage:
+        description: 'The tax percentage for this offer as an integer e.g. 9% makes 9'
+        type: int
+        example: '9'
+      invoiceItems:
+        description: 'The offers that use this tax'
         type: \ArrayCollection
     required:
-      - shortCode
-      - rsin
-      - redirectUrl
+      - name
+      - price
   Payment-read:
     properties:
       id:
@@ -10541,77 +10648,106 @@ definitions:
         type: \Organization
     required:
       - type
-  Tax-read:
+  Organization-read:
     properties:
       id:
         description: 'The UUID identifier of this object'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      name:
-        description: 'The name of this tax'
+      shortCode:
+        maxLength: 4
+      rsin:
+        maxLength: 16
+        minLength: 4
+      redirectUrl:
+        description: 'The url payment providers should return to'
         type: string
-        example: 'my offer'
-        maxLength: 255
-      description:
-        description: 'An short description of this tax'
-        type: string
-        example: 'This is the best product ever'
-        maxLength: 2550
-      price:
-        description: 'The price of this tax'
-        type: string
-        example: '50.00'
-      priceCurrency:
-        description: 'The currency of this tax in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
-        type: string
-        example: EUR
-      percentage:
-        description: 'The tax percentage for this offer as an integer e.g. 9% makes 9'
-        type: int
-        example: '9'
+        format: url
       dateCreated:
         description: 'The moment this request was created'
         type: \Datetime
       dateModified:
         description: 'The moment this request last Modified'
         type: \Datetime
-      invoiceItems:
-        description: 'The offers that use this tax'
+      services:
+        description: 'The payment providers configured for this organization'
         type: \ArrayCollection
     required:
-      - name
-      - price
-  Tax-write:
+      - shortCode
+      - rsin
+      - redirectUrl
+  Organization-write:
     properties:
-      name:
-        description: 'The name of this tax'
+      shortCode:
+        maxLength: 4
+      rsin:
+        maxLength: 16
+        minLength: 4
+      redirectUrl:
+        description: 'The url payment providers should return to'
         type: string
-        example: 'my offer'
-        maxLength: 255
-      description:
-        description: 'An short description of this tax'
-        type: string
-        example: 'This is the best product ever'
-        maxLength: 2550
-      price:
-        description: 'The price of this tax'
-        type: string
-        example: '50.00'
-      priceCurrency:
-        description: 'The currency of this tax in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
-        type: string
-        example: EUR
-      percentage:
-        description: 'The tax percentage for this offer as an integer e.g. 9% makes 9'
-        type: int
-        example: '9'
-      invoiceItems:
-        description: 'The offers that use this tax'
+        format: url
+      services:
+        description: 'The payment providers configured for this organization'
         type: \ArrayCollection
     required:
-      - name
-      - price
+      - shortCode
+      - rsin
+      - redirectUrl
+  ChangeLog-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
+        type: string
+      objectId:
+        description: ''
+        type: string
+      objectClass:
+        description: ''
+        type: string
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
+        type: string
+      session:
+        description: 'The moment this request was created'
+        type: string
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: string
+        format: date-time
+        example: '2020-08-25 08:33:06'
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: string
+        format: date-time
+        example: '2020-08-25 08:33:06'
+    required: []
+  ChangeLog-write:
+    properties:
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+    required: []
   AuditTrail-read:
     properties:
       id:
@@ -10716,12 +10852,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-17 13:34:37'
+        example: '2020-08-25 08:33:06'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-17 13:34:37'
+        example: '2020-08-25 08:33:06'
     required: []
   AuditTrail-write:
     properties:
@@ -10729,59 +10865,6 @@ definitions:
         description: 'A note conserning this log lin'
         type: string
         example: 'This log line looks suspicius'
-        maxLength: 2555
-    required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-08-17 13:34:37'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-08-17 13:34:37'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
         maxLength: 2555
     required: []
 tags:
@@ -10798,11 +10881,11 @@ tags:
       
       This entity represents an item that is placed on the invoice
   -
-    name: Organization
+    name: Tax
     description: |
+      An entity representing an tax.
       
-      
-      
+      This entity represents an offer that bridges products to the OrderRegistratieComponent to be able to change prices without invalidating past orders.
   -
     name: Payment
     description: |
@@ -10816,19 +10899,19 @@ tags:
       
       
   -
-    name: Tax
+    name: Organization
     description: |
-      An entity representing an tax.
       
-      This entity represents an offer that bridges products to the OrderRegistratieComponent to be able to change prices without invalidating past orders.
+      
+      
   -
-    name: AuditTrail
+    name: ChangeLog
     description: |
       An resource representing a log line.
       
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: ChangeLog
+    name: AuditTrail
     description: |
       An resource representing a log line.
       
@@ -10839,15 +10922,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -

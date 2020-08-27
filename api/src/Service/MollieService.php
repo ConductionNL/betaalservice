@@ -14,11 +14,13 @@ class MollieService
 {
     private $mollie;
     private $serviceId;
+    private $service;
 
     public function __construct(Service $service)
     {
         $this->mollie = new MollieApiClient();
         $this->serviceId = $service->getId();
+        $this->service = $service;
 
         try {
             $this->mollie->setApiKey($service->getAuthorization());
@@ -29,7 +31,6 @@ class MollieService
 
     public function createPayment(Invoice $invoice, Request $request): string
     {
-
         $domain = $request->getHttpHost();
         if ($request->isSecure()) {
             $protocol = 'https://';
@@ -64,7 +65,7 @@ class MollieService
             }
         }
 
-        return $invoice->getOrganization()->getRedirectUrl().'/'.$invoice->getId();
+        return $this->service->getOrganization()->getRedirectUrl().'/'.$invoice->getId();
     }
 
     public function updatePayment(string $paymentId, Service $service, EntityManagerInterface $manager): ?Payment

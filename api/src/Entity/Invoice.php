@@ -76,7 +76,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
- * @ApiFilter(SearchFilter::class)
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "id":"exact",
+ *     "name":"partial",
+ *     "order":"exact",
+ *     "costumer":"exact"
+ * })
  */
 class Invoice
 {
@@ -160,7 +165,7 @@ class Invoice
      *     max = 255
      * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     private $targetOrganization;
@@ -265,8 +270,8 @@ class Invoice
     private $customer;
 
     /**
+     * @Groups({"read"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="invoices", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $organization;
 
@@ -286,9 +291,19 @@ class Invoice
     private $remark;
 
     /**
+     * @var string Indicator whether the invoice is paid or not
      * @Groups({"read"})
      */
     private $paid = false;
+
+    /**
+     * @var Service The chosen payment service for the invoice
+     *
+     * @Groups({"read", "write"})
+     *
+     * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="invoices")
+     */
+    private $service;
 
     /**
      *  @ORM\PrePersist
@@ -611,5 +626,17 @@ class Invoice
         }
 
         return false;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
+
+        return $this;
     }
 }
