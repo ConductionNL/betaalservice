@@ -88,32 +88,22 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
               name: Push to docker hub
               run: docker-compose push
-            #      - name: Create kube config
-            #        id: kubeconfig
-            #        if: contains( github.ref, 'master' ) || contains( github.ref, 'staging' ) || contains( github.ref, 'development' )
-            #        run: |
-            #            if [ "${{ secrets.KUBECONFIG }}" != "" ]; then
-            #              printf "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
-            #              echo "##[set-output name=success]true"
-            #            else
-            #              echo "##[set-output name=success]false"
-            #            fi 
-            #      - name: Set correct helm version
-            #        if: (contains( github.ref, 'master' ) || contains( github.ref, 'staging' ) || contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true'
-            #        run: helm init --upgrade --kubeconfig="kubeconfig.yaml"    
-            #      - name: Deploy through helm
-            #        id: helm-install
-            #        if: (contains( github.ref, 'master' ) || contains( github.ref, 'staging' ) || contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true'
-            #        run: helm upgrade $APP_NAME-$APP_ENV ./api/helm  --kubeconfig="kubeconfig.yaml" --namespace=$APP_ENV  --set settings.env=$APP_ENV,settings.debug=1
-            #      - name: Install through helm
-            #        if: failure() && (contains( github.ref, 'master' ) || contains( github.ref, 'staging' ) || contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true'
-            #        run: helm install --name $APP_NAME-$APP_ENV ./api/helm  --kubeconfig="kubeconfig.yaml" --namespace=$APP_ENV  --set settings.env=$APP_ENV,settings.debug=1 
-            #      - name: Rollout new containers
-            #        if: (contains( github.ref, 'master' ) || contains( github.ref, 'staging' ) || contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true' && success()
-            #        run: |
-            #            kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-            #            kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-            #            kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+            - name: Create kube config
+              id: kubeconfig
+              if: contains( github.ref, 'development' )
+              run: |
+                if [ "${{ secrets.KUBECONFIG }}" != "" ]; then
+                  printf "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+                  echo "##[set-output name=success]true"
+                else
+                  echo "##[set-output name=success]false"
+                fi    
+            - name: Rollout new containers
+              if: (contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true' && success()
+              run: |
+                kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+                kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
+                kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
             - name: Export release code
               if: (success() || failure())
               id: releasecode
