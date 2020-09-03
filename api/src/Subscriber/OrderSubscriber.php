@@ -103,6 +103,7 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('customer', $order) && $order['customer'] != null) {
             $invoice->setCustomer($order['customer']);
         }
+        
         $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
