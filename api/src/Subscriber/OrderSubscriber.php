@@ -158,6 +158,8 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->em->persist($organization);
         $this->em->persist($invoice);
         $this->em->flush();
+        $order['invoice'] = $this->commonGroundService->cleanUrl(['component'=>'bc', 'type'=>'invoices', 'id'=>$invoice->getId()]);
+        $order = $this->commonGroundService->saveResource($order);
 
         // recalculate all the invoice totals
         $invoice->calculateTotals();
