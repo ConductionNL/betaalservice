@@ -18,6 +18,7 @@ settings:
   domain: conduction.nl
   subdomain: pc
   subpath: pc
+  subpathRouting: true
   organisationName: Conduction
   email: info@conduction.nl
   country: Netherlands
