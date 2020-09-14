@@ -4051,7 +4051,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUrl}}/example_entities/:id",
@@ -4761,7 +4764,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+							"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUrl}}/example_entities",
@@ -5076,12 +5082,12 @@
 	],
 	"variable": [
 		{
-			"id": "ae9f3c16-930d-4a89-8fce-766728304474",
+			"id": "6bd1f33e-fcaf-41bd-a7f2-bbfed2cb1489",
 			"key": "baseUrl",
-			"value": "pc.dev.zuid-drecht.nl"
+			"value": "localhost"
 		},
 		{
-			"id": "07beb0e9-4b17-4d9f-80b9-d14f1989ba6d",
+			"id": "a85335b6-7362-407d-9775-bc17a3842eed",
 			"key": "authorization",
 			"value": "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
 		}
