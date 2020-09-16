@@ -83,7 +83,7 @@ jobs:
             - name: Chores
               run: docker-compose down
             - name: Add docker tags
-#              if: contains( github.ref, 'master') == true || contains( github.base_ref, 'master' ) == true
+              if: github.ref == 'refs/heads/master'
               run: |
                   images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1)
                   for image in $images
