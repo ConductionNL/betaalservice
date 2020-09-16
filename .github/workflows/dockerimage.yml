@@ -104,7 +104,10 @@ jobs:
             - name: Build the Docker image with new tag
               if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
               run: docker-compose build --build-arg APP_ENV=$APP_ENV --build-arg APP_BUILD=$APP_BUILD --build-arg APP_BUILD_ALL_FIXTURES=true
-
+  
+            - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master')
+              name: Push to docker hub
+              run: docker-compose push
 
 
             - name: Create kube config
