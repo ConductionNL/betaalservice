@@ -26,7 +26,6 @@ jobs:
               if: (success() || failure())
               id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDay in UTC
               run: |
-               export VERSION=$(grep APP_VERSION= .env | cut -d '=' -f2)
                export RELEASE=$VERSION.$(date --utc +%y%m%d)
                echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
@@ -82,7 +81,15 @@ jobs:
               if: contains( github.ref, 'master' ) == false && contains( github.base_ref, 'master' ) == false
               run: newman run api/public/schema/*.postman_collection.json
             - name: Chores
-              run: docker-compose stop
+              run: docker-compose down
+            - name: Add docker tags
+              if: github.ref == 'refs/heads/master'
+              run: |
+                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1)
+                  for image in $images
+                  do
+                    docker tag "${image}":"${APP_BUILD}" "${image}":latest
+                  done
             - name: Login to DockerHub Registry
               id: dockerhub-login
               run: |
@@ -95,22 +102,6 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
               name: Push to docker hub
               run: docker-compose push
-
-            -   name: Setting APP_ENV to prod
-                if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
-                run: |
-                      echo ::set-env name=APP_ENV::$RELEASE
-                      echo ::set-env name=APP_BUILD::$RELEASE
-                      echo "set APP_ENV to $APP_ENV"
-            - name: Build the Docker image with new tag
-              if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
-              run: docker-compose build --build-arg APP_ENV=$APP_ENV --build-arg APP_BUILD=$APP_BUILD --build-arg APP_BUILD_ALL_FIXTURES=true
-  
-            - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master')
-              name: Push to docker hub
-              run: docker-compose push
-
-
             - name: Create kube config
               id: kubeconfig
               if: contains( github.ref, 'development' )
