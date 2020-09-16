@@ -82,7 +82,7 @@ jobs:
               if: contains( github.ref, 'master' ) == false && contains( github.base_ref, 'master' ) == false
               run: newman run api/public/schema/*.postman_collection.json
             - name: Chores
-              run: docker-compose down
+              run: docker-compose stop
             - name: Login to DockerHub Registry
               id: dockerhub-login
               run: |
