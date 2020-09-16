@@ -82,8 +82,6 @@ jobs:
               run: newman run api/public/schema/*.postman_collection.json
             - name: Chores
               run: docker-compose down
-<<<<<<< Updated upstream
-=======
             - name: Add docker tags
 #              if: contains( github.ref, 'master') == true || contains( github.base_ref, 'master' ) == true
               run: |
@@ -92,7 +90,6 @@ jobs:
                   do
                     docker tag "${image}":"${APP_BUILD}" "${image}":latest
                   done
->>>>>>> Stashed changes
             - name: Login to DockerHub Registry
               id: dockerhub-login
               run: |
