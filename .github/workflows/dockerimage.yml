@@ -85,7 +85,7 @@ jobs:
             - name: Add docker tags
 #              if: contains( github.ref, 'master') == true || contains( github.base_ref, 'master' ) == true
               run: |
-                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1))
+                  images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1)
                   for image in $images
                   do
                     docker tag "${image}":"${APP_BUILD}" "${image}":latest
