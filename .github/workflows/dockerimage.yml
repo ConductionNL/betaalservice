@@ -22,6 +22,12 @@ jobs:
             - uses: actions/setup-node@v1
             - name: Install Newman
               run: npm install -g newman
+            - name: Export release code
+              if: (success() || failure())
+              id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDay in UTC
+              run: |
+               export RELEASE=$VERSION.$(date --utc +%y%m%d)
+               echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
               run: |
                   export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
@@ -36,8 +42,8 @@ jobs:
             - name: Setting APP_ENV to prod
               if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
               run: |
-                  echo ::set-env name=APP_ENV::prod
-                  echo ::set-env name=APP_BUILD::prod
+                  echo ::set-env name=APP_ENV::latest
+                  echo ::set-env name=APP_BUILD::$RELEASE
                   echo "set APP_ENV to $APP_ENV"
             - name: Set APP_BUILD to APP_VERSION
               if: contains( github.ref, 'master' )
@@ -76,6 +82,14 @@ jobs:
               run: newman run api/public/schema/*.postman_collection.json
             - name: Chores
               run: docker-compose down
+            - name: Add docker tags
+#              if: contains( github.ref, 'master') == true || contains( github.base_ref, 'master' ) == true
+              run: |
+                  images=$(cat docker-compose.yml | grep 'image: ' | cut -d':' -f 2 | tr -d '"')
+                  for image in $images
+                  do
+                    docker tag "${image}":"${IMAGE_TAG}" "${image}":latest
+                  done
             - name: Login to DockerHub Registry
               id: dockerhub-login
               run: |
@@ -104,18 +118,12 @@ jobs:
                 kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
                 kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
                 kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-            - name: Export release code
-              if: (success() || failure())
-              id: releasecode
-              run: |
-                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
-                  echo "##[set-output name=releasename]$RELEASE"
-            #      - name: Export release code
-            #        if: (success() || failure())
-            #        id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDayHoursMinutesSeconds in UTC
-            #        run: |
-            #            export RELEASE=$APP_BUILD.$(date --utc +%Y%m%d%H%M%S)
-            #            echo "##[set-output name=releasename]$RELEASE"
+#            - name: Export release code
+#              if: (success() || failure())
+#              id: releasecode
+#              run: |
+#                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
+#                  echo "##[set-output name=releasename]$RELEASE"
             - name: Print release name
               if: (success() || failure())
               run: echo $RELEASENAME
