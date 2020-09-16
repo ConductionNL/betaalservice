@@ -22,6 +22,12 @@ jobs:
             - uses: actions/setup-node@v1
             - name: Install Newman
               run: npm install -g newman
+            - name: Export release code
+              if: (success() || failure())
+              id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDay in UTC
+              run: |
+               export RELEASE=$VERSION.$(date --utc +%y%m%d)
+               echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
               run: |
                   export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
@@ -36,8 +42,8 @@ jobs:
             - name: Setting APP_ENV to prod
               if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
               run: |
-                  echo ::set-env name=APP_ENV::prod
-                  echo ::set-env name=APP_BUILD::prod
+                  echo ::set-env name=APP_ENV::latest
+                  echo ::set-env name=APP_BUILD::$RELEASE
                   echo "set APP_ENV to $APP_ENV"
             - name: Set APP_BUILD to APP_VERSION
               if: contains( github.ref, 'master' )
@@ -88,6 +94,22 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
               name: Push to docker hub
               run: docker-compose push
+
+            -   name: Setting APP_ENV to prod
+                if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
+                run: |
+                      echo ::set-env name=APP_ENV::$RELEASE
+                      echo ::set-env name=APP_BUILD::$RELEASE
+                      echo "set APP_ENV to $APP_ENV"
+            - name: Build the Docker image with new tag
+              if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
+              run: docker-compose build --build-arg APP_ENV=$APP_ENV --build-arg APP_BUILD=$APP_BUILD --build-arg APP_BUILD_ALL_FIXTURES=true
+  
+            - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master')
+              name: Push to docker hub
+              run: docker-compose push
+
+
             - name: Create kube config
               id: kubeconfig
               if: contains( github.ref, 'development' )
@@ -104,18 +126,12 @@ jobs:
                 kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
                 kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
                 kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-            - name: Export release code
-              if: (success() || failure())
-              id: releasecode
-              run: |
-                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
-                  echo "##[set-output name=releasename]$RELEASE"
-            #      - name: Export release code
-            #        if: (success() || failure())
-            #        id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDayHoursMinutesSeconds in UTC
-            #        run: |
-            #            export RELEASE=$APP_BUILD.$(date --utc +%Y%m%d%H%M%S)
-            #            echo "##[set-output name=releasename]$RELEASE"
+#            - name: Export release code
+#              if: (success() || failure())
+#              id: releasecode
+#              run: |
+#                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
+#                  echo "##[set-output name=releasename]$RELEASE"
             - name: Print release name
               if: (success() || failure())
               run: echo $RELEASENAME
