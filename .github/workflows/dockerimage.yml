@@ -90,6 +90,8 @@ jobs:
                   do
                     docker tag "${image}":"${APP_BUILD}" "${image}":latest
                   done
+            - name: Show all images
+              run: docker images
             - name: Login to DockerHub Registry
               id: dockerhub-login
               run: |
