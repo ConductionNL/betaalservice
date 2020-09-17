@@ -1,0 +1,5096 @@
+{
+	"info": {
+		"_postman_id": "e4fc7b78-3a05-47eb-b059-b277362f0e1a",
+		"name": "Proto Component Commonground",
+		"description": "API Details\n- Component: Proto component commonground\n- Reference: pc\n- Enviroment: dev\n- Version: V.0.1\n- Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)\n- Docker Image: [online](https://hub.docker.com/repository/docker/conduction/pc-php) \n- Datamodel: [postman](/schema/pc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [mwb](/schema/datamodel.mwb) \n\n'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         \n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "audit trails",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Retrieves a AuditTrail resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails",
+										":id"
+									],
+									"query": [
+										{
+											"key": "extend[]",
+											"value": "<array>",
+											"description": "An array of nested objects to include in the return object"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>",
+											"description": "An array of fields to return in output, wil return all fields is not supplied"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>",
+											"description": "Returns object as valid on a given date time"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>",
+											"description": "Returns objects valid from a given date time"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>",
+											"description": "Returns objects valid until a given date time"
+										}
+									],
+									"variable": [
+										{
+											"id": "303cf44f-c400-4d12-a6da-25f396ab065c",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "AuditTrail resource response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"request\": \"<string>\",\n \"user\": \"<string>\",\n \"subject\": \"<string>\",\n \"process\": \"<string>\",\n \"dataElements\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"dataSubjects\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"resource\": \"<string>\",\n \"resourceType\": \"<string>\",\n \"route\": \"<string>\",\n \"endpoint\": \"<string>\",\n \"method\": \"<string>\",\n \"accept\": \"<string>\",\n \"contentType\": \"<string>\",\n \"content\": \"<string>\",\n \"ip\": \"<string>\",\n \"session\": \"<string>\",\n \"headers\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"statusCode\": \"<integer>\",\n \"notFound\": \"<boolean>\",\n \"forbidden\": \"<boolean>\",\n \"ok\": \"<boolean>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Removes the AuditTrail resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "fff6e71b-ee58-42ad-879e-35b466101f11",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AuditTrail resource deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Replaces the AuditTrail resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\"",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "d15e3902-afd2-4683-8d36-b267bd1f7aed",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "AuditTrail resource updated",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"request\": \"<string>\",\n \"user\": \"<string>\",\n \"subject\": \"<string>\",\n \"process\": \"<string>\",\n \"dataElements\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"dataSubjects\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"resource\": \"<string>\",\n \"resourceType\": \"<string>\",\n \"route\": \"<string>\",\n \"endpoint\": \"<string>\",\n \"method\": \"<string>\",\n \"accept\": \"<string>\",\n \"contentType\": \"<string>\",\n \"content\": \"<string>\",\n \"ip\": \"<string>\",\n \"session\": \"<string>\",\n \"headers\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"statusCode\": \"<integer>\",\n \"notFound\": \"<boolean>\",\n \"forbidden\": \"<boolean>\",\n \"ok\": \"<boolean>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid input",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Updates the AuditTrail resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\"",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "a15ae778-9a85-4da3-94d4-d9d8a9a20300",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid input",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "AuditTrail resource updated",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/audit_trails/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"audit_trails",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"request\": \"<string>\",\n \"user\": \"<string>\",\n \"subject\": \"<string>\",\n \"process\": \"<string>\",\n \"dataElements\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"dataSubjects\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"resource\": \"<string>\",\n \"resourceType\": \"<string>\",\n \"route\": \"<string>\",\n \"endpoint\": \"<string>\",\n \"method\": \"<string>\",\n \"accept\": \"<string>\",\n \"contentType\": \"<string>\",\n \"content\": \"<string>\",\n \"ip\": \"<string>\",\n \"session\": \"<string>\",\n \"headers\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"statusCode\": \"<integer>\",\n \"notFound\": \"<boolean>\",\n \"forbidden\": \"<boolean>\",\n \"ok\": \"<boolean>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Retrieves the collection of AuditTrail resources.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Link",
+								"value": "",
+								"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/audit_trails?order[application]=<string>&order[request]=<string>&order[user]=<string>&order[subject]=<string>&order[resource]=<string>&order[resourceType]=<string>&order[endpoint]=<string>&order[contentType]=<string>&order[content]=<string>&order[session]=<string>&order[dateCreated]=<string>&order[dateModified]=<string>&request=<string>&request[]=<string>&request[]=<string>&user=<string>&user[]=<string>&user[]=<string>&subject=<string>&subject[]=<string>&subject[]=<string>&resource=<string>&resource[]=<string>&resource[]=<string>&resourceType=<string>&endpoint=<string>&endpoint[]=<string>&endpoint[]=<string>&contentType=<string>&contentType[]=<string>&contentType[]=<string>&content=<string>&content[]=<string>&content[]=<string>&session=<string>&session[]=<string>&session[]=<string>&dateCreated[before]=<string>&dateCreated[strictly_before]=<string>&dateCreated[after]=<string>&dateCreated[strictly_after]=<string>&dateModified[before]=<string>&dateModified[strictly_before]=<string>&dateModified[after]=<string>&dateModified[strictly_after]=<string>&page=1&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"audit_trails"
+							],
+							"query": [
+								{
+									"key": "order[application]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[request]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[user]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[subject]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[resource]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[resourceType]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[endpoint]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[contentType]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[content]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[session]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[dateCreated]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[dateModified]",
+									"value": "<string>"
+								},
+								{
+									"key": "request",
+									"value": "<string>"
+								},
+								{
+									"key": "request[]",
+									"value": "<string>"
+								},
+								{
+									"key": "request[]",
+									"value": "<string>"
+								},
+								{
+									"key": "user",
+									"value": "<string>"
+								},
+								{
+									"key": "user[]",
+									"value": "<string>"
+								},
+								{
+									"key": "user[]",
+									"value": "<string>"
+								},
+								{
+									"key": "subject",
+									"value": "<string>"
+								},
+								{
+									"key": "subject[]",
+									"value": "<string>"
+								},
+								{
+									"key": "subject[]",
+									"value": "<string>"
+								},
+								{
+									"key": "resource",
+									"value": "<string>"
+								},
+								{
+									"key": "resource[]",
+									"value": "<string>"
+								},
+								{
+									"key": "resource[]",
+									"value": "<string>"
+								},
+								{
+									"key": "resourceType",
+									"value": "<string>"
+								},
+								{
+									"key": "endpoint",
+									"value": "<string>"
+								},
+								{
+									"key": "endpoint[]",
+									"value": "<string>"
+								},
+								{
+									"key": "endpoint[]",
+									"value": "<string>"
+								},
+								{
+									"key": "contentType",
+									"value": "<string>"
+								},
+								{
+									"key": "contentType[]",
+									"value": "<string>"
+								},
+								{
+									"key": "contentType[]",
+									"value": "<string>"
+								},
+								{
+									"key": "content",
+									"value": "<string>"
+								},
+								{
+									"key": "content[]",
+									"value": "<string>"
+								},
+								{
+									"key": "content[]",
+									"value": "<string>"
+								},
+								{
+									"key": "session",
+									"value": "<string>"
+								},
+								{
+									"key": "session[]",
+									"value": "<string>"
+								},
+								{
+									"key": "session[]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[strictly_before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[strictly_after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[strictly_before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[strictly_after]",
+									"value": "<string>"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "The collection page number"
+								},
+								{
+									"key": "extend[]",
+									"value": "<array>",
+									"description": "An array of nested objects to include in the return object"
+								},
+								{
+									"key": "fields[]",
+									"value": "<array>",
+									"description": "An array of fields to return in output, wil return all fields is not supplied"
+								},
+								{
+									"key": "validOn",
+									"value": "<dateTime>",
+									"description": "Returns object as valid on a given date time"
+								},
+								{
+									"key": "validFrom",
+									"value": "<dateTime>",
+									"description": "Returns objects valid from a given date time"
+								},
+								{
+									"key": "validUntil",
+									"value": "<dateTime>",
+									"description": "Returns objects valid until a given date time"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "AuditTrail collection response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails?order[application]=<string>&order[request]=<string>&order[user]=<string>&order[subject]=<string>&order[resource]=<string>&order[resourceType]=<string>&order[endpoint]=<string>&order[contentType]=<string>&order[content]=<string>&order[session]=<string>&order[dateCreated]=<string>&order[dateModified]=<string>&request=<string>&request[]=<string>&request[]=<string>&user=<string>&user[]=<string>&user[]=<string>&subject=<string>&subject[]=<string>&subject[]=<string>&resource=<string>&resource[]=<string>&resource[]=<string>&resourceType=<string>&endpoint=<string>&endpoint[]=<string>&endpoint[]=<string>&contentType=<string>&contentType[]=<string>&contentType[]=<string>&content=<string>&content[]=<string>&content[]=<string>&session=<string>&session[]=<string>&session[]=<string>&dateCreated[before]=<string>&dateCreated[strictly_before]=<string>&dateCreated[after]=<string>&dateCreated[strictly_after]=<string>&dateModified[before]=<string>&dateModified[strictly_before]=<string>&dateModified[after]=<string>&dateModified[strictly_after]=<string>&page=1&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails"
+									],
+									"query": [
+										{
+											"key": "order[application]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[request]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[user]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[subject]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[resource]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[resourceType]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[endpoint]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[contentType]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[content]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[session]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[dateCreated]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[dateModified]",
+											"value": "<string>"
+										},
+										{
+											"key": "request",
+											"value": "<string>"
+										},
+										{
+											"key": "request[]",
+											"value": "<string>"
+										},
+										{
+											"key": "request[]",
+											"value": "<string>"
+										},
+										{
+											"key": "user",
+											"value": "<string>"
+										},
+										{
+											"key": "user[]",
+											"value": "<string>"
+										},
+										{
+											"key": "user[]",
+											"value": "<string>"
+										},
+										{
+											"key": "subject",
+											"value": "<string>"
+										},
+										{
+											"key": "subject[]",
+											"value": "<string>"
+										},
+										{
+											"key": "subject[]",
+											"value": "<string>"
+										},
+										{
+											"key": "resource",
+											"value": "<string>"
+										},
+										{
+											"key": "resource[]",
+											"value": "<string>"
+										},
+										{
+											"key": "resource[]",
+											"value": "<string>"
+										},
+										{
+											"key": "resourceType",
+											"value": "<string>"
+										},
+										{
+											"key": "endpoint",
+											"value": "<string>"
+										},
+										{
+											"key": "endpoint[]",
+											"value": "<string>"
+										},
+										{
+											"key": "endpoint[]",
+											"value": "<string>"
+										},
+										{
+											"key": "contentType",
+											"value": "<string>"
+										},
+										{
+											"key": "contentType[]",
+											"value": "<string>"
+										},
+										{
+											"key": "contentType[]",
+											"value": "<string>"
+										},
+										{
+											"key": "content",
+											"value": "<string>"
+										},
+										{
+											"key": "content[]",
+											"value": "<string>"
+										},
+										{
+											"key": "content[]",
+											"value": "<string>"
+										},
+										{
+											"key": "session",
+											"value": "<string>"
+										},
+										{
+											"key": "session[]",
+											"value": "<string>"
+										},
+										{
+											"key": "session[]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[strictly_before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[strictly_after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[strictly_before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[strictly_after]",
+											"value": "<string>"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "extend[]",
+											"value": "<array>"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/ld+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"hydra:member\": [\n  {\n   \"@context\": \"<string>\",\n   \"@id\": \"<string>\",\n   \"@type\": \"<string>\",\n   \"id\": \"<uuid>\",\n   \"request\": \"<string>\",\n   \"user\": \"<string>\",\n   \"subject\": \"<string>\",\n   \"process\": \"<string>\",\n   \"dataElements\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"dataSubjects\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"resource\": \"<string>\",\n   \"resourceType\": \"<string>\",\n   \"route\": \"<string>\",\n   \"endpoint\": \"<string>\",\n   \"method\": \"<string>\",\n   \"accept\": \"<string>\",\n   \"contentType\": \"<string>\",\n   \"content\": \"<string>\",\n   \"ip\": \"<string>\",\n   \"session\": \"<string>\",\n   \"headers\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"statusCode\": \"<integer>\",\n   \"notFound\": \"<boolean>\",\n   \"forbidden\": \"<boolean>\",\n   \"ok\": \"<boolean>\",\n   \"dateCreated\": \"<dateTime>\",\n   \"dateModified\": \"<dateTime>\"\n  },\n  {\n   \"@context\": \"<string>\",\n   \"@id\": \"<string>\",\n   \"@type\": \"<string>\",\n   \"id\": \"<uuid>\",\n   \"request\": \"<string>\",\n   \"user\": \"<string>\",\n   \"subject\": \"<string>\",\n   \"process\": \"<string>\",\n   \"dataElements\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"dataSubjects\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"resource\": \"<string>\",\n   \"resourceType\": \"<string>\",\n   \"route\": \"<string>\",\n   \"endpoint\": \"<string>\",\n   \"method\": \"<string>\",\n   \"accept\": \"<string>\",\n   \"contentType\": \"<string>\",\n   \"content\": \"<string>\",\n   \"ip\": \"<string>\",\n   \"session\": \"<string>\",\n   \"headers\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"statusCode\": \"<integer>\",\n   \"notFound\": \"<boolean>\",\n   \"forbidden\": \"<boolean>\",\n   \"ok\": \"<boolean>\",\n   \"dateCreated\": \"<dateTime>\",\n   \"dateModified\": \"<dateTime>\"\n  }\n ],\n \"hydra:totalItems\": \"<integer>\",\n \"hydra:view\": {\n  \"@id\": \"<iri-reference>\",\n  \"@type\": \"<string>\",\n  \"hydra:first\": \"<iri-reference>\",\n  \"hydra:last\": \"<iri-reference>\",\n  \"hydra:next\": \"<iri-reference>\"\n },\n \"hydra:search\": {\n  \"@type\": \"<string>\",\n  \"hydra:template\": \"<string>\",\n  \"hydra:variableRepresentation\": \"<string>\",\n  \"hydra:mapping\": [\n   {\n    \"@type\": \"<string>\",\n    \"variable\": \"<string>\",\n    \"property\": \"<string>\",\n    \"required\": \"<boolean>\"\n   },\n   {\n    \"@type\": \"<string>\",\n    \"variable\": \"<string>\",\n    \"property\": \"<string>\",\n    \"required\": \"<boolean>\"\n   }\n  ]\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "Creates a AuditTrail resource.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"<object>\"",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/audit_trails",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"audit_trails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "AuditTrail resource created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/ld+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"request\": \"<string>\",\n \"user\": \"<string>\",\n \"subject\": \"<string>\",\n \"process\": \"<string>\",\n \"dataElements\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"dataSubjects\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"resource\": \"<string>\",\n \"resourceType\": \"<string>\",\n \"route\": \"<string>\",\n \"endpoint\": \"<string>\",\n \"method\": \"<string>\",\n \"accept\": \"<string>\",\n \"contentType\": \"<string>\",\n \"content\": \"<string>\",\n \"ip\": \"<string>\",\n \"session\": \"<string>\",\n \"headers\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"statusCode\": \"<integer>\",\n \"notFound\": \"<boolean>\",\n \"forbidden\": \"<boolean>\",\n \"ok\": \"<boolean>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+						},
+						{
+							"name": "Resource not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Invalid input",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/audit_trails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"audit_trails"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "change logs",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Retrieves a ChangeLog resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/change_logs/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs",
+										":id"
+									],
+									"query": [
+										{
+											"key": "extend[]",
+											"value": "<array>",
+											"description": "An array of nested objects to include in the return object"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>",
+											"description": "An array of fields to return in output, wil return all fields is not supplied"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>",
+											"description": "Returns object as valid on a given date time"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>",
+											"description": "Returns objects valid from a given date time"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>",
+											"description": "Returns objects valid until a given date time"
+										}
+									],
+									"variable": [
+										{
+											"id": "b77c7f16-2c78-4b77-aab1-d5a4066aef77",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ChangeLog resource response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"action\": \"<string>\",\n \"objectId\": \"<string>\",\n \"objectClass\": \"<string>\",\n \"version\": \"<integer>\",\n \"data\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"username\": \"<string>\",\n \"session\": \"<string>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Removes the ChangeLog resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/change_logs/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "bab50ba3-b951-470d-b2ba-cffbe614f9f1",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "ChangeLog resource deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Replaces the ChangeLog resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\"",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/change_logs/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "a7282870-284b-411f-9d1c-6b7a669342de",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Invalid input",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "ChangeLog resource updated",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"action\": \"<string>\",\n \"objectId\": \"<string>\",\n \"objectClass\": \"<string>\",\n \"version\": \"<integer>\",\n \"data\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"username\": \"<string>\",\n \"session\": \"<string>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Updates the ChangeLog resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\"",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/change_logs/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "21bde7da-7bab-4ab5-88dd-70a5884c83c7",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ChangeLog resource updated",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/ld+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"action\": \"<string>\",\n \"objectId\": \"<string>\",\n \"objectClass\": \"<string>\",\n \"version\": \"<integer>\",\n \"data\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"username\": \"<string>\",\n \"session\": \"<string>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Invalid input",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"<object>\""
+										},
+										"url": {
+											"raw": "{{baseUrl}}/change_logs/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"change_logs",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Retrieves the collection of ChangeLog resources.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Link",
+								"value": "",
+								"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/change_logs?order[action]=<string>&order[objectId]=<string>&order[objectClass]=<string>&order[version]=<string>&order[username]=<string>&order[dateCreated]=<string>&order[dateModified]=<string>&action=<string>&action[]=<string>&action[]=<string>&objectId=<string>&objectId[]=<string>&objectId[]=<string>&objectClass=<string>&objectClass[]=<string>&objectClass[]=<string>&version=<integer>&version[]=<integer>&version[]=<integer>&dateCreated[before]=<string>&dateCreated[strictly_before]=<string>&dateCreated[after]=<string>&dateCreated[strictly_after]=<string>&dateModified[before]=<string>&dateModified[strictly_before]=<string>&dateModified[after]=<string>&dateModified[strictly_after]=<string>&page=1&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"change_logs"
+							],
+							"query": [
+								{
+									"key": "order[action]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[objectId]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[objectClass]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[version]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[username]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[dateCreated]",
+									"value": "<string>"
+								},
+								{
+									"key": "order[dateModified]",
+									"value": "<string>"
+								},
+								{
+									"key": "action",
+									"value": "<string>"
+								},
+								{
+									"key": "action[]",
+									"value": "<string>"
+								},
+								{
+									"key": "action[]",
+									"value": "<string>"
+								},
+								{
+									"key": "objectId",
+									"value": "<string>"
+								},
+								{
+									"key": "objectId[]",
+									"value": "<string>"
+								},
+								{
+									"key": "objectId[]",
+									"value": "<string>"
+								},
+								{
+									"key": "objectClass",
+									"value": "<string>"
+								},
+								{
+									"key": "objectClass[]",
+									"value": "<string>"
+								},
+								{
+									"key": "objectClass[]",
+									"value": "<string>"
+								},
+								{
+									"key": "version",
+									"value": "<integer>"
+								},
+								{
+									"key": "version[]",
+									"value": "<integer>"
+								},
+								{
+									"key": "version[]",
+									"value": "<integer>"
+								},
+								{
+									"key": "dateCreated[before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[strictly_before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateCreated[strictly_after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[strictly_before]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[after]",
+									"value": "<string>"
+								},
+								{
+									"key": "dateModified[strictly_after]",
+									"value": "<string>"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "The collection page number"
+								},
+								{
+									"key": "extend[]",
+									"value": "<array>",
+									"description": "An array of nested objects to include in the return object"
+								},
+								{
+									"key": "fields[]",
+									"value": "<array>",
+									"description": "An array of fields to return in output, wil return all fields is not supplied"
+								},
+								{
+									"key": "validOn",
+									"value": "<dateTime>",
+									"description": "Returns object as valid on a given date time"
+								},
+								{
+									"key": "validFrom",
+									"value": "<dateTime>",
+									"description": "Returns objects valid from a given date time"
+								},
+								{
+									"key": "validUntil",
+									"value": "<dateTime>",
+									"description": "Returns objects valid until a given date time"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ChangeLog collection response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/change_logs?order[action]=<string>&order[objectId]=<string>&order[objectClass]=<string>&order[version]=<string>&order[username]=<string>&order[dateCreated]=<string>&order[dateModified]=<string>&action=<string>&action[]=<string>&action[]=<string>&objectId=<string>&objectId[]=<string>&objectId[]=<string>&objectClass=<string>&objectClass[]=<string>&objectClass[]=<string>&version=<integer>&version[]=<integer>&version[]=<integer>&dateCreated[before]=<string>&dateCreated[strictly_before]=<string>&dateCreated[after]=<string>&dateCreated[strictly_after]=<string>&dateModified[before]=<string>&dateModified[strictly_before]=<string>&dateModified[after]=<string>&dateModified[strictly_after]=<string>&page=1&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs"
+									],
+									"query": [
+										{
+											"key": "order[action]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[objectId]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[objectClass]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[version]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[username]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[dateCreated]",
+											"value": "<string>"
+										},
+										{
+											"key": "order[dateModified]",
+											"value": "<string>"
+										},
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "action[]",
+											"value": "<string>"
+										},
+										{
+											"key": "action[]",
+											"value": "<string>"
+										},
+										{
+											"key": "objectId",
+											"value": "<string>"
+										},
+										{
+											"key": "objectId[]",
+											"value": "<string>"
+										},
+										{
+											"key": "objectId[]",
+											"value": "<string>"
+										},
+										{
+											"key": "objectClass",
+											"value": "<string>"
+										},
+										{
+											"key": "objectClass[]",
+											"value": "<string>"
+										},
+										{
+											"key": "objectClass[]",
+											"value": "<string>"
+										},
+										{
+											"key": "version",
+											"value": "<integer>"
+										},
+										{
+											"key": "version[]",
+											"value": "<integer>"
+										},
+										{
+											"key": "version[]",
+											"value": "<integer>"
+										},
+										{
+											"key": "dateCreated[before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[strictly_before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateCreated[strictly_after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[strictly_before]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[after]",
+											"value": "<string>"
+										},
+										{
+											"key": "dateModified[strictly_after]",
+											"value": "<string>"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "extend[]",
+											"value": "<array>"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/ld+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"hydra:member\": [\n  {\n   \"@context\": \"<string>\",\n   \"@id\": \"<string>\",\n   \"@type\": \"<string>\",\n   \"id\": \"<uuid>\",\n   \"action\": \"<string>\",\n   \"objectId\": \"<string>\",\n   \"objectClass\": \"<string>\",\n   \"version\": \"<integer>\",\n   \"data\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"username\": \"<string>\",\n   \"session\": \"<string>\",\n   \"dateCreated\": \"<dateTime>\",\n   \"dateModified\": \"<dateTime>\"\n  },\n  {\n   \"@context\": \"<string>\",\n   \"@id\": \"<string>\",\n   \"@type\": \"<string>\",\n   \"id\": \"<uuid>\",\n   \"action\": \"<string>\",\n   \"objectId\": \"<string>\",\n   \"objectClass\": \"<string>\",\n   \"version\": \"<integer>\",\n   \"data\": [\n    \"<string>\",\n    \"<string>\"\n   ],\n   \"username\": \"<string>\",\n   \"session\": \"<string>\",\n   \"dateCreated\": \"<dateTime>\",\n   \"dateModified\": \"<dateTime>\"\n  }\n ],\n \"hydra:totalItems\": \"<integer>\",\n \"hydra:view\": {\n  \"@id\": \"<iri-reference>\",\n  \"@type\": \"<string>\",\n  \"hydra:first\": \"<iri-reference>\",\n  \"hydra:last\": \"<iri-reference>\",\n  \"hydra:next\": \"<iri-reference>\"\n },\n \"hydra:search\": {\n  \"@type\": \"<string>\",\n  \"hydra:template\": \"<string>\",\n  \"hydra:variableRepresentation\": \"<string>\",\n  \"hydra:mapping\": [\n   {\n    \"@type\": \"<string>\",\n    \"variable\": \"<string>\",\n    \"property\": \"<string>\",\n    \"required\": \"<boolean>\"\n   },\n   {\n    \"@type\": \"<string>\",\n    \"variable\": \"<string>\",\n    \"property\": \"<string>\",\n    \"required\": \"<boolean>\"\n   }\n  ]\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "Creates a ChangeLog resource.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"<object>\"",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/change_logs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"change_logs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Resource not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/change_logs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Invalid input",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/change_logs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "ChangeLog resource created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"<object>\""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/change_logs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"change_logs"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/ld+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"@context\": \"<string>\",\n \"@id\": \"<string>\",\n \"@type\": \"<string>\",\n \"id\": \"<uuid>\",\n \"action\": \"<string>\",\n \"objectId\": \"<string>\",\n \"objectClass\": \"<string>\",\n \"version\": \"<integer>\",\n \"data\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"username\": \"<string>\",\n \"session\": \"<string>\",\n \"dateCreated\": \"<dateTime>\",\n \"dateModified\": \"<dateTime>\"\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "example entities",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Retrieves a ExampleEntity resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/example_entities/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities",
+										":id"
+									],
+									"query": [
+										{
+											"key": "extend[]",
+											"value": "<array>",
+											"description": "An array of nested objects to include in the return object"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>",
+											"description": "An array of fields to return in output, wil return all fields is not supplied"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>",
+											"description": "Returns object as valid on a given date time"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>",
+											"description": "Returns objects valid from a given date time"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>",
+											"description": "Returns objects valid until a given date time"
+										}
+									],
+									"variable": [
+										{
+											"id": "34eb3b34-90e1-4a22-a771-a6fb98fca7e1",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": {
+												"content": "",
+												"type": "text/plain"
+											}
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "ExampleEntity resource response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/hal+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"name\": \"<string>\",\n \"id\": \"<string>\",\n \"description\": \"<string>\",\n \"camelCase\": \"<string>\"\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											},
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Link",
+												"value": "",
+												"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id?extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"query": [
+												{
+													"key": "extend[]",
+													"value": "<array>"
+												},
+												{
+													"key": "fields[]",
+													"value": "<array>"
+												},
+												{
+													"key": "validOn",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validFrom",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "validUntil",
+													"value": "<dateTime>"
+												}
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Replaces the ExampleEntity resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/example_entities/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "60d5b58e-36bd-433f-b1c5-805dc1c2228d",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": {
+												"content": "",
+												"type": "text/plain"
+											}
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Invalid input",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "ExampleEntity resource updated",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/hal+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"name\": \"<string>\",\n \"id\": \"<string>\",\n \"description\": \"<string>\",\n \"camelCase\": \"<string>\"\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Removes the ExampleEntity resource.",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/example_entities/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "aaefa44c-cefe-4c75-bb0f-f1fd58f9aa17",
+											"key": "id",
+											"value": "<string>",
+											"type": "string",
+											"description": {
+												"content": "",
+												"type": "text/plain"
+											}
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											},
+											{
+												"key": "Authorization",
+												"value": "",
+												"description": "The JWT of the entity performing the request"
+											},
+											{
+												"key": "API-Version",
+												"value": "",
+												"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+											},
+											{
+												"key": "X-NLX-Logrecord-ID",
+												"value": "",
+												"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+											},
+											{
+												"key": "X-NLX-Request-Process-Id",
+												"value": "",
+												"description": "A process id for purpose registration (doelbinding)"
+											},
+											{
+												"key": "X-NLX-Request-Data-Elements",
+												"value": "",
+												"description": "A list of requested data elements"
+											},
+											{
+												"key": "X-NLX-Request-Data-Subject",
+												"value": "",
+												"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+											},
+											{
+												"key": "X-NLX-Audit-Clarification",
+												"value": "",
+												"description": "A clarification as to why a request has been made  (doelbinding)"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "ExampleEntity resource deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/example_entities/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"example_entities",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Retrieves the collection of ExampleEntity resources.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Link",
+								"value": "",
+								"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/example_entities?like_name=<string>&like_description=<string>&page=<integer>&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"example_entities"
+							],
+							"query": [
+								{
+									"key": "like_name",
+									"value": "<string>"
+								},
+								{
+									"key": "like_description",
+									"value": "<string>"
+								},
+								{
+									"key": "page",
+									"value": "<integer>",
+									"description": "The collection page number"
+								},
+								{
+									"key": "extend[]",
+									"value": "<array>",
+									"description": "An array of nested objects to include in the return object"
+								},
+								{
+									"key": "fields[]",
+									"value": "<array>",
+									"description": "An array of fields to return in output, wil return all fields is not supplied"
+								},
+								{
+									"key": "validOn",
+									"value": "<dateTime>",
+									"description": "Returns object as valid on a given date time"
+								},
+								{
+									"key": "validFrom",
+									"value": "<dateTime>",
+									"description": "Returns objects valid from a given date time"
+								},
+								{
+									"key": "validUntil",
+									"value": "<dateTime>",
+									"description": "Returns objects valid until a given date time"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ExampleEntity collection response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Link",
+										"value": "",
+										"description": "A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel=\"hub\""
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/example_entities?like_name=<string>&like_description=<string>&page=<integer>&extend[]=<array>&fields[]=<array>&validOn=<dateTime>&validFrom=<dateTime>&validUntil=<dateTime>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities"
+									],
+									"query": [
+										{
+											"key": "like_name",
+											"value": "<string>"
+										},
+										{
+											"key": "like_description",
+											"value": "<string>"
+										},
+										{
+											"key": "page",
+											"value": "<integer>"
+										},
+										{
+											"key": "extend[]",
+											"value": "<array>"
+										},
+										{
+											"key": "fields[]",
+											"value": "<array>"
+										},
+										{
+											"key": "validOn",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validFrom",
+											"value": "<dateTime>"
+										},
+										{
+											"key": "validUntil",
+											"value": "<dateTime>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/hal+json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n {\n  \"name\": \"<string>\",\n  \"id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"camelCase\": \"<string>\"\n },\n {\n  \"name\": \"<string>\",\n  \"id\": \"<string>\",\n  \"description\": \"<string>\",\n  \"camelCase\": \"<string>\"\n }\n]"
+						}
+					]
+				},
+				{
+					"name": "Creates a ExampleEntity resource.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "The JWT of the entity performing the request"
+							},
+							{
+								"key": "API-Version",
+								"value": "",
+								"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+							},
+							{
+								"key": "X-NLX-Logrecord-ID",
+								"value": "",
+								"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+							},
+							{
+								"key": "X-NLX-Request-Process-Id",
+								"value": "",
+								"description": "A process id for purpose registration (doelbinding)"
+							},
+							{
+								"key": "X-NLX-Request-Data-Elements",
+								"value": "",
+								"description": "A list of requested data elements"
+							},
+							{
+								"key": "X-NLX-Request-Data-Subject",
+								"value": "",
+								"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+							},
+							{
+								"key": "X-NLX-Audit-Clarification",
+								"value": "",
+								"description": "A clarification as to why a request has been made  (doelbinding)"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/example_entities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"example_entities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Resource not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									},
+									{
+										"key": "Authorization",
+										"value": "",
+										"description": "The JWT of the entity performing the request"
+									},
+									{
+										"key": "API-Version",
+										"value": "",
+										"description": "The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)"
+									},
+									{
+										"key": "X-NLX-Logrecord-ID",
+										"value": "",
+										"description": "A  globally unique id of the request, which makes a request traceable throughout the network."
+									},
+									{
+										"key": "X-NLX-Request-Process-Id",
+										"value": "",
+										"description": "A process id for purpose registration (doelbinding)"
+									},
+									{
+										"key": "X-NLX-Request-Data-Elements",
+										"value": "",
+										"description": "A list of requested data elements"
+									},
+									{
+										"key": "X-NLX-Request-Data-Subject",
+										"value": "",
+										"description": "A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`"
+									},
+									{
+										"key": "X-NLX-Audit-Clarification",
+										"value": "",
+										"description": "A clarification as to why a request has been made  (doelbinding)"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/example_entities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "ExampleEntity resource created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/example_entities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/hal+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"name\": \"<string>\",\n \"id\": \"<string>\",\n \"description\": \"<string>\",\n \"camelCase\": \"<string>\"\n}"
+						},
+						{
+							"name": "Invalid input",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"camelCase\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/example_entities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"example_entities"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ff96896-4342-4525-9350-6caea0d54a79",
+						"exec": [
+							"// example using pm.response.to.have\r",
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// example using response assertions\r",
+							"pm.test(\"response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"\r",
+							"// example using pm.response.to.be*\r",
+							"pm.test(\"response must be valid and have a body\", function () {\r",
+							"     // assert that the status code is 200\r",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants\r",
+							"     // assert that the response has a valid JSON body\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed\r",
+							"});\r",
+							"pm.test(\"status must be 'pass'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(jsonData);\r",
+							"    //var payloadData = JSON.parse(jsonData.Payload); //parsed payload\r",
+							"\r",
+							"    //console.log(payloadData.Id);\r",
+							"    pm.expect(jsonData.status).to.equal('pass');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/health+json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{authorization}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b9e127fd-9521-46a6-bfd8-7227404ffbdb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "44211e5c-190a-48f7-8ebc-c87ce02f3c5a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "6bd1f33e-fcaf-41bd-a7f2-bbfed2cb1489",
+			"key": "baseUrl",
+			"value": "localhost"
+		},
+		{
+			"id": "a85335b6-7362-407d-9775-bc17a3842eed",
+			"key": "authorization",
+			"value": "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
