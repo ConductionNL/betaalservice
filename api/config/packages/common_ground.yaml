@@ -23,6 +23,7 @@ parameters:
     env(NOTIFICATION_ENABLED): false
     env(HEALTH_ENABLED): true
     env(APP_VERSION): "1.0.0"
+    env(APP_MAJOR_VERSION): "v1"
     env(APP_NAME): "Proto Component"
     env(APP_ID): ""
     env(APP_DESCRIPTION): "A commonground component"
@@ -30,8 +31,9 @@ parameters:
     env(APP_TITLE): "Proto Component"
     env(APP_LOGO): "zaakonline.nl"
     env(APP_HOME): "zaakonline.nl"
-    env(APP_SUBDOMAIN): "pc"
+    env(APP_SUBDOMAIN): false
     env(APP_SUBPATH): false
+    env(APP_SUBPATH_ROUTING): false
     env(APP_DEMO): "pc.zaakonline.nl"
     env(APP_WEB): false
     env(APP_INTERNAL): false
@@ -48,6 +50,7 @@ parameters:
     app_notification: "%env(NOTIFICATION_ENABLED)%"
     app_health: "%env(HEALTH_ENABLED)%"
     app_version: "%env(APP_VERSION)%"
+    app_major_version: "%env(APP_MAJOR_VERSION)%"
     app_name: "%env(APP_NAME)%"
     app_id: "%env(APP_ID)%"
     app_description: "%env(APP_DESCRIPTION)%"
@@ -58,6 +61,7 @@ parameters:
     app_home: "%env(APP_HOME)%"
     app_subdomain: "%env(APP_SUBDOMAIN)%"
     app_subpath: "%env(APP_SUBPATH)%"
+    app_subpath_routing: "%env(APP_SUBPATH_ROUTING)%"
     app_demo: "%env(APP_DEMO)%"
     app_container: "%env(APP_CONTAINER)%"
     app_repro: "%env(APP_REPRO)%"
@@ -190,35 +194,35 @@ parameters:
         drc:
             location: "%env(APP_COMMONGROUND_DRC_LOCATION)%"
             auth: "jwt"
-            id: "huwelijksplanner-Wex83XXe"
+            id: "%env(APP_COMMONGROUND_DRC_ID)%"
             secret: "%env(APP_COMMONGROUND_DRC_SECRET)%"
             accept: "application/json"
             autowire: false
         ac:
             location: "%env(APP_COMMONGROUND_AC_LOCATION)%"
             auth: "jwt"
-            id: "huwelijksplanner-Wex83XXe"
+            id: "%env(APP_COMMONGROUND_AC_ID)%"
             secret: "%env(APP_COMMONGROUND_AC_SECRET)%"
             accept: "application/json"
             autowire: false
         nrc:
             location: "%env(APP_COMMONGROUND_NRC_LOCATION)%"
             auth: "jwt"
-            id: "huwelijksplanner-Wex83XXe"
+            id: "%env(APP_COMMONGROUND_NRC_ID)%"
             secret: "%env(APP_COMMONGROUND_NRC_SECRET)%"
             accept: "application/json"
             autowire: false
         zrc:
-            location: "%env(APP_COMMONGROUND_NRC_LOCATION)%"
+            location: "%env(APP_COMMONGROUND_ZRC_LOCATION)%"
             auth: "jwt"
-            id: "huwelijksplanner-Wex83XXe"
-            secret: "%env(APP_COMMONGROUND_NRC_SECRET)%"
+            id: "%env(APP_COMMONGROUND_ZRC_ID)%"
+            secret: "%env(APP_COMMONGROUND_ZRC_SECRET)%"
             accept: "application/json"
             autowire: false
         ztc:
             location: "%env(APP_COMMONGROUND_ZTC_LOCATION)%"
             auth: "jwt"
-            id: "huwelijksplanner-Wex83XXe"
+            id: "%env(APP_COMMONGROUND_ZTC_ID)%"
             secret: "%env(APP_COMMONGROUND_ZTC_SECRET)%"
             accept: "application/json"
             autowire: false
@@ -291,6 +295,7 @@ twig:
         app_notification: "%env(NOTIFICATION_ENABLED)%"
         app_health: "%env(HEALTH_ENABLED)%"
         app_version: "%env(APP_VERSION)%"
+        app_major_version: "%env(APP_MAJOR_VERSION)%"
         app_name: "%env(APP_NAME)%"
         app_id: "%env(APP_ID)%"
         app_description: "%env(APP_DESCRIPTION)%"
@@ -300,10 +305,13 @@ twig:
         app_logo: "%env(APP_LOGO)%"
         app_home: "%env(APP_HOME)%"
         app_subdomain: "%env(APP_SUBDOMAIN)%"
+        app_subpath: "%env(APP_SUBPATH)%"
+        app_subpath_routing: "%env(APP_SUBPATH_ROUTING)%"
         app_demo: "%env(APP_DEMO)%"
         app_container: "%env(APP_CONTAINER)%"
         app_repro: "%env(APP_REPRO)%"
         app_web: "%env(APP_WEB)%"
+        app_internal: "%env(APP_INTERNAL)%"
         app_build_all_fixtures: "%env(APP_BUILD_ALL_FIXTURES)%"
 
         # Security Details
