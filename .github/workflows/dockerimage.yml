@@ -27,6 +27,7 @@ jobs:
               id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDay in UTC
               run: |
                export RELEASE=$VERSION.$(date --utc +%y%m%d)
+               echo ::set-env name=RELEASE::$RELEASE
                echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
               run: |
