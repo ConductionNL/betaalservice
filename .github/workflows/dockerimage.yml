@@ -26,6 +26,7 @@ jobs:
               if: (success() || failure())
               id: releasecode #version number in a more comprehensible format: 0.1.YearMonthDay in UTC
               run: |
+               export NAME=$(grep APP_VERSION= .env | cut -d '=' -f2)
                export RELEASE=$VERSION.$(date --utc +%y%m%d)
                echo ::set-env name=RELEASE::$RELEASE
                echo "##[set-output name=releasename]$RELEASE"
@@ -96,9 +97,9 @@ jobs:
                   else
                     echo "##[set-output name=success;]false"
                   fi
-            - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
-              name: Push to docker hub
-              run: docker-compose push
+#            - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
+#              name: Push to docker hub
+#              run: docker-compose push
             - name: Create kube config
               id: kubeconfig
               if: contains( github.ref, 'development' )
