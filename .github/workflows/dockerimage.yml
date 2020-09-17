@@ -82,7 +82,9 @@ jobs:
                   images=$(docker-compose images -q | xargs docker inspect --format='{{ index .RepoTags 0}}' | cut -d':' -f1)
                   for image in $images
                   do
-                    docker tag "${image}":"${APP_BUILD}" "${image}":latest
+                    if [[ $image == *"conduction"* ]]; then
+                        docker tag "${image}":"${APP_BUILD}" "${image}":latest
+                    fi
                   done
             - name: Chores
               run: docker-compose down
