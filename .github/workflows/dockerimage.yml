@@ -86,6 +86,7 @@ jobs:
                         docker tag "${image}":latest "${image}":"${APP_BUILD}"
                     fi
                   done
+                  echo ::set-env name=IMAGES::$images
             - name: Chores
               run: docker-compose down
             - name: Show all images
@@ -102,6 +103,15 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/development')
               name: Push to docker hub
               run: docker-compose push
+            - if: steps.dockerhub-login.outputs.success == 'true' && github.ref == 'refs/heads/master'
+              name: Push versioned containers to Docker Hub
+              run: |
+                  for image in $images
+                  do
+                    if [[ $image == *"conduction"* ]]; then
+                        docker push "${image}":"${APP_BUILD}"
+                    fi
+                  done
             - name: Create kube config
               id: kubeconfig
               if: contains( github.ref, 'development' )
