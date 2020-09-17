@@ -106,7 +106,7 @@ jobs:
             - if: steps.dockerhub-login.outputs.success == 'true' && github.ref == 'refs/heads/master'
               name: Push versioned containers to Docker Hub
               run: |
-                  for image in $images
+                  for image in $IMAGES
                   do
                     if [[ $image == *"conduction"* ]]; then
                         docker push "${image}":"${APP_BUILD}"
