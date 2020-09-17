@@ -83,7 +83,7 @@ jobs:
                   for image in $images
                   do
                     if [[ $image == *"conduction"* ]]; then
-                        docker tag "${image}":"${APP_BUILD}" "${image}":latest
+                        docker tag "${image}":latest "${image}":"${APP_BUILD}"
                     fi
                   done
             - name: Chores
