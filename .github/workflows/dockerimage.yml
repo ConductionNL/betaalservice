@@ -76,8 +76,6 @@ jobs:
             - name: Run Postman Tests
               if: contains( github.ref, 'master' ) == false && contains( github.base_ref, 'master' ) == false
               run: newman run api/public/schema/*.postman_collection.json
-            - name: Chores
-              run: docker-compose down
             - name: Add docker tags
               if: github.ref == 'refs/heads/master'
               run: |
@@ -86,6 +84,8 @@ jobs:
                   do
                     docker tag "${image}":"${APP_BUILD}" "${image}":latest
                   done
+            - name: Chores
+              run: docker-compose down
             - name: Show all images
               run: docker images
             - name: Login to DockerHub Registry
