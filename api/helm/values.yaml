@@ -7,7 +7,8 @@ settings:
   projectName: bc
   name: bc
   title: Betaal Service
-  version: V.0.1
+  version: V1.0
+  majorVersion: v1
   id: 
   description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
   type: component
@@ -16,6 +17,8 @@ settings:
   container: https://hub.docker.com/repository/docker/conduction/bc-php
   domain: conduction.nl
   subdomain: bc
+  subpath: bc
+  subpathRouting: true
   organisationName: Conduction
   email: info@conduction.nl
   country: Netherlands
