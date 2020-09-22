@@ -1,13 +1,13 @@
 openapi: 3.0.2
 info:
   title: 'Betaal Service'
-  version: V.0.1
+  version: V1.0
   description: |
     API Details
     - Component: Betaal Service
     - Reference: bc
     - Enviroment: dev
-    - Version: V.0.1
+    - Version: V1.0
     - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/bc-php) 
     - Datamodel: [postman](/schema/bc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
@@ -10733,12 +10733,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-25 08:33:06'
+        example: '2020-09-17 13:12:34'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-25 08:33:06'
+        example: '2020-09-17 13:12:34'
     required: []
   ChangeLog-write:
     properties:
@@ -10852,12 +10852,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-08-25 08:33:06'
+        example: '2020-09-17 13:12:34'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-08-25 08:33:06'
+        example: '2020-09-17 13:12:34'
     required: []
   AuditTrail-write:
     properties:
