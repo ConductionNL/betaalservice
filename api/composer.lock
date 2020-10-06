@@ -555,12 +555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConductionNL/CommonGroundBundle.git",
-                "reference": "f7bd33ea9bc67c0918118aa0e259d9d8e90468ef"
+                "reference": "e44b488a700ba71f645482a200a9015f4cb20412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/f7bd33ea9bc67c0918118aa0e259d9d8e90468ef",
-                "reference": "f7bd33ea9bc67c0918118aa0e259d9d8e90468ef",
+                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/e44b488a700ba71f645482a200a9015f4cb20412",
+                "reference": "e44b488a700ba71f645482a200a9015f4cb20412",
                 "shasum": ""
             },
             "require": {
@@ -638,7 +638,7 @@
                 "postcode",
                 "rsin"
             ],
-            "time": "2020-09-15T07:46:05+00:00"
+            "time": "2020-10-05T14:33:52+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -5024,16 +5024,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.7.0",
+            "version": "v1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "d606fabffa3547a61632bcf3b3bb677e79475449"
+                "reference": "115e67f76ba95d70946a6e0b15d4578bf04927c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/d606fabffa3547a61632bcf3b3bb677e79475449",
-                "reference": "d606fabffa3547a61632bcf3b3bb677e79475449",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/115e67f76ba95d70946a6e0b15d4578bf04927c3",
+                "reference": "115e67f76ba95d70946a6e0b15d4578bf04927c3",
                 "shasum": ""
             },
             "require": {
@@ -8515,6 +8515,7 @@
                 "i18n",
                 "text"
             ],
+            "abandoned": true,
             "time": "2018-12-05T18:34:18+00:00"
         },
         {
