@@ -57,6 +57,7 @@ services:
       - APP_BUILD_ALL_FIXTURES=${APP_BUILD_ALL_FIXTURES}
       - APP_WEB=${APP_WEB}
       - APP_INTERNAL${APP_INTERNAL}
+      - APP_URL${APP_URL}
       - ORGANIZATION_NAME=${ORGANIZATION_NAME}
       - ORGANIZATION_EMAIL_ADDRESS=${ORGANIZATION_EMAIL_ADDRESS}
       - ORGANIZATION_COUNTRY_NAME=${ORGANIZATION_COUNTRY_NAME}
@@ -233,9 +234,9 @@ services:
       - MYSQL_USER=api-platform
       - MYSQL_PASSWORD=!ChangeMe!
     volumes:
-      - db-mysql:/var/lib/mysql:rw 
+      - db-mysql:/var/lib/mysql:rw
     ports:
-     - "3366:3306"
+      - "3366:3306"
 
   mercure:
     # In production, you may want to use the managed version of Mercure, https://mercure.rocks
@@ -258,3 +259,4 @@ volumes:
   db-data: {}
   db-mysql: {}
   nlx-data-2: {}
+
