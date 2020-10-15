@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
-    <title>{% if title %}{{ title }} - {% endif %}API Platform</title>
+    <title>{% if title %}{{ title }} - {% endif %}Common Ground Component</title>
 
-    <link rel="stylesheet" href="{{ asset('bundles/apiplatform/graphql-playground/index.css') }}">
+    <link rel="stylesheet" href="{{ commonground_path('api_entrypoint') }}bundles/apiplatform/graphql-playground/index.css">
 
-    <script src="{{ asset('bundles/apiplatform/graphql-playground/middleware.js') }}"></script>
+    <script src="{{ commonground_path('api_entrypoint') }}bundles/apiplatform/graphql-playground/middleware.js"></script>
     {# json_encode(65) is for JSON_UNESCAPED_SLASHES|JSON_HEX_TAG to avoid JS XSS #}
     <script id="graphql-playground-data" type="application/json">{{ graphql_playground_data|json_encode(65)|raw }}</script>
-    
+
     <style>
     #graphiql .graphiql-container .topBarWrap {
     background-color: #FFF;
 	} #
-	
+
 	#graphiql .graphiql-container .title {
     color: #009FE4;
     display: flex;
     align-items: center;
 	}
-	
+
 	#graphiql .graphiql-container .docExplorerShow {
     color: white;
     text-transform: uppercase;
 	}
-   
+
    </style>
 </head>
 
@@ -534,13 +534,13 @@
         </g>
     </svg>
     <div class="text">Loading
-        <span class="dGfHfc">API Platform GraphQL Playground</span>
+        <span class="dGfHfc">{% if title %}{{ title }} - {% endif %}Common Ground Component </span>
     </div>
 </div>
 
 <div id="graphql-playground" />
 
-<script src="{{ asset('bundles/apiplatform/init-graphql-playground.js') }}"></script>
+<script src="{{ commonground_path('api_entrypoint') }}bundles/apiplatform/init-graphql-playground.js"></script>
 
 </body>
 </html>
