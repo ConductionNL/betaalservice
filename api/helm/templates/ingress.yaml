@@ -4,8 +4,8 @@ kind: Ingress
 metadata:
   annotations:
     # add an annotation indicating the issuer to use.
-    cert-manager.io/acme-challenge-type: http01
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+#    cert-manager.io/acme-challenge-type: http01
+#    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   name: {{ .Values.settings.name }}-{{ .Values.settings.env }}-ingress
   labels:
@@ -15,10 +15,10 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  tls: 
-  - hosts: 
-    - {{ $.Values.settings.domain }}
-    secretName: {{ template "fullname" . }}
+#  tls: 
+#  - hosts: 
+#    - {{ $.Values.settings.domain }}
+#    secretName: {{ template "fullname" . }}
   rules:
     {{- if and (eq $.Values.settings.env "prod") (eq $.Values.settings.type "component") }}
 
