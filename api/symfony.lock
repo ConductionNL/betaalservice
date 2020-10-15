@@ -19,6 +19,9 @@
     "api-platform/schema-generator": {
         "version": "v2.1.0"
     },
+    "beberlei/doctrineextensions": {
+        "version": "v1.2.7"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
