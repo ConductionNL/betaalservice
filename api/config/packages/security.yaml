@@ -15,7 +15,7 @@ security:
         # In order to read the docs we must allow anonymous GET reqoust on root    
         docs:
             anonymous: true
-            pattern:  (^/$|^/docs|^/docs/$)
+            pattern:  (^/$|^/docs|^/docs/$|^/graphql/graphiql|^/graphql/graphiql/$|^/graphql/graphql_playground|^/graphql/graphql_playground/$)
             methods: [GET]
         # The mollie webhook does not have our API key
         webhook:
