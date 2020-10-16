@@ -185,6 +185,11 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-subpath-routing
+            - name: APP_SUBPATH
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: app-subpath
             
             # bla bla      
             - name: CORS_ALLOW_ORIGIN
