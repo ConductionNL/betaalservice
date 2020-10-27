@@ -185,6 +185,11 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-subpath-routing
+            - name: APP_SUBPATH
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: app-subpath
             
             # bla bla      
             - name: CORS_ALLOW_ORIGIN
@@ -239,6 +244,20 @@ spec:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: app_user_key
+            - name: APP_URL
+              {{- if and (eq $.Values.settings.env "prod") (eq $.Values.settings.type "component") }}
+              value: https://{{ $.Values.settings.domain }}/api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}
+              {{- else if and (eq $.Values.settings.env "prod") $.Values.settings.subpath }}
+              value: https://{{ $.Values.settings.domain }}/{{ $.Values.settings.subpath }}
+              {{- else if eq $.Values.settings.env "prod" }}
+              value: https://{{ $.Values.settings.domain }}
+              {{- else if eq $.Values.settings.type "component" }}
+              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}/api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}
+              {{- else if $.Values.settings.subpath }}
+              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}/{{ $.Values.settings.subpath }}
+              {{- else }}
+              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}
+              {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
