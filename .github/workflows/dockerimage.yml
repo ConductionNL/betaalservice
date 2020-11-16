@@ -28,12 +28,12 @@ jobs:
               run: |
                export VERSION=$(grep APP_VERSION= .env | cut -d '=' -f2)
                export RELEASE=$VERSION.$(date --utc +%y%m%d)
-               echo ::set-env name=RELEASE::$RELEASE
+               echo "RELEASE=$RELEASE" >> $GITHUB_ENV
                echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
               run: |
                   export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
-                  echo ::set-env name=APP_NAME::$NAME
+                  echo "APP_NAME=$NAME" >> $GITHUB_ENV
             - name: Print app name
               run: echo "APP_NAME = $APP_NAME"
             - name: Setting APP_ENV to dev
