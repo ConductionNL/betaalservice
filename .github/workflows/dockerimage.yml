@@ -28,30 +28,30 @@ jobs:
               run: |
                export VERSION=$(grep APP_VERSION= .env | cut -d '=' -f2)
                export RELEASE=$VERSION.$(date --utc +%y%m%d)
-               echo ::set-env name=RELEASE::$RELEASE
+               echo "RELEASE=$RELEASE" >> $GITHUB_ENV
                echo "##[set-output name=releasename]$RELEASE"
             - name: Setting APP_NAME
               run: |
                   export NAME=$(grep APP_NAME= .env | cut -d '=' -f2)
-                  echo ::set-env name=APP_NAME::$NAME
+                  echo "APP_NAME=$NAME" >> $GITHUB_ENV
             - name: Print app name
               run: echo "APP_NAME = $APP_NAME"
             - name: Setting APP_ENV to dev
               run: |
-                  echo ::set-env name=APP_ENV::dev
-                  echo ::set-env name=APP_BUILD::dev
+                  echo "APP_ENV=dev">> $GITHUB_ENV
+                  echo "APP_BUILD=dev">> $GITHUB_ENV
                   echo "set APP_ENV to $APP_ENV"
             - name: Setting APP_ENV to prod
               if: contains( github.ref, 'master' ) || contains( github.base_ref, 'master' )
               run: |
-                  echo ::set-env name=APP_ENV::latest
-                  echo ::set-env name=APP_BUILD::$RELEASE
+                  echo "APP_ENV=latest">> $GITHUB_ENV
+                  echo "APP_BUILD=$RELEASE">> $GITHUB_ENV
                   echo "set APP_ENV to $APP_ENV"
             - name: Setting APP_ENV to stag
               if: contains( github.ref, 'staging' ) || contains( github.base_ref, 'staging' )
               run: |
-                  echo ::set-env name=APP_ENV::stag
-                  echo ::set-env name=APP_BUILD::stag
+                  echo "APP_ENV=stag">> $GITHUB_ENV
+                  echo "APP_BUILD=stag">> $GITHUB_ENV
                   echo "set APP_ENV to $APP_ENV" 
             - name: Print definitive APP_ENV
               run: echo "APP_ENV is now $APP_ENV and APP_BUILD is now $APP_BUILD"
@@ -86,7 +86,7 @@ jobs:
                         docker tag "${image}":latest "${image}":"${APP_BUILD}"
                     fi
                   done
-                  echo ::set-env name=IMAGES::$images
+                  echo "IMAGES=$images" >> $GITHUB_ENV
             - name: Chores
               run: docker-compose down
             - name: Show all images
