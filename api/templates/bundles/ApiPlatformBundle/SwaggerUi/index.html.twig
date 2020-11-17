@@ -135,7 +135,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 {% block javascript %}
-    <redoc spec-url='schema/openapi.yaml'></redoc>
+    <redoc spec-url="{{ commonground_path('api_entrypoint') }}/schema/openapi.yaml"></redoc>
     <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
     {# if (reDocEnabled and not swaggerUiEnabled) or (reDocEnabled and 're_doc' == active_ui) %}
         <script src="{{ asset('bundles/apiplatform/redoc/redoc.standalone.js') }}"></script>

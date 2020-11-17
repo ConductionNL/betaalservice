@@ -16,7 +16,7 @@ doctrine:
             money: Tbbc\MoneyBundle\Type\MoneyType
     orm:
         dql:
-            datetime_functions:
+           datetime_functions:
                 DAY: DoctrineExtensions\Query\Mysql\Day
                 MONTH: DoctrineExtensions\Query\Mysql\Month
                 YEAR: DoctrineExtensions\Query\Mysql\Year
@@ -30,14 +30,26 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            gedmo_translatable:
+                type: annotation
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
+                alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                is_bundle: false
+            gedmo_translator:
+                type: annotation
+                prefix: Gedmo\Translator\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translator/Entity"
+                alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                is_bundle: false
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity"
                 alias: GedmoLoggable # (optional) it will default to the name set for the mapping
                 is_bundle: false
             conduction_common_ground_bundle:
                 is_bundle: false
                 prefix: Conduction\CommonGroundBundle\Entity
                 type: annotation
-                dir: "%kernel.root_dir%/../vendor/conduction/commongroundbundle/Entity"
+                dir: "%kernel.project_dir%/vendor/conduction/commongroundbundle/Entity"
