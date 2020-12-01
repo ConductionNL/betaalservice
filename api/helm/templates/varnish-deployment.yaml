@@ -24,7 +24,11 @@ spec:
     spec:
       containers:
         - name: {{ .Values.settings.name }}-varnish
+        {{ if eq .Values.settings.env "prod"}}
+          image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-varnish:latest"
+        {{ else }}
           image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-varnish:{{ .Values.settings.env }}"
+        {{ end }}
           imagePullPolicy: {{ .Values.settings.pullPolicy }}
           env:
             - name: BACKENDS
