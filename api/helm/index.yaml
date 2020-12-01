@@ -3,10 +3,10 @@ entries:
   pc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2020-12-01T09:10:35.0037055Z"
+    created: "2020-12-01T09:51:49.9937195Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 7ae621c27d1cfe136bab1643ea541d4a71ed8660449a07ef477806c9ba92a1cf
+    digest: 0b48e6b3faa2292b92b7582802ce074575d0d4d05bb3d1e6858e81303e349987
     home: pc.zaakonline.nl
     icon: pc.zaakonline.nl
     name: pc
@@ -14,14 +14,19 @@ entries:
     - pc-0.1.0.tgz
     version: 0.1.0
   postgresql:
-  - apiVersion: v1
-    appVersion: 11.7.0
-    created: "2020-12-01T09:10:35.0343182Z"
-    deprecated: true
-    description: DEPRECATED Chart for PostgreSQL, an object-relational database management
-      system (ORDBMS) with an emphasis on extensibility and on standards-compliance.
-    digest: 00745b88e84403be696b7514c6e8c02710d81eb6074876b0700fa28fd47a9b43
-    home: https://www.postgresql.org/
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 11.10.0
+    created: "2020-12-01T09:51:50.0079035Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 1.x.x
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
+    home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
     icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
     keywords:
     - postgresql
@@ -30,10 +35,16 @@ entries:
     - sql
     - replication
     - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
     name: postgresql
     sources:
     - https://github.com/bitnami/bitnami-docker-postgresql
+    - https://www.postgresql.org/
     urls:
-    - charts/postgresql-8.6.4.tgz
-    version: 8.6.4
-generated: "2020-12-01T09:10:34.9819236Z"
+    - charts/postgresql-10.1.1.tgz
+    version: 10.1.1
+generated: "2020-12-01T09:51:49.9775126Z"
