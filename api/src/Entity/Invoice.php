@@ -252,7 +252,7 @@ class Invoice
      * @var Payment The payments of this Invoice
      *
      * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="invoice")
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="invoice", cascade={"persist"})
      * @MaxDepth(1)
      */
     private $payments;
@@ -292,7 +292,7 @@ class Invoice
 
     /**
      * @var string Indicator whether the invoice is paid or not
-     * @Groups({"read"})
+     * @Groups({"read", "write"})
      */
     private $paid = false;
 
