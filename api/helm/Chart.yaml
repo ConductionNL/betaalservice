@@ -1,7 +1,12 @@
 apiVersion: v1
 appVersion: V1.0
-description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.&#039;'
+description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
 name: bc
 version: 0.1.0
 home: pc.zaakonline.nl
 icon: pc.zaakonline.nl
+dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.1.1
+      condition: postgresql.enabled

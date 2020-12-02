@@ -21,7 +21,6 @@ This repository uses the power of conductions [commonground bundle](https://pack
 
 Be sure to read our [design considerations](/design.md) concerning the [VNG Api Strategie](https://docs.geostandaarden.nl/api/API-Strategie/). 
 
-
 Requesting features
 -------
 Do you need a feature that is not on this list? don't hesitate to send us a [feature request](https://github.com/ConductionNL/commonground-component/issues/new?assignees=&labels=&template=feature_request.md&title=).  
