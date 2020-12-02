@@ -134,7 +134,7 @@ class Invoice
      * @example 6666-2019-0000000012
      *
      * @Gedmo\Versioned
-     * @Groups({"read"})
+     * @Groups({"read", "write"})
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Assert\Length(
      *     max = 255
