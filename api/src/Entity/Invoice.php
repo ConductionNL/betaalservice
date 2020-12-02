@@ -244,7 +244,7 @@ class Invoice
      *     max = 255
      * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, name="order_uri")
+     * @ORM\Column(type="string", length=255, nullable=true, name="order_uri")
      */
     private $order;
 
