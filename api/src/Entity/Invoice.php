@@ -160,7 +160,6 @@ class Invoice
      * @example 002851234
      *
      * @Gedmo\Versioned
-     * @Assert\NotNull
      * @Assert\Length(
      *     max = 255
      * )
