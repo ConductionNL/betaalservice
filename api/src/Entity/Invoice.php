@@ -621,11 +621,7 @@ class Invoice
 
     public function getPaid(): ?bool
     {
-        if (count($this->getAllPaidPayments()) >= 1) {
-            return true;
-        }
-
-        return false;
+        return $this->paid;
     }
 
     public function setPaid(?bool $paid): self
