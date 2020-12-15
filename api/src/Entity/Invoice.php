@@ -292,6 +292,7 @@ class Invoice
     /**
      * @var string Indicator whether the invoice is paid or not
      * @Groups({"read", "write"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $paid = false;
 
@@ -625,6 +626,13 @@ class Invoice
         }
 
         return false;
+    }
+
+    public function setPaid(?bool $paid): self
+    {
+        $this->paid = $paid;
+
+        return $this;
     }
 
     public function getService(): ?Service
