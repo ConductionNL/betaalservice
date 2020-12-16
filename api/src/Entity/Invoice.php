@@ -80,7 +80,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "id":"exact",
  *     "name":"partial",
  *     "order":"exact",
- *     "costumer":"exact"
+ *     "customer":"exact"
  * })
  */
 class Invoice
@@ -134,7 +134,7 @@ class Invoice
      * @example 6666-2019-0000000012
      *
      * @Gedmo\Versioned
-     * @Groups({"read"})
+     * @Groups({"read", "write"})
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Assert\Length(
      *     max = 255
@@ -160,7 +160,6 @@ class Invoice
      * @example 002851234
      *
      * @Gedmo\Versioned
-     * @Assert\NotNull
      * @Assert\Length(
      *     max = 255
      * )
@@ -244,7 +243,7 @@ class Invoice
      *     max = 255
      * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, name="order_uri")
+     * @ORM\Column(type="string", length=255, nullable=true, name="order_uri")
      */
     private $order;
 
@@ -293,6 +292,7 @@ class Invoice
     /**
      * @var string Indicator whether the invoice is paid or not
      * @Groups({"read", "write"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $paid = false;
 
@@ -621,11 +621,14 @@ class Invoice
 
     public function getPaid(): ?bool
     {
-        if (count($this->getAllPaidPayments()) >= 1) {
-            return true;
-        }
+        return $this->paid;
+    }
 
-        return false;
+    public function setPaid(?bool $paid): self
+    {
+        $this->paid = $paid;
+
+        return $this;
     }
 
     public function getService(): ?Service
