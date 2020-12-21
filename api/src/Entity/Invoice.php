@@ -66,6 +66,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *                  "summary"="Create an invoice by just providing an order",
  *                  "description"="Create an invoice by just providing an order"
  *              }
+ *          },
+ *          "post_status"={
+ *              "method"="POST",
+ *              "path"="status",
+ *              "swagger_context" = {
+ *                  "summary"="Check status of mollie payment",
+ *                  "description"="Check status of mollie payment"
+ *              }
  *          }
  *     }
  * )
@@ -279,6 +287,18 @@ class Invoice
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentUrl;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentId;
+
+    /**
+     * @Groups({"read"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
 
     /**
      * @var string Remarks on this invoice
@@ -603,6 +623,30 @@ class Invoice
     public function setPaymentUrl(?string $paymentUrl): self
     {
         $this->paymentUrl = $paymentUrl;
+
+        return $this;
+    }
+
+    public function getPaymentId(): ?string
+    {
+        return $this->paymentId;
+    }
+
+    public function setPaymentId(?string $paymentId): self
+    {
+        $this->paymentId = $paymentId;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

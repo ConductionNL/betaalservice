@@ -29,7 +29,7 @@ class MollieService
         }
     }
 
-    public function createPayment(Invoice $invoice, Request $request): string
+    public function createPayment(Invoice $invoice, Request $request): array
     {
         $domain = $request->getHttpHost();
         if ($request->isSecure()) {
@@ -55,8 +55,9 @@ class MollieService
                         'order_id' => $invoice->getReference(),
                     ],
                 ]);
-
-                return $molliePayment->getCheckoutUrl();
+                $object['checkOutUrl'] = $molliePayment->getCheckoutUrl();
+                $object['mollieId'] = $molliePayment->id;
+                return $object;
             } catch (ApiException $e) {
                 return '<section><h2>Could not connect to payment provider</h2>'.$e->getMessage().'</section>';
             }
@@ -95,5 +96,12 @@ class MollieService
         }
 
         return null;
+    }
+
+    public function checkPayment(string $paymentId) {
+        $payment = $this->mollie->payments->get($paymentId);
+        $object['status'] = $payment->status;
+        $object['paid'] = $payment->isPaid();
+        return $object;
     }
 }

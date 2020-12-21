@@ -191,8 +191,9 @@ class OrderSubscriber implements EventSubscriberInterface
             switch ($paymentService->getType()) {
                 case 'mollie':
                     $mollieService = new MollieService($paymentService);
-                    $paymentUrl = $mollieService->createPayment($invoice, $event->getRequest());
-                    $invoice->setPaymentUrl($paymentUrl);
+                    $payment = $mollieService->createPayment($invoice, $event->getRequest());
+                    $invoice->setPaymentUrl($payment['checkOutUrl']);
+                    $invoice->setPaymentId($payment['mollieId']);
                     break;
                 case 'sumup':
                     $sumupService = new SumUpService($paymentService);

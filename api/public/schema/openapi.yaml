@@ -3320,6 +3320,24 @@ paths:
               - asc
               - desc
         -
+          name: 'order[paymentId]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[status]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[remark]'
           in: query
           required: false
@@ -7656,6 +7674,137 @@ paths:
           description: 'Resource not found'
       produces:
         - application/health+json
+  /status:
+    post:
+      tags:
+        - Invoice
+      operationId: post_statusInvoiceCollection
+      summary: 'Creates a Invoice resource.'
+      responses:
+        201:
+          description: 'Invoice resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+          links:
+            GetInvoiceItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getInvoiceItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /invoices/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+        description: 'The new Invoice resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
   /taxes:
     get:
       tags:
@@ -9241,6 +9390,12 @@ components:
         paymentUrl:
           type: string
           nullable: true
+        paymentId:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
         remark:
           description: 'Remarks on this invoice'
           type: string
@@ -9407,6 +9562,12 @@ components:
             -
               $ref: '#/components/schemas/Organization:jsonld-read'
         paymentUrl:
+          type: string
+          nullable: true
+        paymentId:
+          type: string
+          nullable: true
+        status:
           type: string
           nullable: true
         remark:
@@ -10368,6 +10529,8 @@ definitions:
         example: 'https://example.org/people/1'
         format: url
       paymentUrl: []
+      paymentId: []
+      status: []
       remark:
         description: 'Remarks on this invoice'
         type: string
@@ -10861,12 +11024,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 13:48:29'
+        example: '2020-12-21 17:34:05'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 13:48:29'
+        example: '2020-12-21 17:34:05'
     required: []
   AuditTrail-write:
     properties:
@@ -10914,12 +11077,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 13:48:29'
+        example: '2020-12-21 17:34:05'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 13:48:29'
+        example: '2020-12-21 17:34:05'
     required: []
   ChangeLog-write:
     properties:
