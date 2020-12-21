@@ -29,7 +29,7 @@ class MollieService
         }
     }
 
-    public function createPayment(Invoice $invoice, Request $request): array
+    public function createPayment(Invoice $invoice, Request $request)
     {
         $domain = $request->getHttpHost();
         if ($request->isSecure()) {
