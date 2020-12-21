@@ -285,21 +285,15 @@ class Invoice
     /**
      * @var string url of payment
      *
-     * @Groups({"read","write"})
+     * @Groups({"read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentUrl;
 
     /**
-     * @var string id of payment
+     * @var string url of payment
      *
-     * @Gedmo\Versioned
-     *
-     * @example 41231saf
-     * @Groups({"read","write"})
-     * @Assert\Length(
-     *     max=255
-     * )
+     * @Groups({"read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentId;
