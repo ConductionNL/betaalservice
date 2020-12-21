@@ -97,7 +97,6 @@ class StatusSubscriber implements EventSubscriberInterface
         $service = $invoice->getService();
 
         $mollieService = new MollieService($service);
-        var_dump($invoice->getPaymentId());
         $result = $mollieService->checkPayment($invoice->getPaymentId());
 
         $invoice->setStatus($result['status']);
