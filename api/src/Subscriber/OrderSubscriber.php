@@ -7,6 +7,7 @@ use App\Entity\Invoice;
 use App\Entity\InvoiceItem;
 use App\Entity\Organization;
 use App\Entity\Payment;
+use App\Entity\Service;
 use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
@@ -78,6 +79,8 @@ class OrderSubscriber implements EventSubscriberInterface
 
         $needed = [
             'url',
+            'mollieKey',
+            'redirectUrl'
 
         ];
 
@@ -88,6 +91,9 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $order = $this->commonGroundService->getResource($post['url']);
+        $mollieKey = $post['mollieKey'];
+        $redirectUrl = $post['redirectUrl'];
+
 
         $invoice = new Invoice();
 
@@ -117,10 +123,18 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
 
+        $organization->setRedirectUrl($redirectUrl);
+        $service = new Service();
+        $service->setAuthorization($mollieKey);
+        $service->setOrganization($organization);
+        $service->setType('mollie');
+
+
         $invoice->setPrice($order['price']);
         $invoice->setPriceCurrency($order['priceCurrency']);
         $invoice->setOrganization($organization);
         $invoice->setTargetOrganization($order['organization']);
+        $invoice->setService($service);
 
         $invoiceItem = new InvoiceItem();
         $invoiceItem->setName($order['reference']);
@@ -156,6 +170,7 @@ class OrderSubscriber implements EventSubscriberInterface
 
         // Lets throw it in the db
         $this->em->persist($organization);
+        $this->em->persist($service);
         $this->em->persist($invoice);
         $this->em->flush();
         $orderUpdate = [];
@@ -168,10 +183,9 @@ class OrderSubscriber implements EventSubscriberInterface
         // Only create payment links if a payment service is configured
         if (
             (!$paymentService = $invoice->getService()) &&
-            $invoice->getOrganization() != null &&
-            count($invoice->getOrganization()->getServices()) > 0
+            $invoice->getOrganization() != null
         ) {
-            $paymentService = $invoice->getOrganization()->getServices()[0];
+            $paymentService = $invoice->getService();
         }
         if (isset($paymentService)) {
             switch ($paymentService->getType()) {

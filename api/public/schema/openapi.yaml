@@ -3329,6 +3329,15 @@ paths:
               - asc
               - desc
         -
+          name: 'order[paid]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'dateCreated[before]'
           in: query
           required: false
@@ -3406,6 +3415,22 @@ paths:
             type: string
         -
           name: 'order[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: customer
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'customer[]'
           in: query
           required: false
           schema:
@@ -9197,6 +9222,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9220,9 +9246,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9230,7 +9256,6 @@ components:
             -
               $ref: '#/components/schemas/Service-read'
       required:
-        - targetOrganization
         - price
         - customer
     Invoice-write:
@@ -9243,6 +9268,10 @@ components:
           nullable: true
         description:
           description: 'The description of the invoice'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
         targetOrganization:
@@ -9265,6 +9294,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9280,9 +9310,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9290,7 +9320,6 @@ components:
             -
               $ref: '#/components/schemas/Service-write'
       required:
-        - targetOrganization
         - price
         - customer
     'Invoice:jsonld-read':
@@ -9361,6 +9390,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9384,9 +9414,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9394,7 +9424,6 @@ components:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
       required:
-        - targetOrganization
         - price
         - customer
     'Invoice:jsonld-write':
@@ -9418,6 +9447,10 @@ components:
           description: 'The description of the invoice'
           type: string
           nullable: true
+        reference:
+          description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+          type: string
+          nullable: true
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
@@ -9438,6 +9471,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9453,9 +9487,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9463,7 +9497,6 @@ components:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
       required:
-        - targetOrganization
         - price
         - customer
     InvoiceItem-read:
@@ -10338,6 +10371,9 @@ definitions:
       remark:
         description: 'Remarks on this invoice'
         type: string
+      paid:
+        description: 'Indicator whether the invoice is paid or not'
+        type: string
       items:
         description: 'The items in this invoice'
         type: \ArrayCollection
@@ -10349,7 +10385,6 @@ definitions:
         description: 'The chosen payment service for the invoice'
         type: \Service
     required:
-      - targetOrganization
       - price
       - customer
   Invoice-write:
@@ -10363,6 +10398,11 @@ definitions:
         description: 'The description of the invoice'
         type: string
         example: 'This is the best invoice ever'
+        maxLength: 255
+      reference:
+        description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+        type: string
+        example: 6666-2019-0000000012
         maxLength: 255
       targetOrganization:
         description: 'The RSIN of the organization that ownes this proces'
@@ -10390,6 +10430,9 @@ definitions:
       remark:
         description: 'Remarks on this invoice'
         type: string
+      paid:
+        description: 'Indicator whether the invoice is paid or not'
+        type: string
       items:
         description: 'The items in this invoice'
         type: \ArrayCollection
@@ -10400,7 +10443,6 @@ definitions:
         description: 'The chosen payment service for the invoice'
         type: \Service
     required:
-      - targetOrganization
       - price
       - customer
   InvoiceItem-read:
@@ -10819,12 +10861,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 13:48:29'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 13:48:29'
     required: []
   AuditTrail-write:
     properties:
@@ -10872,12 +10914,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 13:48:29'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 13:48:29'
     required: []
   ChangeLog-write:
     properties:
