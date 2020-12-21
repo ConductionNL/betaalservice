@@ -78,7 +78,7 @@ class StatusSubscriber implements EventSubscriberInterface
         }
 
         $needed = [
-            'url',
+            'id',
         ];
 
         foreach ($needed as $requirement) {
@@ -87,17 +87,17 @@ class StatusSubscriber implements EventSubscriberInterface
             }
         }
 
-        $invoice = $this->commonGroundService->getResource($post['url']);
+        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
+        $invoice = $this->em->getRepository(Invoice::class)->findOneBy(['id' => $post['id']]);
 
-        if (!isset($invoice['paymentId'])) {
-            throw new BadRequestHttpException(sprintf('PaymentId not defined'));
+        if (!$invoice instanceof Invoice) {
+            throw new BadRequestHttpException(sprintf('Invalid id'));
         }
 
-        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $invoice = $this->em->getRepository(Invoice::class)->findOneBy(['id' => $invoice['id']]);
-        $service = $this->em->getRepository(Service::class)->findOneBy(['id' => $invoice['service']['id']]);
+        $service = $invoice->getService();
 
         $mollieService = new MollieService($service);
+        var_dump($invoice->getPaymentId());
         $result = $mollieService->checkPayment($invoice->getPaymentId());
 
         $invoice->setStatus($result['status']);

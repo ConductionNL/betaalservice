@@ -194,6 +194,8 @@ class OrderSubscriber implements EventSubscriberInterface
                     $payment = $mollieService->createPayment($invoice, $event->getRequest());
                     $invoice->setPaymentUrl($payment['checkOutUrl']);
                     $invoice->setPaymentId($payment['mollieId']);
+                    $this->em->persist($invoice);
+                    $this->em->flush();
                     break;
                 case 'sumup':
                     $sumupService = new SumUpService($paymentService);

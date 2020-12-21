@@ -283,19 +283,32 @@ class Invoice
     private $organization;
 
     /**
-     * @Groups({"read"})
+     * @var string url of payment
+     *
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentUrl;
 
     /**
-     * @Groups({"read"})
+     * @var string id of payment
+     *
+     * @Gedmo\Versioned
+     *
+     * @example 41231saf
+     * @Groups({"read","write"})
+     * @Assert\Length(
+     *     max=255
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentId;
 
     /**
-     * @Groups({"read"})
+     *
+     * @var string status of invoice
+     *
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
@@ -620,19 +633,20 @@ class Invoice
         return $this->paymentUrl;
     }
 
-    public function setPaymentUrl(?string $paymentUrl): self
+    public function setPaymentUrl(string $paymentUrl): self
     {
         $this->paymentUrl = $paymentUrl;
 
         return $this;
     }
 
+
     public function getPaymentId(): ?string
     {
         return $this->paymentId;
     }
 
-    public function setPaymentId(?string $paymentId): self
+    public function setPaymentId(string $paymentId): self
     {
         $this->paymentId = $paymentId;
 
@@ -644,7 +658,7 @@ class Invoice
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 

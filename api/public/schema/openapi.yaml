@@ -9388,12 +9388,15 @@ components:
             -
               $ref: '#/components/schemas/Organization-read'
         paymentUrl:
+          description: 'url of payment'
           type: string
           nullable: true
         paymentId:
+          description: 'id of payment'
           type: string
           nullable: true
         status:
+          description: 'status of invoice'
           type: string
           nullable: true
         remark:
@@ -9460,6 +9463,18 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
+          type: string
+          nullable: true
         remark:
           description: 'Remarks on this invoice'
           type: string
@@ -9562,12 +9577,15 @@ components:
             -
               $ref: '#/components/schemas/Organization:jsonld-read'
         paymentUrl:
+          description: 'url of payment'
           type: string
           nullable: true
         paymentId:
+          description: 'id of payment'
           type: string
           nullable: true
         status:
+          description: 'status of invoice'
           type: string
           nullable: true
         remark:
@@ -9643,6 +9661,18 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
+          type: string
+          nullable: true
         remark:
           description: 'Remarks on this invoice'
           type: string
@@ -10528,9 +10558,17 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
-      paymentUrl: []
-      paymentId: []
-      status: []
+      paymentUrl:
+        description: 'url of payment'
+        type: string
+      paymentId:
+        description: 'id of payment'
+        type: string
+        example: 41231saf
+        maxLength: 255
+      status:
+        description: 'status of invoice'
+        type: string
       remark:
         description: 'Remarks on this invoice'
         type: string
@@ -10590,6 +10628,17 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
+      paymentUrl:
+        description: 'url of payment'
+        type: string
+      paymentId:
+        description: 'id of payment'
+        type: string
+        example: 41231saf
+        maxLength: 255
+      status:
+        description: 'status of invoice'
+        type: string
       remark:
         description: 'Remarks on this invoice'
         type: string
@@ -11024,12 +11073,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 17:34:05'
+        example: '2020-12-21 18:13:03'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 17:34:05'
+        example: '2020-12-21 18:13:03'
     required: []
   AuditTrail-write:
     properties:
@@ -11077,12 +11126,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 17:34:05'
+        example: '2020-12-21 18:13:03'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 17:34:05'
+        example: '2020-12-21 18:13:03'
     required: []
   ChangeLog-write:
     properties:
