@@ -193,7 +193,6 @@ class Invoice
      *
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @Assert\NotNull
      * @ORM\Column(type="decimal", precision=8, scale=2)
      */
     private $price;
@@ -271,7 +270,6 @@ class Invoice
      *
      * @Groups({"read","write"})
      * @Assert\Url
-     * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $customer;
