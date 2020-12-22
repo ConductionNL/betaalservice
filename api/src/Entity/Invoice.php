@@ -270,7 +270,7 @@ class Invoice
      *
      * @Groups({"read","write"})
      * @Assert\Url
-     * @ORM\Column(type="string", nullable=true length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
     private $customer;
 
