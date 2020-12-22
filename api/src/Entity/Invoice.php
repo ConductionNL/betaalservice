@@ -193,7 +193,7 @@ class Invoice
      *
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="decimal", precision=8, scale=2)
+     * @ORM\Column(type="decimal", nullable=true precision=8, scale=2)
      */
     private $price;
 
@@ -205,7 +205,7 @@ class Invoice
      * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $priceCurrency;
 
@@ -270,7 +270,7 @@ class Invoice
      *
      * @Groups({"read","write"})
      * @Assert\Url
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", nullable=true length=255)
      */
     private $customer;
 
