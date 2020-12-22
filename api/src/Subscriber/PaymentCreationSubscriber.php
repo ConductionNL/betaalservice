@@ -74,30 +74,30 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
                 break;
         }
         if ($result instanceof Invoice && $method != 'DELETE') {
-            if (
-                (!$paymentService = $result->getService()) &&
-                $result->getOrganization() != null &&
-                count($result->getOrganization()->getServices()) > 0
-            ) {
-                $paymentService = $result->getOrganization()->getServices()[0];
-            }
-            if (isset($paymentService)) {
-                switch ($paymentService->getType()) {
-                case 'mollie':
-                    $mollieService = new MollieService($paymentService);
-                    $paymentUrl = $mollieService->createPayment($result, $event->getRequest());
-                    $result->setPaymentUrl($paymentUrl['checkOutUrl']);
-                    $result->setPaymentId($paymentUrl['mollieId']);
-                    $this->em->persist($result);
-                    $this->em->flush();
-                    break;
-                case 'sumup':
-                    $sumupService = new SumUpService($paymentService);
-                    $paymentUrl = $sumupService->createPayment($result);
-                    $result->setPaymentUrl($paymentUrl);
-                    break;
-                }
-            }
+//            if (
+//                (!$paymentService = $result->getService()) &&
+//                $result->getOrganization() != null &&
+//                count($result->getOrganization()->getServices()) > 0
+//            ) {
+//                $paymentService = $result->getOrganization()->getServices()[0];
+//            }
+//            if (isset($paymentService)) {
+//                switch ($paymentService->getType()) {
+//                case 'mollie':
+//                    $mollieService = new MollieService($paymentService);
+//                    $paymentUrl = $mollieService->createPayment($result, $event->getRequest());
+//                    $result->setPaymentUrl($paymentUrl['checkOutUrl']);
+//                    $result->setPaymentId($paymentUrl['mollieId']);
+//                    $this->em->persist($result);
+//                    $this->em->flush();
+//                    break;
+//                case 'sumup':
+//                    $sumupService = new SumUpService($paymentService);
+//                    $paymentUrl = $sumupService->createPayment($result);
+//                    $result->setPaymentUrl($paymentUrl);
+//                    break;
+//                }
+//            }
 
             $json = $this->serializer->serialize(
                 $result,
