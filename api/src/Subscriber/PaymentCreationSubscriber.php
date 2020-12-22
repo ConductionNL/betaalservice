@@ -88,6 +88,8 @@ class PaymentCreationSubscriber implements EventSubscriberInterface
                     $paymentUrl = $mollieService->createPayment($result, $event->getRequest());
                     $result->setPaymentUrl($paymentUrl['checkOutUrl']);
                     $result->setPaymentId($paymentUrl['mollieId']);
+                    $this->em->persist($result);
+                    $this->em->flush();
                     break;
                 case 'sumup':
                     $sumupService = new SumUpService($paymentService);
