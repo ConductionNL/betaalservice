@@ -3320,7 +3320,34 @@ paths:
               - asc
               - desc
         -
+          name: 'order[paymentId]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[status]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[remark]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[paid]'
           in: query
           required: false
           schema:
@@ -3406,6 +3433,22 @@ paths:
             type: string
         -
           name: 'order[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: customer
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'customer[]'
           in: query
           required: false
           schema:
@@ -7631,6 +7674,137 @@ paths:
           description: 'Resource not found'
       produces:
         - application/health+json
+  /status:
+    post:
+      tags:
+        - Invoice
+      operationId: post_statusInvoiceCollection
+      summary: 'Creates a Invoice resource.'
+      responses:
+        201:
+          description: 'Invoice resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+          links:
+            GetInvoiceItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getInvoiceItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /invoices/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+        description: 'The new Invoice resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
   /taxes:
     get:
       tags:
@@ -9197,6 +9371,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9213,6 +9388,15 @@ components:
             -
               $ref: '#/components/schemas/Organization-read'
         paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
           type: string
           nullable: true
         remark:
@@ -9220,9 +9404,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9230,7 +9414,6 @@ components:
             -
               $ref: '#/components/schemas/Service-read'
       required:
-        - targetOrganization
         - price
         - customer
     Invoice-write:
@@ -9243,6 +9426,10 @@ components:
           nullable: true
         description:
           description: 'The description of the invoice'
+          type: string
+          nullable: true
+        reference:
+          description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
         targetOrganization:
@@ -9265,6 +9452,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9275,14 +9463,26 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
+          type: string
+          nullable: true
         remark:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9290,7 +9490,6 @@ components:
             -
               $ref: '#/components/schemas/Service-write'
       required:
-        - targetOrganization
         - price
         - customer
     'Invoice:jsonld-read':
@@ -9361,6 +9560,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9377,6 +9577,15 @@ components:
             -
               $ref: '#/components/schemas/Organization:jsonld-read'
         paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
           type: string
           nullable: true
         remark:
@@ -9384,9 +9593,9 @@ components:
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9394,7 +9603,6 @@ components:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
       required:
-        - targetOrganization
         - price
         - customer
     'Invoice:jsonld-write':
@@ -9418,6 +9626,10 @@ components:
           description: 'The description of the invoice'
           type: string
           nullable: true
+        reference:
+          description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+          type: string
+          nullable: true
         targetOrganization:
           description: 'The RSIN of the organization that ownes this proces'
           type: string
@@ -9438,6 +9650,7 @@ components:
         order:
           description: 'The order of this invoice'
           type: string
+          nullable: true
         payments:
           description: 'The payments of this Invoice'
           type: array
@@ -9448,14 +9661,26 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+        paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        paymentId:
+          description: 'id of payment'
+          type: string
+          nullable: true
+        status:
+          description: 'status of invoice'
+          type: string
+          nullable: true
         remark:
           description: 'Remarks on this invoice'
           type: string
           nullable: true
         paid:
-          readOnly: true
           description: 'Indicator whether the invoice is paid or not'
-          type: string
+          type: boolean
+          nullable: true
         service:
           description: 'The chosen payment service for the invoice'
           nullable: true
@@ -9463,7 +9688,6 @@ components:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
       required:
-        - targetOrganization
         - price
         - customer
     InvoiceItem-read:
@@ -10334,9 +10558,22 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
-      paymentUrl: []
+      paymentUrl:
+        description: 'url of payment'
+        type: string
+      paymentId:
+        description: 'id of payment'
+        type: string
+        example: 41231saf
+        maxLength: 255
+      status:
+        description: 'status of invoice'
+        type: string
       remark:
         description: 'Remarks on this invoice'
+        type: string
+      paid:
+        description: 'Indicator whether the invoice is paid or not'
         type: string
       items:
         description: 'The items in this invoice'
@@ -10349,7 +10586,6 @@ definitions:
         description: 'The chosen payment service for the invoice'
         type: \Service
     required:
-      - targetOrganization
       - price
       - customer
   Invoice-write:
@@ -10363,6 +10599,11 @@ definitions:
         description: 'The description of the invoice'
         type: string
         example: 'This is the best invoice ever'
+        maxLength: 255
+      reference:
+        description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+        type: string
+        example: 6666-2019-0000000012
         maxLength: 255
       targetOrganization:
         description: 'The RSIN of the organization that ownes this proces'
@@ -10387,8 +10628,22 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
+      paymentUrl:
+        description: 'url of payment'
+        type: string
+      paymentId:
+        description: 'id of payment'
+        type: string
+        example: 41231saf
+        maxLength: 255
+      status:
+        description: 'status of invoice'
+        type: string
       remark:
         description: 'Remarks on this invoice'
+        type: string
+      paid:
+        description: 'Indicator whether the invoice is paid or not'
         type: string
       items:
         description: 'The items in this invoice'
@@ -10400,7 +10655,6 @@ definitions:
         description: 'The chosen payment service for the invoice'
         type: \Service
     required:
-      - targetOrganization
       - price
       - customer
   InvoiceItem-read:
@@ -10819,12 +11073,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 18:13:03'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 18:13:03'
     required: []
   AuditTrail-write:
     properties:
@@ -10872,12 +11126,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 18:13:03'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-02 12:33:32'
+        example: '2020-12-21 18:13:03'
     required: []
   ChangeLog-write:
     properties:
