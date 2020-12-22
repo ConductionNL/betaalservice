@@ -193,7 +193,7 @@ class Invoice
      *
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @ORM\Column(type="decimal", nullable=true precision=8, scale=2)
+     * @ORM\Column(type="decimal", nullable=true)
      */
     private $price;
 
