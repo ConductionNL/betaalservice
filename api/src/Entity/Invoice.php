@@ -88,7 +88,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "id":"exact",
  *     "name":"partial",
  *     "order":"exact",
- *     "customer":"exact"
+ *     "customer":"exact",
+ *     "status":"exact"
  * })
  */
 class Invoice
@@ -297,7 +298,6 @@ class Invoice
     private $paymentId;
 
     /**
-     *
      * @var string status of invoice
      *
      * @Groups({"read","write"})
@@ -631,7 +631,6 @@ class Invoice
 
         return $this;
     }
-
 
     public function getPaymentId(): ?string
     {
