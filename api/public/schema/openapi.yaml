@@ -3458,6 +3458,22 @@ paths:
           style: form
           explode: true
         -
+          name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'status[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: reference
           in: query
           required: false
@@ -9392,7 +9408,7 @@ components:
           type: string
           nullable: true
         paymentId:
-          description: 'id of payment'
+          description: 'url of payment'
           type: string
           nullable: true
         status:
@@ -9463,14 +9479,6 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
-        paymentUrl:
-          description: 'url of payment'
-          type: string
-          nullable: true
-        paymentId:
-          description: 'id of payment'
-          type: string
-          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -9581,7 +9589,7 @@ components:
           type: string
           nullable: true
         paymentId:
-          description: 'id of payment'
+          description: 'url of payment'
           type: string
           nullable: true
         status:
@@ -9661,14 +9669,6 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
-        paymentUrl:
-          description: 'url of payment'
-          type: string
-          nullable: true
-        paymentId:
-          description: 'id of payment'
-          type: string
-          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -10562,10 +10562,8 @@ definitions:
         description: 'url of payment'
         type: string
       paymentId:
-        description: 'id of payment'
+        description: 'url of payment'
         type: string
-        example: 41231saf
-        maxLength: 255
       status:
         description: 'status of invoice'
         type: string
@@ -10628,14 +10626,6 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
-      paymentUrl:
-        description: 'url of payment'
-        type: string
-      paymentId:
-        description: 'id of payment'
-        type: string
-        example: 41231saf
-        maxLength: 255
       status:
         description: 'status of invoice'
         type: string
@@ -11073,12 +11063,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 18:13:03'
+        example: '2020-12-29 14:10:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 18:13:03'
+        example: '2020-12-29 14:10:28'
     required: []
   AuditTrail-write:
     properties:
@@ -11126,12 +11116,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-21 18:13:03'
+        example: '2020-12-29 14:10:28'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-21 18:13:03'
+        example: '2020-12-29 14:10:28'
     required: []
   ChangeLog-write:
     properties:

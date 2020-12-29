@@ -88,7 +88,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "id":"exact",
  *     "name":"partial",
  *     "order":"exact",
- *     "customer":"exact"
+ *     "customer":"exact",
+ *     "status":"exact"
  * })
  */
 class Invoice

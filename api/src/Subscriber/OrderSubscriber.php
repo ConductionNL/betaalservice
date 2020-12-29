@@ -109,6 +109,30 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('customer', $order) && $order['customer'] != null) {
             $invoice->setCustomer($order['customer']);
         }
+        $this->em->persist($invoice);
+        $this->em->flush();
+        if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
+            foreach ($order['items'] as $item) {
+                $invoiceItem = new InvoiceItem();
+                $invoiceItem->setName($item['name']);
+                if (array_key_exists('offer', $item) && $item['offer'] != null) {
+                    $invoiceItem->setOffer($item['offer']);
+                }
+                if (array_key_exists('quantity', $item) && $item['quantity'] != null) {
+                    $invoiceItem->setQuantity($item['quantity']);
+                }
+                if (array_key_exists('price', $item) && $item['price'] != null) {
+                    $invoiceItem->setPrice($item['price']);
+                }
+                if (array_key_exists('priceCurrency', $item) && $item['priceCurrency'] != null) {
+                    $invoiceItem->setPriceCurrency($item['priceCurrency']);
+                }
+                $invoice->addItem($invoiceItem);
+                $this->em->persist($invoice);
+
+            }
+            $this->em->flush();
+        }
         $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
@@ -136,12 +160,12 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->setTargetOrganization($order['organization']);
         $invoice->setService($service);
 
-        $invoiceItem = new InvoiceItem();
-        $invoiceItem->setName($order['reference']);
-        $invoiceItem->setPrice($order['price']);
-        $invoiceItem->setPriceCurrency($order['priceCurrency']);
-        $invoiceItem->setQuantity(1);
-        $invoice->addItem($invoiceItem);
+//        $invoiceItem = new InvoiceItem();
+//        $invoiceItem->setName($order['reference']);
+//        $invoiceItem->setPrice($order['price']);
+//        $invoiceItem->setPriceCurrency($order['priceCurrency']);
+//        $invoiceItem->setQuantity(1);
+//        $invoice->addItem($invoiceItem);
 
         /*
         if (array_key_exists('items', $order)) {
@@ -174,7 +198,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->em->persist($invoice);
         $this->em->flush();
         $orderUpdate = [];
-        $orderUpdate['invoice'] = $this->commonGroundService->cleanUrl(['component'=>'bc', 'type'=>'invoices', 'id'=>$invoice->getId()]);
+        $orderUpdate['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
         $order = $this->commonGroundService->updateResource($orderUpdate, $invoice->getOrder());
 
         // recalculate all the invoice totals
@@ -208,7 +232,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $json = $this->serializer->serialize(
             $invoice,
             $renderType,
-            ['enable_max_depth'=> true]
+            ['enable_max_depth' => true]
         );
 
         // Creating a response
