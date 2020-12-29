@@ -68,6 +68,8 @@ class Organization
     private $id;
 
     /**
+     * @var string shortCode of this organization
+     *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @Assert\NotNull
@@ -80,6 +82,8 @@ class Organization
     private $shortCode;
 
     /**
+     * @var string rsin of this organization
+     *
      * @Gedmo\Versioned
      * @Groups({"read", "write"})
      * @Assert\NotNull

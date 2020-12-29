@@ -163,7 +163,7 @@ class Invoice
     private $referenceId;
 
     /**
-     * @var string The RSIN of the organization that ownes this proces
+     * @var string The RSIN of the organization that owns this process
      *
      * @example 002851234
      *
@@ -187,7 +187,7 @@ class Invoice
     private $items;
 
     /**
-     * @var string The price of this product
+     * @var float The price of this product
      *
      * @example 50.00
      *
