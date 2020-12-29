@@ -80,7 +80,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $needed = [
             'url',
             'mollieKey',
-            'redirectUrl'
+            'redirectUrl',
 
         ];
 
@@ -93,7 +93,6 @@ class OrderSubscriber implements EventSubscriberInterface
         $order = $this->commonGroundService->getResource($post['url']);
         $mollieKey = $post['mollieKey'];
         $redirectUrl = $post['redirectUrl'];
-
 
         $invoice = new Invoice();
 
@@ -129,7 +128,6 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
                 $invoice->addItem($invoiceItem);
                 $this->em->persist($invoice);
-
             }
             $this->em->flush();
         }
@@ -152,7 +150,6 @@ class OrderSubscriber implements EventSubscriberInterface
         $service->setAuthorization($mollieKey);
         $service->setOrganization($organization);
         $service->setType('mollie');
-
 
         $invoice->setPrice($order['price']);
         $invoice->setPriceCurrency($order['priceCurrency']);
