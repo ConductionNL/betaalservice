@@ -78,7 +78,7 @@ class StatusSubscriber implements EventSubscriberInterface
         }
 
         $needed = [
-            'id',
+            'target',
         ];
 
         foreach ($needed as $requirement) {
@@ -88,10 +88,10 @@ class StatusSubscriber implements EventSubscriberInterface
         }
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $invoice = $this->em->getRepository(Invoice::class)->findOneBy(['id' => $post['id']]);
+        $invoice = $this->em->getRepository(Invoice::class)->findOneBy(['id' => $post['target']]);
 
         if (!$invoice instanceof Invoice) {
-            throw new BadRequestHttpException(sprintf('Invalid id'));
+            throw new BadRequestHttpException(sprintf('Invalid target id'));
         }
 
         $service = $invoice->getService();

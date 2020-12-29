@@ -29,7 +29,7 @@ class LarpingFixtures extends Fixture
         ) {
             $organization = new Organization();
             $organization->setRsin('00000000');
-            $organization->setShortCode('UT');
+            $organization->setShortCode('LR');
             $organization->setRedirectUrl($this->commonGroundService->cleanUrl('https://dev.larping.eu/order/payment'));
             $manager->persist($organization);
 

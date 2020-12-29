@@ -164,7 +164,7 @@ class Invoice
     private $referenceId;
 
     /**
-     * @var string The RSIN of the organization that ownes this proces
+     * @var string The RSIN of the organization that owns this process
      *
      * @example 002851234
      *
@@ -188,14 +188,13 @@ class Invoice
     private $items;
 
     /**
-     * @var string The price of this product
+     * @var float The price of this product
      *
      * @example 50.00
      *
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @Assert\NotNull
-     * @ORM\Column(type="decimal", precision=8, scale=2)
+     * @ORM\Column(type="decimal", nullable=true)
      */
     private $price;
 
@@ -207,7 +206,7 @@ class Invoice
      * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $priceCurrency;
 
@@ -272,8 +271,7 @@ class Invoice
      *
      * @Groups({"read","write"})
      * @Assert\Url
-     * @Assert\NotNull
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
     private $customer;
 
