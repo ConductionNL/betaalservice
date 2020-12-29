@@ -298,7 +298,6 @@ class Invoice
     private $paymentId;
 
     /**
-     *
      * @var string status of invoice
      *
      * @Groups({"read","write"})
@@ -632,7 +631,6 @@ class Invoice
 
         return $this;
     }
-
 
     public function getPaymentId(): ?string
     {
