@@ -4,13 +4,8 @@ namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
-use App\Entity\InvoiceItem;
 use App\Entity\Organization;
-use App\Entity\Payment;
-use App\Entity\Service;
-use App\Entity\Tax;
 use App\Service\MollieService;
-use App\Service\SumUpService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;

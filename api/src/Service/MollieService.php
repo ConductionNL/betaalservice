@@ -43,6 +43,7 @@ class MollieService
             $amount = ''.$invoice->getPrice();
             $description = $invoice->getDescription();
             $redirectUrl = $invoice->getOrganization()->getRedirectUrl();
+
             try {
                 $molliePayment = $this->mollie->payments->create([
                     'amount' => [
@@ -57,6 +58,7 @@ class MollieService
                 ]);
                 $object['checkOutUrl'] = $molliePayment->getCheckoutUrl();
                 $object['mollieId'] = $molliePayment->id;
+
                 return $object;
             } catch (ApiException $e) {
                 return '<section><h2>Could not connect to payment provider</h2>'.$e->getMessage().'</section>';
@@ -98,10 +100,12 @@ class MollieService
         return null;
     }
 
-    public function checkPayment(string $paymentId) {
+    public function checkPayment(string $paymentId)
+    {
         $payment = $this->mollie->payments->get($paymentId);
         $object['status'] = $payment->status;
         $object['paid'] = $payment->isPaid();
+
         return $object;
     }
 }
