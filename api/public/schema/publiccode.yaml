@@ -26,7 +26,10 @@ outputTypes:
   - text/html
 
 platforms:
-  - web
+    - web
+    - haven
+    - nlx
+    - gaia-x
 
 categories:
   - it-development 
@@ -114,3 +117,6 @@ dependsOn:
     - name: Kubernetes
       versionMin: "1.15.5-do.1"
 
+installations:
+    - type: helm
+      url: "https://github.com/ConductionNL/betaalservice/raw/master/api/helm/bc-0.1.0.tgz"
