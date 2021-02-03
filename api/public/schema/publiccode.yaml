@@ -119,4 +119,4 @@ dependsOn:
 
 installations:
     - type: helm
-      url: "https://github.com/ConductionNL/betaalservice/raw/master/api/helm/bc-0.1.0.tgz"
+      url: "https://raw.githubusercontent.com/ConductionNL/betaalservice/master/api/helm/"

@@ -121,5 +121,5 @@ dependsOn:
 
 installations:
     - type: helm
-      url: "{{ app_repro }}/raw/master/api/helm/{{ app_name|replace({' ':''})|lower }}-0.1.0.tgz"
+      url: "https://raw.githubusercontent.com/{{ app_repro|trim('https://github.com', 'left') }}/master/api/helm/"
 
