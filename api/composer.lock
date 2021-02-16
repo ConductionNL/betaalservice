@@ -580,12 +580,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ConductionNL/CommonGroundBundle.git",
-                "reference": "5f63d8eb63ae1bdb77969c96eefeb5126c6a7daf"
+                "reference": "1128891793e744654459318df7b027ae958c07fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/5f63d8eb63ae1bdb77969c96eefeb5126c6a7daf",
-                "reference": "5f63d8eb63ae1bdb77969c96eefeb5126c6a7daf",
+                "url": "https://api.github.com/repos/ConductionNL/CommonGroundBundle/zipball/1128891793e744654459318df7b027ae958c07fa",
+                "reference": "1128891793e744654459318df7b027ae958c07fa",
                 "shasum": ""
             },
             "require": {
@@ -594,7 +594,6 @@
                 "api-platform/schema-generator": "^2.1@stable",
                 "doctrine/doctrine-bundle": "^1.6 || ^2.0",
                 "doctrine/doctrine-fixtures-bundle": "^3.2",
-                "doctrine/rst-parser": "^0.1.0",
                 "guzzlehttp/guzzle": "^6.3",
                 "knplabs/knp-markdown-bundle": "^1.8",
                 "mollie/mollie-api-php": "^2.0",
@@ -611,7 +610,8 @@
                 "symfony/maker-bundle": "^1.11@stable",
                 "symfony/translation": "5.1.*",
                 "symfony/var-exporter": "^5.0",
-                "twig/extensions": "^1.5"
+                "twig/extensions": "^1.5",
+                "twig/twig": "2.13.*"
             },
             "conflict": {
                 "doctrine/dbal": "<2.5",
@@ -663,7 +663,7 @@
                 "postcode",
                 "rsin"
             ],
-            "time": "2020-10-16T13:11:38+00:00"
+            "time": "2021-02-16T17:31:32+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -2132,70 +2132,8 @@
                 "reflection",
                 "static"
             ],
+            "abandoned": "roave/better-reflection",
             "time": "2020-03-27T11:06:43+00:00"
-        },
-        {
-            "name": "doctrine/rst-parser",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/rst-parser.git",
-                "reference": "49ea41cf15b93c4ac493df3f05c49999ef661cd4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/rst-parser/zipball/49ea41cf15b93c4ac493df3f05c49999ef661cd4",
-                "reference": "49ea41cf15b93c4ac493df3f05c49999ef661cd4",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/event-manager": "^1.0",
-                "php": "^7.1",
-                "symfony/filesystem": "^4.1",
-                "twig/twig": "^2.5"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^6.0",
-                "gajus/dindent": "^2.0.2",
-                "phpstan/phpstan": "^0.10",
-                "phpstan/phpstan-deprecation-rules": "^0.10",
-                "phpstan/phpstan-phpunit": "^0.10",
-                "phpstan/phpstan-strict-rules": "^0.10",
-                "phpunit/phpunit": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\RST\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Grégoire Passault",
-                    "email": "g.passault@gmail.com",
-                    "homepage": "http://www.gregwar.com/"
-                },
-                {
-                    "name": "Jonathan H. Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "https://jwage.com"
-                }
-            ],
-            "description": "PHP library to parse reStructuredText documents and generate HTML or LaTeX documents.",
-            "homepage": "https://github.com/doctrine/rst-parser",
-            "keywords": [
-                "html",
-                "latex",
-                "markup",
-                "parser",
-                "reStructuredText",
-                "rst"
-            ],
-            "time": "2019-04-15T19:55:14+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -4260,6 +4198,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
+            "abandoned": "https://github.com/fabpot/local-php-security-checker",
             "time": "2019-11-01T13:20:14+00:00"
         },
         {
@@ -9699,12 +9638,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -9908,6 +9847,69 @@
                 "orm"
             ],
             "time": "2020-06-30T03:28:02+00:00"
+        },
+        {
+            "name": "doctrine/rst-parser",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/rst-parser.git",
+                "reference": "49ea41cf15b93c4ac493df3f05c49999ef661cd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/rst-parser/zipball/49ea41cf15b93c4ac493df3f05c49999ef661cd4",
+                "reference": "49ea41cf15b93c4ac493df3f05c49999ef661cd4",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/event-manager": "^1.0",
+                "php": "^7.1",
+                "symfony/filesystem": "^4.1",
+                "twig/twig": "^2.5"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "gajus/dindent": "^2.0.2",
+                "phpstan/phpstan": "^0.10",
+                "phpstan/phpstan-deprecation-rules": "^0.10",
+                "phpstan/phpstan-phpunit": "^0.10",
+                "phpstan/phpstan-strict-rules": "^0.10",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\RST\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Passault",
+                    "email": "g.passault@gmail.com",
+                    "homepage": "http://www.gregwar.com/"
+                },
+                {
+                    "name": "Jonathan H. Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "https://jwage.com"
+                }
+            ],
+            "description": "PHP library to parse reStructuredText documents and generate HTML or LaTeX documents.",
+            "homepage": "https://github.com/doctrine/rst-parser",
+            "keywords": [
+                "html",
+                "latex",
+                "markup",
+                "parser",
+                "reStructuredText",
+                "rst"
+            ],
+            "time": "2019-04-15T19:55:14+00:00"
         },
         {
             "name": "symfony/profiler-pack",
