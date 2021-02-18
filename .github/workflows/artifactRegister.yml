@@ -13,10 +13,12 @@ jobs:
     register:
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v1
             - name: Check if we need to take action
               id: process
               run: |
-                  if [ "${{ secrets.ARTIFACT_KEY }}" != "" ] || [ "${ARTIFACTHUB_ID}" != "false" ] || [ "${ARTIFACTHUB_ID}" == "" ]; then
+                  export ARTIFACTHUB_ID=$(grep ARTIFACTHUB_ID= .env | cut -d '=' -f2)
+                  if [ "${{ secrets.ARTIFACT_KEY }}" != "" ] && [ "$ARTIFACTHUB_ID" != "false" ] || [ "ARTIFACTHUB_ID" == "" ]; then
                     echo "##[set-output name=success;]true"
                   else
                     echo "##[set-output name=success;]false"
@@ -25,28 +27,30 @@ jobs:
               id: request
               if: steps.process.outputs.success == 'true'
               run: |
-                  export HEADER='{"X-API-KEY": "'${{ secrets.ARTIFACT_KEY }}'"}'
+                  export HEADER='{"X-API-KEY": "'${{secrets.ARTIFACT_KEY}}'"}'
                   echo "HEADER=$HEADER" >> $GITHUB_ENV
                   echo "##[set-output name=header]$HEADER"
-                  if [ "${ARTIFACTHUB_USER}" != "" ]; then
-                    export URL='https://artifacthub.io/api/v1/repositories/org/${ARTIFACTHUB_USER}'
+                  echo $HEADER
+                  export USER=$(grep ARTIFACTHUB_USER= .env | cut -d '=' -f2)
+                  if [ $USER != "" ]; then
+                    export URL="https://artifacthub.io/api/v1/repositories/org/$USER"
                   else
-                    export URL='https://artifacthub.io/api/v1/repositories/user
+                    export URL='https://artifacthub.io/api/v1/repositories/user'
                   fi
                   echo "URL=$URL" >> $GITHUB_ENV
                   echo "##[set-output name=url]$URL"
-                  export DATA='{"url": "'${HELM_REPOSITORY}'", "name": "'${APP_NAME}'"}'
-                  echo "DATA=$DATA" >> $GITHUB_ENV
-                  echo "##[set-output name=data]$DATA"
+                  export HELM=$(grep HELM_REPOSITORY= .env | cut -d '=' -f2)
+                  echo "HELM=$HELM" >> $GITHUB_ENV
+                  echo "##[set-output name=helm]$HELM"
+                  export NAME=$(grep APP_NAME_TECHNICAL= .env | cut -d '=' -f2)
+                  echo "NAME=$NAME" >> $GITHUB_ENV
+                  echo "##[set-output name=name]$NAME"
             - name: Register To Artifact Hub
               if: steps.process.outputs.success == 'true'
-              uses: CamiloGarciaLaRotta/watermelon-http-client@v1
+              uses: satak/webrequest-action@master
+              id: webhook
               with:
-                headers: steps.request.header
-                url: steps.request.url
-                method: post
-                data: steps.request.data
-            - name: Print the response status
-              run: echo ${{ steps.request.outputs.status }}
-            - name: Print the response payload
-              run: echo ${{ steps.request.outputs.response }}
+                  url: https://artifacthub.io/api/v1/repositories/user
+                  method: POST
+                  payload: '{"name": "${{ env.NAME }}", "url": "${{ env.HELM }}"}'
+                  headers: '{"X-API-Key": "${{secrets.ARTIFACT_KEY}}"}'

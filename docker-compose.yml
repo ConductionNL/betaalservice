@@ -31,6 +31,7 @@ services:
       #- DATABASE_URL=postgres://api-platform:!ChangeMe!@db/api?serverVersion=10.1
       - DATABASE_URL=mysql://api-platform:!ChangeMe!@db/api?serverVersion=10.1
       - APP_ENV=${APP_ENV}
+      - APP_CONTAINER=${APP_CONTAINER}
       - APP_DEBUG=${APP_DEBUG}
       - APP_CACHE=${APP_CACHE}
       - APP_VERSION=${APP_VERSION}
