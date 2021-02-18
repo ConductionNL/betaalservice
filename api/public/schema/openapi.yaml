@@ -9352,7 +9352,7 @@ components:
           type: string
           nullable: true
         targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+          description: 'The RSIN of the organization that owns this process'
           type: string
           nullable: true
         items:
@@ -9363,11 +9363,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         taxes:
           readOnly: true
           description: 'A list of total taxes'
@@ -9398,6 +9400,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         organization:
           nullable: true
           anyOf:
@@ -9429,9 +9432,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-read'
-      required:
-        - price
-        - customer
     Invoice-write:
       type: object
       description: 'An entity representing an invoice.'
@@ -9449,7 +9449,7 @@ components:
           type: string
           nullable: true
         targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+          description: 'The RSIN of the organization that owns this process'
           type: string
           nullable: true
         items:
@@ -9460,11 +9460,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         order:
           description: 'The order of this invoice'
           type: string
@@ -9479,6 +9481,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -9497,9 +9500,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-write'
-      required:
-        - price
-        - customer
     'Invoice:jsonld-read':
       type: object
       description: 'An entity representing an invoice.'
@@ -9533,7 +9533,7 @@ components:
           type: string
           nullable: true
         targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+          description: 'The RSIN of the organization that owns this process'
           type: string
           nullable: true
         items:
@@ -9544,11 +9544,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         taxes:
           readOnly: true
           description: 'A list of total taxes'
@@ -9579,6 +9581,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         organization:
           nullable: true
           anyOf:
@@ -9610,9 +9613,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
-      required:
-        - price
-        - customer
     'Invoice:jsonld-write':
       type: object
       description: 'An entity representing an invoice.'
@@ -9639,7 +9639,7 @@ components:
           type: string
           nullable: true
         targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+          description: 'The RSIN of the organization that owns this process'
           type: string
           nullable: true
         items:
@@ -9650,11 +9650,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         order:
           description: 'The order of this invoice'
           type: string
@@ -9669,6 +9671,7 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -9687,9 +9690,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
-      required:
-        - price
-        - customer
     InvoiceItem-read:
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -9932,8 +9932,10 @@ components:
           type: string
           format: uuid
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -9969,8 +9971,10 @@ components:
         - redirectUrl
       properties:
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10004,8 +10008,10 @@ components:
           type: string
           format: uuid
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10050,8 +10056,10 @@ components:
           readOnly: true
           type: string
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10524,13 +10532,13 @@ definitions:
         example: 6666-2019-0000000012
         maxLength: 255
       targetOrganization:
-        description: 'The RSIN of the organization that ownes this proces'
+        description: 'The RSIN of the organization that owns this process'
         type: string
         example: '002851234'
         maxLength: 255
       price:
         description: 'The price of this product'
-        type: string
+        type: float
         example: '50.00'
       priceCurrency:
         description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
@@ -10583,9 +10591,7 @@ definitions:
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
-    required:
-      - price
-      - customer
+    required: []
   Invoice-write:
     properties:
       name:
@@ -10604,13 +10610,13 @@ definitions:
         example: 6666-2019-0000000012
         maxLength: 255
       targetOrganization:
-        description: 'The RSIN of the organization that ownes this proces'
+        description: 'The RSIN of the organization that owns this process'
         type: string
         example: '002851234'
         maxLength: 255
       price:
         description: 'The price of this product'
-        type: string
+        type: float
         example: '50.00'
       priceCurrency:
         description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
@@ -10644,9 +10650,7 @@ definitions:
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
-    required:
-      - price
-      - customer
+    required: []
   InvoiceItem-read:
     properties:
       id:
@@ -10750,8 +10754,12 @@ definitions:
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
       shortCode:
+        description: 'shortCode of this organization'
+        type: string
         maxLength: 4
       rsin:
+        description: 'rsin of this organization'
+        type: string
         maxLength: 16
         minLength: 4
       redirectUrl:
@@ -10774,8 +10782,12 @@ definitions:
   Organization-write:
     properties:
       shortCode:
+        description: 'shortCode of this organization'
+        type: string
         maxLength: 4
       rsin:
+        description: 'rsin of this organization'
+        type: string
         maxLength: 16
         minLength: 4
       redirectUrl:
@@ -11063,12 +11075,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-02-16 22:35:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-02-16 22:35:21'
     required: []
   AuditTrail-write:
     properties:
@@ -11116,12 +11128,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-02-16 22:35:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-02-16 22:35:21'
     required: []
   ChangeLog-write:
     properties:
