@@ -18,6 +18,7 @@ settings:
   web: false
   debug: 1
   cache: false
+  type: component
   replicaCount: 1
   corsAllowOrigin: ['*']
   trustedHosts: '^.+$'
