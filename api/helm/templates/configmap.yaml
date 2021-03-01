@@ -35,3 +35,10 @@ data:
   trusted-proxies: {{ join "," .Values.settings.trustedProxies }}
   trusted-hosts: {{ .Values.settings.trustedHosts | quote }}
   php-service: {{ .Values.settings.name }}-{{ .Values.settings.env }}-php  
+
+  {{- if (eq $.Values.settings.type "application" ) }}
+  redis-host: {{ printf "%s-redis" $redisServiceName | quote }}
+  redis-port: {{ .Values.redis.redisPort | toString | quote }}
+  digispoof-location: { { .Values.commonground.digispoof.location } }
+  eherkenning-location: { { .Values.commonground.eherkenning.location } }
+  {{-end }}
