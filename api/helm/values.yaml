@@ -7,6 +7,7 @@ settings:
   projectName: proto-component
   name: proto-component
   version: V1.0
+  majorVersion: v1
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
   repro: https://github.com/ConductionNL/proto-component
   demo: pc.zaakonline.nl
@@ -19,6 +20,7 @@ settings:
   debug: 1
   cache: false
   type: component
+  id: 
   replicaCount: 1
   corsAllowOrigin: ['*']
   trustedHosts: '^.+$'
@@ -49,6 +51,19 @@ php:
   env: prod
   secret: ""
   replicaCount: 2
+
+redis:
+  cluster:
+    enabled: false
+  enabled: false
+  redisPort: 6379
+  usePassword: false
+
+commonground:
+  eherkenning:
+    location: https://conduction.nl/eherkenning
+  digispoof:
+    location: https://conduction.nl/digispoof
 
 nginx:
   repository: docker.io/conduction/protocomponent-nginx
