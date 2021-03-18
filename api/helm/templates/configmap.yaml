@@ -1,3 +1,4 @@
+{{- $redisServiceName := include "redis.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -28,17 +29,18 @@ data:
   app-auth: {{ .Values.settings.authorisationEnabled | quote }}
   app-audittrail: {{ .Values.settings.audittrailEnabled | quote }}
   app-notification: {{ .Values.settings.notificationEnabled | quote }}
-  
+
+  {{ if (eq $.Values.settings.type "application" ) }}
+  redis-host: {{ printf "%s-redis-headless" $redisServiceName | quote }}
+  redis-port: {{ .Values.redis.redisPort | toString | quote }}
+  digispoof-location: {{ .Values.commonground.digispoof.location }}
+  eherkenning-location: {{ .Values.commonground.eherkenning.location }}
+  {{ end }}
+
   cache: {{ .Values.settings.cache | quote }}
   env: {{ .Values.settings.env | quote }}
   debug: {{ .Values.settings.debug | quote }}
   trusted-proxies: {{ join "," .Values.settings.trustedProxies }}
   trusted-hosts: {{ .Values.settings.trustedHosts | quote }}
-  php-service: {{ .Values.settings.name }}-{{ .Values.settings.env }}-php  
+  php-service: {{ .Values.settings.name }}-{{ .Values.settings.env }}-php
 
-  {{- if (eq $.Values.settings.type "application" ) }}
-  redis-host: {{ printf "%s-redis" $redisServiceName | quote }}
-  redis-port: {{ .Values.redis.redisPort | toString | quote }}
-  digispoof-location: { { .Values.commonground.digispoof.location } }
-  eherkenning-location: { { .Values.commonground.eherkenning.location } }
-  {{-end }}

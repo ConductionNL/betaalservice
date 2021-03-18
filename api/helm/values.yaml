@@ -55,10 +55,9 @@ php:
 redis:
   cluster:
     enabled: false
-  enabled: false
   redisPort: 6379
   usePassword: false
-
+  enabled: false
 commonground:
   eherkenning:
     location: https://conduction.nl/eherkenning
