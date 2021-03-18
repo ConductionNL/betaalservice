@@ -4,16 +4,16 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: proto-component
-  name: proto-component
+  projectName: betaalservice
+  name: betaalservice
   version: V1.0
   majorVersion: v1
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
   domain: conduction.nl
-  subdomain: proto-component
-  subpath: proto-component
+  subdomain: betaalservice
+  subpath: betaalservice
   subpathRouting: true
   env: dev
   web: false

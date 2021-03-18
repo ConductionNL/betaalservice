@@ -1,11 +1,37 @@
 apiVersion: v1
 entries:
+  betaalservice:
+  - apiVersion: v1
+    appVersion: V1.0
+    created: "2021-03-18T19:06:48.7980813Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: c98094d01fd8faf6d902c6e9d31738bb1ca8e26d822024b3825e3bfbebc539bb
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: betaalservice
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - betaalservice-0.1.0.tgz
+    version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-03-18T19:03:14.3280929Z"
+    created: "2021-03-18T19:06:48.8117094Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -34,30 +60,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-  proto-component:
-  - apiVersion: v1
-    appVersion: V1.0
-    created: "2021-03-18T19:03:14.2897539Z"
-    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
-      beschikbaar.
-    digest: a4375e0a4e324ca6ae38f0c2f5164b0956f0959a69af6a51d557ae1a32307adb
-    home: https://www.conduction.nl
-    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
-    keywords:
-    - commonground
-    - haven
-    - nlx
-    - component
-    maintainers:
-    - email: ruben@conduction.nl
-      name: Ruben van der Linde
-    - email: info@conduction.nl
-      name: Conduction
-    name: proto-component
-    sources:
-    - https://commonground.conduction.nl/
-    - https://www.commonground.nl/
-    urls:
-    - proto-component-0.1.0.tgz
-    version: 0.1.0
-generated: "2021-03-18T19:03:14.2286067Z"
+generated: "2021-03-18T19:06:48.7798875Z"

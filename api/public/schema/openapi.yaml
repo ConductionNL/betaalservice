@@ -5,12 +5,12 @@ info:
   description: |
     API Details
     - Component: 
-    - Reference: proto-component
+    - Reference: betaalservice
     - Enviroment: dev
     - Version: V1.0
-    - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
+    - Repository: [online](https://github.com/ConductionNL/betaalservice) / [zip](https://github.com/ConductionNL/betaalservice/archive/master.zip)
     - Docker Image: [online]() 
-    - Datamodel: [postman](schema/proto-component.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Datamodel: [postman](schema/betaalservice.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -11075,12 +11075,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-18 19:02:40'
+        example: '2021-03-18 19:06:16'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-18 19:02:40'
+        example: '2021-03-18 19:06:16'
     required: []
   AuditTrail-write:
     properties:
@@ -11128,12 +11128,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-18 19:02:40'
+        example: '2021-03-18 19:06:16'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-18 19:02:40'
+        example: '2021-03-18 19:06:16'
     required: []
   ChangeLog-write:
     properties:
@@ -11211,7 +11211,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: proto-component.dev.conduction.nl
+    url: betaalservice.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'
