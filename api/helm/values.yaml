@@ -4,23 +4,20 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: proto-component
-  name: proto-component
+  projectName: betaalservice
+  name: betaalservice
   version: V1.0
-  majorVersion: v1
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
   domain: conduction.nl
-  subdomain: proto-component
-  subpath: proto-component
+  subdomain: bc
+  subpath: bc
   subpathRouting: true
   env: dev
   web: false
   debug: 1
   cache: false
-  type: component
-  id: 
   replicaCount: 1
   corsAllowOrigin: ['*']
   trustedHosts: '^.+$'
@@ -51,19 +48,6 @@ php:
   env: prod
   secret: ""
   replicaCount: 2
-
-redis:
-  cluster:
-    enabled: false
-  enabled: false
-  redisPort: 6379
-  usePassword: false
-
-commonground:
-  eherkenning:
-    location: https://conduction.nl/eherkenning
-  digispoof:
-    location: https://conduction.nl/digispoof
 
 nginx:
   repository: docker.io/conduction/protocomponent-nginx
