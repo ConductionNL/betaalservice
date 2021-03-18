@@ -54,11 +54,6 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-name
-            - name: APP_TITLE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-title
             - name: APP_DESCRIPTION
               valueFrom:
                 configMapKeyRef:
@@ -96,63 +91,22 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-demo
-            - name: APP_DOMAINS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-domains-json
 
             - name: APP_REPRO
               valueFrom:
                   configMapKeyRef:
                       name: {{ template "fullname" . }}
                       key: app-repro
-            - name: APP_CONTAINER
-              valueFrom:
-                  configMapKeyRef:
-                      name: {{ template "fullname" . }}
-                      key: app-container
             - name: APP_DOMAIN
               valueFrom:
                   configMapKeyRef:
                       name: {{ template "fullname" . }}
                       key: app-domain
-            - name: APP_CASH
+            - name: APP_CACHE
               valueFrom:
                   configMapKeyRef:
                       name: {{ template "fullname" . }}
                       key: cache      
-            # organization
-            - name: ORGANIZATION_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-name
-            - name: ORGANIZATION_EMAIL_ADDRESS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-email
-            - name: ORGANIZATION_COUNTRY_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-country
-            - name: ORGANIZATION_STATE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-state
-            - name: ORGANIZATION_LOCALITY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-locality
-            - name: ORGANIZATION_UNIT_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: organization-unit
             # config
             - name: AUTH_ENABLED
               valueFrom:
@@ -169,16 +123,6 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-notification
-            - name: HEALTH_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-health
-            - name: ARCHIVE_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-archive
             - name: APP_WEB
               valueFrom:
                 configMapKeyRef:
@@ -196,58 +140,38 @@ spec:
                   key: app-subpath
             
             # bla bla      
-            - name: CORS_ALLOW_ORIGIN
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: cors-allow-origin
-            - name: VARNISH_URL
-              value: {{ .Values.settings.name }}-varnish
-            - name: APP_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: secret
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: database-url
-            - name: MERCURE_PUBLISH_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: mercure-publish-url
-            - name: MERCURE_SUBSCRIBE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: mercure-subscribe-url
-            - name: MERCURE_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: mercure-jwt-secret
-            - name: APP_COMMONGROUND_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app_commonground_id
-            - name: APP_COMMONGROUND_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app_commonground_key
             - name: APP_APPLICATION_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: app_application_key
-            - name: APP_USER_KEY
+            {{- if (eq $.Values.settings.type "application" ) }}
+            - name: REDIS_HOST
               valueFrom:
-                secretKeyRef:
+                configMapKeyRef:
                   name: {{ template "fullname" . }}
-                  key: app_user_key
+                  key: redis-host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: redis-port
+            - name: APP_DIGISPOOF_LOCATION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: digispoof-location
+            - name: APP_EHERKENNING_LOCATION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: eherkenning-location
+            {{-end }}
             - name: APP_URL
               {{- if and (eq $.Values.settings.env "prod") (eq $.Values.settings.type "component") }}
               value: https://{{ $.Values.settings.domain }}/api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}

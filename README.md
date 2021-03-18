@@ -1,4 +1,4 @@
-# bc
+# proto-component
 
 Description
 ----

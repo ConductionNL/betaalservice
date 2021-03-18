@@ -1,24 +1,11 @@
 apiVersion: v1
 entries:
-  bc:
-  - apiVersion: v1
-    appVersion: V1.0
-    created: "2021-02-18T14:27:59.6186532Z"
-    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
-      beschikbaar.
-    digest: 4ba030cb83fd0967870c89d3617a8eda87a7706969bab68abaf24b9f42b541ab
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: bc
-    urls:
-    - bc-0.1.0.tgz
-    version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-18T14:27:59.6400055Z"
+    created: "2021-03-01T19:22:24.5794348Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,4 +34,30 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-02-18T14:27:59.5192157Z"
+  proto-component:
+  - apiVersion: v1
+    appVersion: V1.0
+    created: "2021-03-01T19:22:24.5568881Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: e10fb92279c3c034a902cb4f58ac491fc8a4afe7d832cfb52a6a8344fc93d993
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: proto-component
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - proto-component-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-03-01T19:22:24.4313753Z"
