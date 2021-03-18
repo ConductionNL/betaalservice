@@ -11075,12 +11075,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-01 19:21:57'
+        example: '2021-03-18 15:34:27'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-01 19:21:57'
+        example: '2021-03-18 15:34:27'
     required: []
   AuditTrail-write:
     properties:
@@ -11128,12 +11128,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-01 19:21:57'
+        example: '2021-03-18 15:34:27'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-01 19:21:57'
+        example: '2021-03-18 15:34:27'
     required: []
   ChangeLog-write:
     properties:
@@ -11210,8 +11210,8 @@ securityDefinitions:
 host: irc.zaakonline.nl
 servers:
   -
-    name: conduction.nl
-    url: proto-component.dev.conduction.nl
+    name: larping.eu
+    url: proto-component.dev.larping.eu
 externalDocs:
   -
     description: 'OAS Documentatie'

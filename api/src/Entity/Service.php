@@ -99,7 +99,7 @@ class Service
     /**
      * @var string The API key for this payment provider
      *
-     * @Groups({"write"})
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, name="auth")
      */
     private $authorization;
