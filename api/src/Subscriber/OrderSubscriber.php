@@ -49,6 +49,8 @@ class OrderSubscriber implements EventSubscriberInterface
     public function invoice(RequestEvent $event)
     {
 //        $result = $event->getControllerResult();
+
+        var_dump($this->params->get('app_application_key'));
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 

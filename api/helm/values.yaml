@@ -11,7 +11,7 @@ settings:
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
   repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
-  domain: conduction.nl
+  domain: larping.eu
   subdomain: betaalservice
   subpath: betaalservice
   subpathRouting: true
