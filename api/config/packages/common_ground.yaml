@@ -8,10 +8,13 @@ parameters:
     env(APP_COMMONGROUND_ID): "d4bb1810-8358-4372-98db-6c7bd2fb370c"
     env(APP_COMMONGROUND_KEY): "d4bb1810-8358-4372-98db-6c7bd2fb370c"
     env(APP_COMMONGROUND_SECRET): ""
+    env(APP_APPLICATION_KEY): ""
+
 
     common_ground.app.id: "%env(APP_COMMONGROUND_ID)%"
     app_commonground_id: "%env(APP_COMMONGROUND_ID)%"
     app_commonground_secret: "%env(APP_COMMONGROUND_SECRET)%"
+    app_application_key: "%env(APP_APPLICATION_KEY)%"
 
     # Application Parameters
     env(APP_ENV): "prod"
@@ -242,14 +245,8 @@ parameters:
     container_registry_base: "%env(CONTAINER_REGISTRY_BASE)%"
     container_project_name: "%env(CONTAINER_PROJECT_NAME)%"
 
-    # Dit is hieronder nu anders geregeld (ofwel aanpassen)
-    env(APP_APPLICATION_KEY): ""
-
     env(TRUSTED_HOSTS): ""
     env(TRUSTED_PROXIES): ""
-
-    # Dit is hieronder nu anders geregeld (ofwel aanpassen)
-    app_application_key: "%env(APP_APPLICATION_KEY)%"
 
     trusted_hosts: "%env(TRUSTED_HOSTS)%"
     trusted_proxies: "%env(TRUSTED_PROXIES)%"

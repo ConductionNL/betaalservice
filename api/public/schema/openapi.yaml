@@ -10219,6 +10219,9 @@ components:
         organization:
           description: 'The organization this payment provider is linked to'
           $ref: '#/components/schemas/Organization-read'
+        authorization:
+          description: 'The API key for this payment provider'
+          type: string
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10284,6 +10287,9 @@ components:
         organization:
           description: 'The organization this payment provider is linked to'
           $ref: '#/components/schemas/Organization:jsonld-read'
+        authorization:
+          description: 'The API key for this payment provider'
+          type: string
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10868,6 +10874,9 @@ definitions:
         type: string
         example: open
         maxLength: 255
+      authorization:
+        description: 'The API key for this payment provider'
+        type: string
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
@@ -11075,12 +11084,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-18 19:06:16'
+        example: '2021-03-19 11:24:54'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-18 19:06:16'
+        example: '2021-03-19 11:24:54'
     required: []
   AuditTrail-write:
     properties:
@@ -11128,12 +11137,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-18 19:06:16'
+        example: '2021-03-19 11:24:54'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-18 19:06:16'
+        example: '2021-03-19 11:24:54'
     required: []
   ChangeLog-write:
     properties:
@@ -11210,8 +11219,8 @@ securityDefinitions:
 host: irc.zaakonline.nl
 servers:
   -
-    name: conduction.nl
-    url: betaalservice.dev.conduction.nl
+    name: larping.eu
+    url: betaalservice.dev.larping.eu
 externalDocs:
   -
     description: 'OAS Documentatie'

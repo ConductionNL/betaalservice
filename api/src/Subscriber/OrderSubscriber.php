@@ -49,6 +49,7 @@ class OrderSubscriber implements EventSubscriberInterface
     public function invoice(RequestEvent $event)
     {
 //        $result = $event->getControllerResult();
+
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
@@ -134,7 +135,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
+        $organization = $this->em->getRepository('App:Organization')->findOneBy(['rsin' => $order['organization']]);
 
         if (!($organization instanceof Organization)) {
             // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
@@ -146,10 +147,27 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $organization->setRedirectUrl($redirectUrl);
-        $service = new Service();
-        $service->setAuthorization($mollieKey);
-        $service->setOrganization($organization);
-        $service->setType('mollie');
+        $service = [];
+        $services = $organization->getServices();
+        if (count($services) > 0) {
+            foreach ($services as $item) {
+                if ($item->getType() == 'mollie') {
+                    $service = $item;
+                }
+            }
+        } else {
+            $service = new Service();
+            $service->setAuthorization($mollieKey);
+            $service->setOrganization($organization);
+            $service->setType('mollie');
+        }
+
+        if (!$service instanceof Service) {
+            $service = new Service();
+            $service->setAuthorization($mollieKey);
+            $service->setOrganization($organization);
+            $service->setType('mollie');
+        }
 
         $invoice->setPrice($order['price']);
         $invoice->setPriceCurrency($order['priceCurrency']);
