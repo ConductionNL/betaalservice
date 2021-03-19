@@ -135,7 +135,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $invoice->setOrder($order['@id']);
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
+        $organization = $this->em->getRepository('App:Organization')->findOneBy(['rsin' => $order['organization']]);
 
         if (!($organization instanceof Organization)) {
             // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
