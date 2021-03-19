@@ -4,16 +4,16 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: proto-component
-  name: proto-component
+  projectName: betaalservice
+  name: betaalservice
   version: V1.0
   majorVersion: v1
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
-  domain: larping.eu
-  subdomain: proto-component
-  subpath: proto-component
+  domain: conduction.nl
+  subdomain: betaalservice
+  subpath: betaalservice
   subpathRouting: true
   env: dev
   web: false
@@ -55,10 +55,9 @@ php:
 redis:
   cluster:
     enabled: false
-  enabled: false
   redisPort: 6379
   usePassword: false
-
+  enabled: false
 commonground:
   eherkenning:
     location: https://larping.eu/eherkenning
