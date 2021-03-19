@@ -146,10 +146,27 @@ class OrderSubscriber implements EventSubscriberInterface
         }
 
         $organization->setRedirectUrl($redirectUrl);
-        $service = new Service();
-        $service->setAuthorization($mollieKey);
-        $service->setOrganization($organization);
-        $service->setType('mollie');
+        $service = [];
+        $services = $organization->getServices();
+        if (count($services) > 0) {
+            foreach ($services as $item) {
+                if ($item->getType() == 'mollie') {
+                    $service = $item;
+                }
+            }
+        } else {
+            $service = new Service();
+            $service->setAuthorization($mollieKey);
+            $service->setOrganization($organization);
+            $service->setType('mollie');
+        }
+
+        if (!$service instanceof Service) {
+            $service = new Service();
+            $service->setAuthorization($mollieKey);
+            $service->setOrganization($organization);
+            $service->setType('mollie');
+        }
 
         $invoice->setPrice($order['price']);
         $invoice->setPriceCurrency($order['priceCurrency']);
