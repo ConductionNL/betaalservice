@@ -51,6 +51,7 @@ class OrderSubscriber implements EventSubscriberInterface
 //        $result = $event->getControllerResult();
 
         var_dump($this->params->get('app_application_key'));
+        die;
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
