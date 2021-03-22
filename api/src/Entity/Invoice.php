@@ -66,6 +66,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *                  "summary"="Create an invoice by just providing an order",
  *                  "description"="Create an invoice by just providing an order"
  *              }
+ *          },
+ *          "post_status"={
+ *              "method"="POST",
+ *              "path"="status",
+ *              "swagger_context" = {
+ *                  "summary"="Check status of mollie payment",
+ *                  "description"="Check status of mollie payment"
+ *              }
  *          }
  *     }
  * )
@@ -80,7 +88,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "id":"exact",
  *     "name":"partial",
  *     "order":"exact",
- *     "costumer":"exact"
+ *     "customer":"exact",
+ *     "status":"exact"
  * })
  */
 class Invoice
@@ -134,7 +143,7 @@ class Invoice
      * @example 6666-2019-0000000012
      *
      * @Gedmo\Versioned
-     * @Groups({"read"})
+     * @Groups({"read", "write"})
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Assert\Length(
      *     max = 255
@@ -155,12 +164,11 @@ class Invoice
     private $referenceId;
 
     /**
-     * @var string The RSIN of the organization that ownes this proces
+     * @var string The RSIN of the organization that owns this process
      *
      * @example 002851234
      *
      * @Gedmo\Versioned
-     * @Assert\NotNull
      * @Assert\Length(
      *     max = 255
      * )
@@ -180,14 +188,13 @@ class Invoice
     private $items;
 
     /**
-     * @var string The price of this product
+     * @var float The price of this product
      *
      * @example 50.00
      *
      * @Gedmo\Versioned
      * @Groups({"read","write"})
-     * @Assert\NotNull
-     * @ORM\Column(type="decimal", precision=8, scale=2)
+     * @ORM\Column(type="decimal", nullable=true)
      */
     private $price;
 
@@ -199,7 +206,7 @@ class Invoice
      * @Gedmo\Versioned
      * @Assert\Currency
      * @Groups({"read","write"})
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $priceCurrency;
 
@@ -244,7 +251,7 @@ class Invoice
      *     max = 255
      * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, name="order_uri")
+     * @ORM\Column(type="string", length=255, nullable=true, name="order_uri")
      */
     private $order;
 
@@ -252,7 +259,7 @@ class Invoice
      * @var Payment The payments of this Invoice
      *
      * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="invoice")
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="invoice", cascade={"persist"})
      * @MaxDepth(1)
      */
     private $payments;
@@ -264,8 +271,7 @@ class Invoice
      *
      * @Groups({"read","write"})
      * @Assert\Url
-     * @Assert\NotNull
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
     private $customer;
 
@@ -276,10 +282,28 @@ class Invoice
     private $organization;
 
     /**
+     * @var string url of payment
+     *
      * @Groups({"read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentUrl;
+
+    /**
+     * @var string url of payment
+     *
+     * @Groups({"read"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentId;
+
+    /**
+     * @var string status of invoice
+     *
+     * @Groups({"read","write"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
 
     /**
      * @var string Remarks on this invoice
@@ -292,7 +316,8 @@ class Invoice
 
     /**
      * @var string Indicator whether the invoice is paid or not
-     * @Groups({"read"})
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $paid = false;
 
@@ -600,9 +625,33 @@ class Invoice
         return $this->paymentUrl;
     }
 
-    public function setPaymentUrl(?string $paymentUrl): self
+    public function setPaymentUrl(string $paymentUrl): self
     {
         $this->paymentUrl = $paymentUrl;
+
+        return $this;
+    }
+
+    public function getPaymentId(): ?string
+    {
+        return $this->paymentId;
+    }
+
+    public function setPaymentId(string $paymentId): self
+    {
+        $this->paymentId = $paymentId;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -621,11 +670,14 @@ class Invoice
 
     public function getPaid(): ?bool
     {
-        if (count($this->getAllPaidPayments()) >= 1) {
-            return true;
-        }
+        return $this->paid;
+    }
 
-        return false;
+    public function setPaid(?bool $paid): self
+    {
+        $this->paid = $paid;
+
+        return $this;
     }
 
     public function getService(): ?Service

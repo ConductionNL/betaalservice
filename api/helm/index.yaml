@@ -1,16 +1,63 @@
 apiVersion: v1
 entries:
-  bc:
+  betaalservice:
   - apiVersion: v1
-    appVersion: V.0.1
-    created: "2020-08-25T08:31:49.0051457Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: c4b1c178c60b7a6efb8a00753971802e5fe44699ecde5fe736f7904244bfeafa
-    home: pc.zaakonline.nl
-    icon: pc.zaakonline.nl
-    name: bc
+    appVersion: V1.0
+    created: "2021-03-19T11:23:44.4991413Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 0be7c025eb9ff0c27acc2458ee39a2fd1514052b58db1cf6a4e2f95f0f14d6bf
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: betaalservice
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
     urls:
-    - bc-0.1.0.tgz
+    - betaalservice-0.1.0.tgz
     version: 0.1.0
-generated: "2020-08-25T08:31:48.9895502Z"
+  postgresql:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 11.10.0
+    created: "2021-03-19T11:23:44.5257125Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 1.x.x
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
+    home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-postgresql
+    - https://www.postgresql.org/
+    urls:
+    - charts/postgresql-10.1.1.tgz
+    version: 10.1.1
+generated: "2021-03-19T11:23:44.4830513Z"

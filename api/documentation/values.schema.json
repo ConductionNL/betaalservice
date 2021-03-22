@@ -1,0 +1,333 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "type": "null"
+                },
+                "hosts": {
+                    "type": "object",
+                    "properties": {
+                        "api": {
+                            "type": "object",
+                            "properties": {
+                                "host": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "serviceName": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "mercure": {
+                            "type": "object",
+                            "properties": {
+                                "host": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "serviceName": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        }
+                    }
+                },
+                "tls": {
+                    "type": "null",
+                    "description": ""
+                }
+            }
+        },
+        "mercure": {
+            "type": "object",
+            "properties": {
+                "acmeHosts": {
+                    "type": "string",
+                    "description": ""
+                },
+                "allowAnonymous": {
+                    "type": "string",
+                    "description": ""
+                },
+                "corsAllowedOrigins": {
+                    "type": "string",
+                    "description": ""
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "publishUrl": {
+                    "type": "string",
+                    "description": ""
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "port": {
+                            "type": "integer"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "subscribeUrl": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "nginx": {
+            "type": "object",
+            "properties": {
+                "pullPolicy": {
+                    "type": "string",
+                    "description": ""
+                },
+                "replicaCount": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "repository": {
+                    "type": "string",
+                    "description": ""
+                },
+                "tag": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "php": {
+            "type": "object",
+            "properties": {
+                "env": {
+                    "type": "string",
+                    "description": ""
+                },
+                "mercure": {
+                    "type": "object",
+                    "properties": {
+                        "jwtSecret": {
+                            "type": "string"
+                        }
+                    },
+                    "description": ""
+                },
+                "replicaCount": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "repository": {
+                    "type": "string",
+                    "description": ""
+                },
+                "secret": {
+                    "type": "string",
+                    "description": ""
+                },
+                "tag": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "postgresql": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "imageTag": {
+                    "type": "string",
+                    "description": ""
+                },
+                "persistence": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": ""
+                },
+                "postgresqlDatabase": {
+                    "type": "string",
+                    "description": ""
+                },
+                "postgresqlPassword": {
+                    "type": "string",
+                    "description": ""
+                },
+                "postgresqlUsername": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "resources": {
+            "type": "object"
+        },
+        "security": {
+            "type": "object",
+            "properties": {
+                "applicationKey": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "settings": {
+            "type": "object",
+            "properties": {
+                "archiveEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "audittrailEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "authorisationEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "cache": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "corsAllowOrigin": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": ""
+                },
+                "debug": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "demo": {
+                    "type": "string",
+                    "description": ""
+                },
+                "description": {
+                    "type": "string",
+                    "description": ""
+                },
+                "domain": {
+                    "type": "string",
+                    "description": ""
+                },
+                "env": {
+                    "type": "string",
+                    "description": ""
+                },
+                "healthEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "loadbalancerEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "name": {
+                    "type": "string",
+                    "description": ""
+                },
+                "notificationEnabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "projectName": {
+                    "type": "string",
+                    "description": ""
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "description": ""
+                },
+                "registryBase": {
+                    "type": "string",
+                    "description": ""
+                },
+                "replicaCount": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "repro": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subdomain": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subpath": {
+                    "type": "string",
+                    "description": ""
+                },
+                "subpathRouting": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "trustedHosts": {
+                    "type": "string",
+                    "description": ""
+                },
+                "trustedProxies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "version": {
+                    "type": "string",
+                    "description": ""
+                },
+                "web": {
+                    "type": "boolean",
+                    "description": ""
+                }
+            }
+        },
+        "varnish": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "description": ""
+                },
+                "replicaCount": {
+                    "type": "integer",
+                    "description": ""
+                },
+                "repository": {
+                    "type": "string",
+                    "description": ""
+                },
+                "tag": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        }
+    }
+}

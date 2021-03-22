@@ -24,7 +24,11 @@ spec:
     spec:
       containers:
         - name: {{ .Values.settings.name }}-nginx
+        {{ if eq .Values.settings.env "prod"}}
+          image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-nginx:latest"
+        {{ else }}
           image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-nginx:{{ .Values.settings.env }}"
+        {{ end }}
           imagePullPolicy: {{ .Values.settings.pullPolicy }}
           ports:
             - containerPort: 80
