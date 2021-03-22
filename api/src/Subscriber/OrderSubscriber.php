@@ -132,7 +132,7 @@ class OrderSubscriber implements EventSubscriberInterface
             }
             $this->em->flush();
         }
-        $invoice->setOrder($order['@id']);
+        $invoice->setOrder($this->commonGroundService->cleanUrl(['component' => 'orc', 'type' => 'orders', 'id' => $order['id']]));
 
         // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
         $organization = $this->em->getRepository('App:Organization')->findOneBy(['rsin' => $order['organization']]);
