@@ -42,7 +42,7 @@ class MollieService
             $currency = $invoice->getPriceCurrency();
             $amount = ''.$invoice->getPrice();
             $description = $invoice->getDescription();
-            $redirectUrl = $invoice->getOrganization()->getRedirectUrl();
+            $redirectUrl = $invoice->getRedirectUrl();
 
             try {
                 $molliePayment = $this->mollie->payments->create([

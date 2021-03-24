@@ -89,7 +89,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "name":"partial",
  *     "order":"exact",
  *     "customer":"exact",
- *     "status":"exact"
+ *     "status":"exact",
+ *     "organization":"exact"
  * })
  */
 class Invoice
@@ -164,19 +165,31 @@ class Invoice
     private $referenceId;
 
     /**
-     * @var string The RSIN of the organization that owns this process
+     * @var string The organization this invoice belongs to
      *
-     * @example 002851234
-     *
-     * @Gedmo\Versioned
-     * @Assert\Length(
-     *     max = 255
-     * )
      * @Groups({"read", "write"})
+     * @Assert\Url
+     * @Assert\Length(
+     *     max=255
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
-    private $targetOrganization;
+    private $organization;
+
+//    /**
+//     * @var string The RSIN of the organization that owns this process
+//     *
+//     * @example 002851234
+//     *
+//     * @Gedmo\Versioned
+//     * @Assert\Length(
+//     *     max = 255
+//     * )
+//     * @Groups({"read", "write"})
+//     * @ORM\Column(type="string", length=255, nullable=true)
+//     * @ApiFilter(SearchFilter::class, strategy="exact")
+//     */
+//    private $targetOrganization;
 
     /**
      * @var ArrayCollection The items in this invoice
@@ -276,18 +289,20 @@ class Invoice
     private $customer;
 
     /**
-     * @Groups({"read"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="invoices", cascade={"persist"})
-     */
-    private $organization;
-
-    /**
      * @var string url of payment
      *
      * @Groups({"read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $paymentUrl;
+
+    /**
+     * @var string url of payment
+     *
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $redirectUrl;
 
     /**
      * @var string url of payment
@@ -454,17 +469,17 @@ class Invoice
         return $this;
     }
 
-    public function getTargetOrganization(): ?string
-    {
-        return $this->targetOrganization;
-    }
-
-    public function setTargetOrganization(string $targetOrganization): self
-    {
-        $this->targetOrganization = $targetOrganization;
-
-        return $this;
-    }
+//    public function getTargetOrganization(): ?string
+//    {
+//        return $this->targetOrganization;
+//    }
+//
+//    public function setTargetOrganization(string $targetOrganization): self
+//    {
+//        $this->targetOrganization = $targetOrganization;
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection|InvoiceItem[]
@@ -608,12 +623,12 @@ class Invoice
         return $this;
     }
 
-    public function getOrganization(): ?Organization
+    public function getOrganization(): ?string
     {
         return $this->organization;
     }
 
-    public function setOrganization(?Organization $organization): self
+    public function setOrganization(string $organization): self
     {
         $this->organization = $organization;
 
@@ -628,6 +643,18 @@ class Invoice
     public function setPaymentUrl(string $paymentUrl): self
     {
         $this->paymentUrl = $paymentUrl;
+
+        return $this;
+    }
+
+    public function getRedirectUrl(): ?string
+    {
+        return $this->redirectUrl;
+    }
+
+    public function setRedirectUrl(string $redirectUrl): self
+    {
+        $this->redirectUrl = $redirectUrl;
 
         return $this;
     }
