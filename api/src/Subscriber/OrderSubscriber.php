@@ -48,13 +48,9 @@ class OrderSubscriber implements EventSubscriberInterface
 
     public function invoice(RequestEvent $event)
     {
-//        $result = $event->getControllerResult();
         try {
-
-
             $method = $event->getRequest()->getMethod();
             $route = $event->getRequest()->attributes->get('_route');
-
             $post = json_decode($event->getRequest()->getContent(), true);
 
             $contentType = $event->getRequest()->headers->get('accept');
@@ -93,68 +89,29 @@ class OrderSubscriber implements EventSubscriberInterface
 
             $order = $this->commonGroundService->getResource($post['orderUrl']);
 
-            $invoice = new Invoice();
+            $invoiceRepostiory = $this->em->getRepository(Invoice::class);
+            $invoices = $invoiceRepostiory->findBy([
+                'order' => $order['@id']
+            ]);
 
-            $invoice->setRedirectUrl($post['redirectUrl']);
-
-            if (array_key_exists('reference', $order) && $order['reference']) {
-                $invoice->setName($order['reference']);
-            }
-            if (array_key_exists('description', $order) && $order['description']) {
-                $invoice->setDescription($order['description']);
-            }
-            if (array_key_exists('remark', $order) && $order['remark'] != null) {
-                $invoice->setRemark($order['remark']);
-            }
-            if (array_key_exists('customer', $order) && $order['customer'] != null) {
-                $invoice->setCustomer($order['customer']);
-            }
-            if (array_key_exists('organization', $order) && $order['organization'] != null) {
-                $invoice->setOrganization($order['organization']);
-            }
-            if (array_key_exists('price', $order) && $order['price'] != null) {
-                $invoice->setPrice($order['price']);
-            }
-            if (array_key_exists('priceCurrency', $order) && $order['priceCurrency'] != null) {
-                $invoice->setPrice($order['priceCurrency']);
-            }
-
-            $this->em->persist($invoice);
-            $this->em->flush();
-
-            if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
-                foreach ($order['items'] as $item) {
-                    $invoiceItem = new InvoiceItem();
-                    if (array_key_exists('name', $item) && $item['name'] != null) {
-                        $invoiceItem->setName($item['name']);
+            if (isset($invoices)) {
+                $highestTimestamp = 0;
+                foreach ($invoices as $invoice) {
+                    if ($invoice->getDateCreated()->getTimestamp() > $highestTimestamp) {
+                        $highestTimestamp = $invoice->getDateCreated()->getTimestamp();
+                        $latestInvoice = $invoice;
                     }
-                    if (array_key_exists('description', $item) && $item['description'] != null) {
-                        $invoiceItem->setName($item['description']);
-                    }
-                    if (array_key_exists('offer', $item) && $item['offer'] != null) {
-                        $invoiceItem->setOffer($item['offer']);
-                    }
-                    if (array_key_exists('quantity', $item) && $item['quantity'] != null) {
-                        $invoiceItem->setQuantity($item['quantity']);
-                    }
-                    if (array_key_exists('price', $item) && $item['price'] != null) {
-                        $invoiceItem->setPrice($item['price']);
-                    }
-                    if (array_key_exists('priceCurrency', $item) && $item['priceCurrency'] != null) {
-                        $invoiceItem->setPriceCurrency($item['priceCurrency']);
-                    }
-                    $invoice->addItem($invoiceItem);
-                    $this->em->persist($invoice);
                 }
-                $this->em->flush();
             }
-            $invoice->setOrder($order['@id']);
 
-            // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-            $organization = $this->commonGroundService->getResourceList($order['organization']);
+            if (isset($latestInvoice)) {
+                $invoice = $latestInvoice;
+                $invoice->setRedirectUrl($post['redirectUrl']);
+            } else {
+                $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
+            }
 
             $serviceRepository = $this->em->getRepository(Service::class);
-
             $services = $serviceRepository->findBy(array('organization' => $order['organization']));
 
             if (isset($services) && count($services) > 0) {
@@ -162,13 +119,10 @@ class OrderSubscriber implements EventSubscriberInterface
                 $this->em->persist($invoice);
                 $this->em->flush();
             }
-
             // Update the order
             $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
-//            $order['invoice'] = 'https://dev.larping.eu/v1/api/bc/invoices/' . $invoice->getId();
-
             unset($order['items']);
-            $order = $this->commonGroundService->saveResource($order, $order['@id']);
+            $this->commonGroundService->saveResource($order, $order['@id']);
 
             // recalculate all the invoice totals
             $invoice->calculateTotals();
@@ -222,6 +176,66 @@ class OrderSubscriber implements EventSubscriberInterface
             );
             $event->setResponse($response);
         }
+
+        return $invoice;
+    }
+
+    public function createInvoiceFromOrder($order, $redirectUrl)
+    {
+        $invoice = new Invoice();
+        $invoice->setRedirectUrl($redirectUrl);
+
+        if (array_key_exists('reference', $order) && $order['reference']) {
+            $invoice->setName($order['reference']);
+        }
+        if (array_key_exists('description', $order) && $order['description']) {
+            $invoice->setDescription($order['description']);
+        }
+        if (array_key_exists('remark', $order) && $order['remark'] != null) {
+            $invoice->setRemark($order['remark']);
+        }
+        if (array_key_exists('customer', $order) && $order['customer'] != null) {
+            $invoice->setCustomer($order['customer']);
+        }
+        if (array_key_exists('organization', $order) && $order['organization'] != null) {
+            $invoice->setOrganization($order['organization']);
+        }
+        if (array_key_exists('price', $order) && $order['price'] != null) {
+            $invoice->setPrice($order['price']);
+        }
+        if (array_key_exists('priceCurrency', $order) && $order['priceCurrency'] != null) {
+            $invoice->setPrice($order['priceCurrency']);
+        }
+        $this->em->persist($invoice);
+        $this->em->flush();
+
+        if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
+            foreach ($order['items'] as $item) {
+                $invoiceItem = new InvoiceItem();
+                if (array_key_exists('name', $item) && $item['name'] != null) {
+                    $invoiceItem->setName($item['name']);
+                }
+                if (array_key_exists('description', $item) && $item['description'] != null) {
+                    $invoiceItem->setName($item['description']);
+                }
+                if (array_key_exists('offer', $item) && $item['offer'] != null) {
+                    $invoiceItem->setOffer($item['offer']);
+                }
+                if (array_key_exists('quantity', $item) && $item['quantity'] != null) {
+                    $invoiceItem->setQuantity($item['quantity']);
+                }
+                if (array_key_exists('price', $item) && $item['price'] != null) {
+                    $invoiceItem->setPrice($item['price']);
+                }
+                if (array_key_exists('priceCurrency', $item) && $item['priceCurrency'] != null) {
+                    $invoiceItem->setPriceCurrency($item['priceCurrency']);
+                }
+                $invoice->addItem($invoiceItem);
+            }
+        }
+        $invoice->setOrder($order['@id']);
+        $this->em->persist($invoice);
+        $this->em->flush();
 
         return $invoice;
     }

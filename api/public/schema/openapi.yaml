@@ -10270,9 +10270,6 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
-        authorization:
-          description: 'The API key for this payment provider'
-          type: string
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10344,9 +10341,6 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
-        authorization:
-          description: 'The API key for this payment provider'
-          type: string
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10944,9 +10938,6 @@ definitions:
         type: string
         format: url
         maxLength: 255
-      authorization:
-        description: 'The API key for this payment provider'
-        type: string
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
@@ -11153,12 +11144,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-24 17:04:21'
+        example: '2021-03-26 13:05:59'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-24 17:04:21'
+        example: '2021-03-26 13:05:59'
     required: []
   AuditTrail-write:
     properties:
@@ -11206,12 +11197,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-24 17:04:21'
+        example: '2021-03-26 13:05:59'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-24 17:04:21'
+        example: '2021-03-26 13:05:59'
     required: []
   ChangeLog-write:
     properties:
