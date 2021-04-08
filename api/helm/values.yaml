@@ -11,7 +11,7 @@ settings:
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
   repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
-  domain: conduction.nl
+  domain: larping.eu
   subdomain: betaalservice
   subpath: betaalservice
   subpathRouting: true
@@ -60,9 +60,9 @@ redis:
   enabled: false
 commonground:
   eherkenning:
-    location: https://conduction.nl/eherkenning
+    location: https://larping.eu/eherkenning
   digispoof:
-    location: https://conduction.nl/digispoof
+    location: https://larping.eu/digispoof
 
 nginx:
   repository: docker.io/conduction/protocomponent-nginx

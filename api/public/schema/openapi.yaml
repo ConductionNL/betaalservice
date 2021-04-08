@@ -3230,6 +3230,15 @@ paths:
               - asc
               - desc
         -
+          name: 'order[paymentCustomerId]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[referenceId]'
           in: query
           required: false
@@ -3303,6 +3312,15 @@ paths:
               - desc
         -
           name: 'order[customer]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[subscriptionId]'
           in: query
           required: false
           schema:
@@ -3506,6 +3524,22 @@ paths:
             type: string
         -
           name: 'reference[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: paymentCustomerId
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'paymentCustomerId[]'
           in: query
           required: false
           schema:
@@ -7855,6 +7889,137 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  /subscription:
+    post:
+      tags:
+        - Invoice
+      operationId: post_create_subscriptionInvoiceCollection
+      summary: 'Creates a Invoice resource.'
+      responses:
+        201:
+          description: 'Invoice resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Invoice:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Invoice-read'
+          links:
+            GetInvoiceItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getInvoiceItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /invoices/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Invoice:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Invoice-write'
+        description: 'The new Invoice resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
   /taxes:
     get:
       tags:
@@ -9385,6 +9550,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
+        paymentCustomerId:
+          description: 'The identification number of the customer generated by the payment provider'
+          type: string
+          nullable: true
         organization:
           description: 'The organization this invoice belongs to'
           externalDocs:
@@ -9437,16 +9606,20 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
+        subscriptionId:
+          description: 'The id of the active subscription (non commonground)'
+          type: string
+          nullable: true
         paymentUrl:
           description: 'url of payment'
           type: string
           nullable: true
         redirectUrl:
-          description: 'url of payment'
+          description: 'redirect url after payment'
           type: string
           nullable: true
         paymentId:
-          description: 'url of payment'
+          description: 'id of payment'
           type: string
           nullable: true
         status:
@@ -9481,6 +9654,10 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+          type: string
+          nullable: true
+        paymentCustomerId:
+          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9519,8 +9696,12 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
+        subscriptionId:
+          description: 'The id of the active subscription (non commonground)'
+          type: string
+          nullable: true
         redirectUrl:
-          description: 'url of payment'
+          description: 'redirect url after payment'
           type: string
           nullable: true
         status:
@@ -9571,6 +9752,10 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
+          type: string
+          nullable: true
+        paymentCustomerId:
+          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9625,16 +9810,20 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
+        subscriptionId:
+          description: 'The id of the active subscription (non commonground)'
+          type: string
+          nullable: true
         paymentUrl:
           description: 'url of payment'
           type: string
           nullable: true
         redirectUrl:
-          description: 'url of payment'
+          description: 'redirect url after payment'
           type: string
           nullable: true
         paymentId:
-          description: 'url of payment'
+          description: 'id of payment'
           type: string
           nullable: true
         status:
@@ -9680,6 +9869,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
+        paymentCustomerId:
+          description: 'The identification number of the customer generated by the payment provider'
+          type: string
+          nullable: true
         organization:
           description: 'The organization this invoice belongs to'
           externalDocs:
@@ -9716,8 +9909,12 @@ components:
             url: 'http://schema.org/url'
           type: string
           nullable: true
+        subscriptionId:
+          description: 'The id of the active subscription (non commonground)'
+          type: string
+          nullable: true
         redirectUrl:
-          description: 'url of payment'
+          description: 'redirect url after payment'
           type: string
           nullable: true
         status:
@@ -10591,6 +10788,11 @@ definitions:
         type: string
         example: 6666-2019-0000000012
         maxLength: 255
+      paymentCustomerId:
+        description: 'The identification number of the customer generated by the payment provider'
+        type: string
+        example: ABC12345678
+        maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
         type: string
@@ -10626,14 +10828,18 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
+      subscriptionId:
+        description: 'The id of the active subscription (non commonground)'
+        type: string
+        example: ABC12678
       paymentUrl:
         description: 'url of payment'
         type: string
       redirectUrl:
-        description: 'url of payment'
+        description: 'redirect url after payment'
         type: string
       paymentId:
-        description: 'url of payment'
+        description: 'id of payment'
         type: string
       status:
         description: 'status of invoice'
@@ -10671,6 +10877,11 @@ definitions:
         type: string
         example: 6666-2019-0000000012
         maxLength: 255
+      paymentCustomerId:
+        description: 'The identification number of the customer generated by the payment provider'
+        type: string
+        example: ABC12345678
+        maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
         type: string
@@ -10694,8 +10905,12 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
+      subscriptionId:
+        description: 'The id of the active subscription (non commonground)'
+        type: string
+        example: ABC12678
       redirectUrl:
-        description: 'url of payment'
+        description: 'redirect url after payment'
         type: string
       status:
         description: 'status of invoice'
@@ -11144,12 +11359,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-26 13:05:59'
+        example: '2021-04-08 17:20:43'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-26 13:05:59'
+        example: '2021-04-08 17:20:43'
     required: []
   AuditTrail-write:
     properties:
@@ -11197,12 +11412,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-03-26 13:05:59'
+        example: '2021-04-08 17:20:43'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-03-26 13:05:59'
+        example: '2021-04-08 17:20:43'
     required: []
   ChangeLog-write:
     properties:
@@ -11279,8 +11494,8 @@ securityDefinitions:
 host: irc.zaakonline.nl
 servers:
   -
-    name: conduction.nl
-    url: betaalservice.dev.conduction.nl
+    name: larping.eu
+    url: betaalservice.dev.larping.eu
 externalDocs:
   -
     description: 'OAS Documentatie'
