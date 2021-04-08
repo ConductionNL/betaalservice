@@ -4,31 +4,23 @@
 
 settings:
   registryBase: docker.io/conduction
-  projectName: bc
-  name: bc
-  title: Betaal Service
+  projectName: betaalservice
+  name: betaalservice
   version: V1.0
   majorVersion: v1
-  id: 
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  type: component
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
-  container: https://hub.docker.com/repository/docker/conduction/bc-php
   domain: conduction.nl
-  subdomain: bc
-  subpath: bc
+  subdomain: betaalservice
+  subpath: betaalservice
   subpathRouting: true
-  organisationName: Conduction
-  email: info@conduction.nl
-  country: Netherlands
-  state: Noord-Holland
-  locality: Amsterdam
-  unit: Common-Ground
   env: dev
   web: false
   debug: 1
-  cache: 1
+  cache: false
+  type: component
+  id: 
   replicaCount: 1
   corsAllowOrigin: ['*']
   trustedHosts: '^.+$'
@@ -38,11 +30,9 @@ settings:
     - 10.0.0.0/8
     - 172.16.0.0/12
     - 192.168.0.0/16
-  # If you are runnig a single component on a kubernetes cluster you can just easaliy enable the load balancer, if not you need to set up a multi component load balancer
+  # If you are running a single component on a kubernetes cluster you can just easily enable the load balancer, if not you need to set up a multi component load balancer
   loadbalancerEnabled: false
-  # If you want to enable NLX you are requered to add the appropreate certificates to you nlx-settings folder (located in the /api folder)
-  nlxInwayEnabled: false
-  # If you are runnig a single component on a kubernetes cluster you can just easaliy enable the load balancer, if not you need to set up a multi component load balancer
+  # If you are running a single component on a kubernetes cluster you can just easily enable the load balancer, if not you need to set up a multi component load balancer
   notificationEnabled: false
   audittrailEnabled: false
   authorisationEnabled: false
@@ -50,12 +40,7 @@ settings:
   archiveEnabled: false
 
 security:
-  commongroundId: "7919a58b-3fd9-4931-ad70-2ccc1168ef23"
-  commongroundKey: "7919a58b-3fd9-4931-ad70-2ccc1168ef23"
   applicationKey: "7919a58b-3fd9-4931-ad70-2ccc1168ef23"
-  userKey: "79d5b14c-70ab-41fb-ac02-917e3288870b"
-  authorisationProviderUser: https://uc.zuid-drecht.nl
-  authorisationProviderApplication: https://openzaak.dev.zuid-drecht.nl/authorizaties/api/v1
 
 
 php:
@@ -66,6 +51,18 @@ php:
   env: prod
   secret: ""
   replicaCount: 2
+
+redis:
+  cluster:
+    enabled: false
+  redisPort: 6379
+  usePassword: false
+  enabled: false
+commonground:
+  eherkenning:
+    location: https://conduction.nl/eherkenning
+  digispoof:
+    location: https://conduction.nl/digispoof
 
 nginx:
   repository: docker.io/conduction/protocomponent-nginx

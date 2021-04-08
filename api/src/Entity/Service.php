@@ -88,11 +88,14 @@ class Service
     private $type;
 
     /**
-     * @var Organization The organization this payment provider is linked to
+     * @var string The organization this Service belongs to
      *
-     * @Groups({"read","write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="services", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read", "write"})
+     * @Assert\Url
+     * @Assert\Length(
+     *     max=255
+     * )
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $organization;
 
@@ -159,12 +162,12 @@ class Service
         return $this;
     }
 
-    public function getOrganization(): ?Organization
+    public function getOrganization(): ?string
     {
         return $this->organization;
     }
 
-    public function setOrganization(?Organization $organization): self
+    public function setOrganization(string $organization): self
     {
         $this->organization = $organization;
 

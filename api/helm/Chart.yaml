@@ -1,10 +1,23 @@
 apiVersion: v1
 appVersion: V1.0
 description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-name: bc
+name: betaalservice
 version: 0.1.0
-home: pc.zaakonline.nl
-icon: pc.zaakonline.nl
+home: https://www.conduction.nl
+icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
 dependencies:
     - name: postgresql
       repository: https://charts.bitnami.com/bitnami

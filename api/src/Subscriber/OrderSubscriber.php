@@ -48,53 +48,142 @@ class OrderSubscriber implements EventSubscriberInterface
 
     public function invoice(RequestEvent $event)
     {
-//        $result = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
-        $route = $event->getRequest()->attributes->get('_route');
+        try {
+            $method = $event->getRequest()->getMethod();
+            $route = $event->getRequest()->attributes->get('_route');
+            $post = json_decode($event->getRequest()->getContent(), true);
 
-        $post = json_decode($event->getRequest()->getContent(), true);
-
-        $contentType = $event->getRequest()->headers->get('accept');
-        if (!$contentType) {
-            $contentType = $event->getRequest()->headers->get('Accept');
-        }
-        switch ($contentType) {
-            case 'application/json':
-                $renderType = 'json';
-                break;
-            case 'application/ld+json':
-                $renderType = 'jsonld';
-                break;
-            case 'application/hal+json':
-                $renderType = 'jsonhal';
-                break;
-            default:
-                $contentType = 'application/json';
-                $renderType = 'json';
-        }
-
-        if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $post == null)) {
-            return;
-        }
-
-        $needed = [
-            'url',
-            'mollieKey',
-            'redirectUrl',
-
-        ];
-
-        foreach ($needed as $requirement) {
-            if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
-                throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
+            $contentType = $event->getRequest()->headers->get('accept');
+            if (!$contentType) {
+                $contentType = $event->getRequest()->headers->get('Accept');
             }
+            switch ($contentType) {
+                case 'application/json':
+                    $renderType = 'json';
+                    break;
+                case 'application/ld+json':
+                    $renderType = 'jsonld';
+                    break;
+                case 'application/hal+json':
+                    $renderType = 'jsonhal';
+                    break;
+                default:
+                    $contentType = 'application/json';
+                    $renderType = 'json';
+            }
+
+            if ($method != 'POST' || ($route != 'api_invoices_post_order_collection' || $post == null)) {
+                return;
+            }
+
+            $needed = [
+                'orderUrl',
+                'redirectUrl'
+            ];
+
+            foreach ($needed as $requirement) {
+                if (!array_key_exists($requirement, $post) || $post[$requirement] == null) {
+                    throw new BadRequestHttpException(sprintf('Compulsory property "%s" is not defined', $requirement));
+                }
+            }
+
+            $order = $this->commonGroundService->getResource($post['orderUrl']);
+
+            $invoiceRepostiory = $this->em->getRepository(Invoice::class);
+            $invoices = $invoiceRepostiory->findBy([
+                'order' => $order['@id']
+            ]);
+
+            if (isset($invoices)) {
+                $highestTimestamp = 0;
+                foreach ($invoices as $invoice) {
+                    if ($invoice->getDateCreated()->getTimestamp() > $highestTimestamp) {
+                        $highestTimestamp = $invoice->getDateCreated()->getTimestamp();
+                        $latestInvoice = $invoice;
+                    }
+                }
+            }
+
+            if (isset($latestInvoice)) {
+                $invoice = $latestInvoice;
+                $invoice->setRedirectUrl($post['redirectUrl']);
+            } else {
+                $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
+            }
+
+            $serviceRepository = $this->em->getRepository(Service::class);
+            $services = $serviceRepository->findBy(array('organization' => $order['organization']));
+
+            if (isset($services) && count($services) > 0) {
+                $invoice->setService($services[0]);
+                $this->em->persist($invoice);
+                $this->em->flush();
+            }
+            // Update the order
+            $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
+            unset($order['items']);
+            $this->commonGroundService->saveResource($order, $order['@id']);
+
+            // recalculate all the invoice totals
+            $invoice->calculateTotals();
+
+            if ($invoice->getService() != null) {
+                $service = $invoice->getService();
+                switch ($service->getType()) {
+                    case 'mollie':
+                        $mollieService = new MollieService($service);
+                        $payment = $mollieService->createPayment($invoice, $event->getRequest());
+                        $invoice->setPaymentUrl($payment['checkOutUrl']);
+                        $invoice->setPaymentId($payment['mollieId']);
+                        $this->em->persist($invoice);
+                        $this->em->flush();
+                        break;
+                    case 'sumup':
+                        $sumupService = new SumUpService($invoice->getService());
+                        $paymentUrl = $sumupService->createPayment($invoice);
+                        $invoice->setPaymentUrl($paymentUrl);
+                        break;
+                }
+            }
+
+            $json = $this->serializer->serialize(
+                $invoice,
+                $renderType,
+                ['enable_max_depth' => true]
+            );
+
+            // Creating a response
+            $response = new Response(
+                $json,
+                Response::HTTP_CREATED,
+                ['content-type' => $contentType]
+            );
+            $event->setResponse($response);
+        } catch (\Exception $e) {
+
+
+            $json = $this->serializer->serialize(
+                $e->getMessage(),
+                $renderType,
+                ['enable_max_depth' => true]
+            );
+
+            // Creating a response
+            $response = new Response(
+                $json,
+                Response::HTTP_CREATED,
+                ['content-type' => $contentType]
+            );
+            $event->setResponse($response);
         }
 
-        $order = $this->commonGroundService->getResource($post['url']);
-        $mollieKey = $post['mollieKey'];
-        $redirectUrl = $post['redirectUrl'];
+        return $invoice;
+    }
 
+    public function createInvoiceFromOrder($order, $redirectUrl)
+    {
         $invoice = new Invoice();
+        $invoice->setRedirectUrl($redirectUrl);
 
         if (array_key_exists('reference', $order) && $order['reference']) {
             $invoice->setName($order['reference']);
@@ -108,12 +197,27 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('customer', $order) && $order['customer'] != null) {
             $invoice->setCustomer($order['customer']);
         }
+        if (array_key_exists('organization', $order) && $order['organization'] != null) {
+            $invoice->setOrganization($order['organization']);
+        }
+        if (array_key_exists('price', $order) && $order['price'] != null) {
+            $invoice->setPrice($order['price']);
+        }
+        if (array_key_exists('priceCurrency', $order) && $order['priceCurrency'] != null) {
+            $invoice->setPrice($order['priceCurrency']);
+        }
         $this->em->persist($invoice);
         $this->em->flush();
+
         if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
             foreach ($order['items'] as $item) {
                 $invoiceItem = new InvoiceItem();
-                $invoiceItem->setName($item['name']);
+                if (array_key_exists('name', $item) && $item['name'] != null) {
+                    $invoiceItem->setName($item['name']);
+                }
+                if (array_key_exists('description', $item) && $item['description'] != null) {
+                    $invoiceItem->setName($item['description']);
+                }
                 if (array_key_exists('offer', $item) && $item['offer'] != null) {
                     $invoiceItem->setOffer($item['offer']);
                 }
@@ -127,118 +231,11 @@ class OrderSubscriber implements EventSubscriberInterface
                     $invoiceItem->setPriceCurrency($item['priceCurrency']);
                 }
                 $invoice->addItem($invoiceItem);
-                $this->em->persist($invoice);
             }
-            $this->em->flush();
         }
         $invoice->setOrder($order['@id']);
-
-        // invoice organization ip er vanuit gaan dat er een organisation object is meegeleverd
-        $organization = $this->em->getRepository('App:Organization')->findOrCreateByRsin($order['organization']);
-
-        if (!($organization instanceof Organization)) {
-            // invoice targetOrganization ip er vanuit gaan dat er een organisation object is meegeleverd
-            $organization = new Organization();
-            $organization->setRsin($order['organization']);
-            if (array_key_exists('organization', $order) && array_key_exists('shortCode', $order['organization'])) {
-                $organization->setShortCode($order['organization']['shortCode']);
-            }
-        }
-
-        $organization->setRedirectUrl($redirectUrl);
-        $service = new Service();
-        $service->setAuthorization($mollieKey);
-        $service->setOrganization($organization);
-        $service->setType('mollie');
-
-        $invoice->setPrice($order['price']);
-        $invoice->setPriceCurrency($order['priceCurrency']);
-        $invoice->setOrganization($organization);
-        $invoice->setTargetOrganization($order['organization']);
-        $invoice->setService($service);
-
-//        $invoiceItem = new InvoiceItem();
-//        $invoiceItem->setName($order['reference']);
-//        $invoiceItem->setPrice($order['price']);
-//        $invoiceItem->setPriceCurrency($order['priceCurrency']);
-//        $invoiceItem->setQuantity(1);
-//        $invoice->addItem($invoiceItem);
-
-        /*
-        if (array_key_exists('items', $order)) {
-            foreach ($order['items'] as $item) {
-                $invoiceItem = new InvoiceItem();
-                $invoiceItem->setName($item['name']);
-                $invoiceItem->setDescription($item['description']);
-                $invoiceItem->setPrice($item['price']);
-                $invoiceItem->setPriceCurrency($item['priceCurrency']);
-                $invoiceItem->setOffer($item['offer']);
-                $invoiceItem->setQuantity($item['quantity']);
-                $invoice->addItem($invoiceItem);
-
-                foreach ($item['taxes'] as $taxPost) {
-                    $tax = new Tax();
-                    $tax->setName($taxPost['name']);
-                    $tax->setDescription($taxPost['description']);
-                    $tax->setPrice($taxPost['price']);
-                    $tax->setPriceCurrency($taxPost['priceCurrency']);
-                    $tax->setPercentage($taxPost['percentage']);
-                    $invoiceItem->addTax($tax);
-                }
-            }
-        }
-        */
-
-        // Lets throw it in the db
-        $this->em->persist($organization);
-        $this->em->persist($service);
         $this->em->persist($invoice);
         $this->em->flush();
-        $orderUpdate = [];
-        $orderUpdate['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
-        $order = $this->commonGroundService->updateResource($orderUpdate, $invoice->getOrder());
-
-        // recalculate all the invoice totals
-        $invoice->calculateTotals();
-
-        // Only create payment links if a payment service is configured
-        if (
-            (!$paymentService = $invoice->getService()) &&
-            $invoice->getOrganization() != null
-        ) {
-            $paymentService = $invoice->getService();
-        }
-        if (isset($paymentService)) {
-            switch ($paymentService->getType()) {
-                case 'mollie':
-                    $mollieService = new MollieService($paymentService);
-                    $payment = $mollieService->createPayment($invoice, $event->getRequest());
-                    $invoice->setPaymentUrl($payment['checkOutUrl']);
-                    $invoice->setPaymentId($payment['mollieId']);
-                    $this->em->persist($invoice);
-                    $this->em->flush();
-                    break;
-                case 'sumup':
-                    $sumupService = new SumUpService($paymentService);
-                    $paymentUrl = $sumupService->createPayment($invoice);
-                    $invoice->setPaymentUrl($paymentUrl);
-                    break;
-            }
-        }
-
-        $json = $this->serializer->serialize(
-            $invoice,
-            $renderType,
-            ['enable_max_depth' => true]
-        );
-
-        // Creating a response
-        $response = new Response(
-            $json,
-            Response::HTTP_CREATED,
-            ['content-type' => $contentType]
-        );
-        $event->setResponse($response);
 
         return $invoice;
     }

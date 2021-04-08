@@ -19,9 +19,6 @@
     "api-platform/schema-generator": {
         "version": "v2.1.0"
     },
-    "beberlei/doctrineextensions": {
-        "version": "v1.2.7"
-    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -127,12 +124,6 @@
     },
     "doctrine/persistence": {
         "version": "1.1.1"
-    },
-    "doctrine/reflection": {
-        "version": "v1.0.0"
-    },
-    "doctrine/rst-parser": {
-        "version": "0.1.0"
     },
     "doctrine/sql-formatter": {
         "version": "1.1.1"
@@ -481,6 +472,9 @@
     "symfony/property-info": {
         "version": "v4.3.1"
     },
+    "symfony/proxy-manager-bridge": {
+        "version": "v5.1.10"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -624,9 +618,6 @@
     },
     "twig/twig": {
         "version": "v2.11.3"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.4.0"

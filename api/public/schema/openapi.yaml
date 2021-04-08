@@ -1,16 +1,16 @@
 openapi: 3.0.2
 info:
-  title: 'Betaal Service'
+  title: ''
   version: V1.0
   description: |
     API Details
-    - Component: Betaal Service
-    - Reference: bc
+    - Component: 
+    - Reference: betaalservice
     - Enviroment: dev
     - Version: V1.0
-    - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
-    - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/bc-php) 
-    - Datamodel: [postman](schema/bc.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Repository: [online](https://github.com/ConductionNL/betaalservice) / [zip](https://github.com/ConductionNL/betaalservice/archive/master.zip)
+    - Docker Image: [online]() 
+    - Datamodel: [postman](schema/betaalservice.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -32,7 +32,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/AuditTrail:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -42,7 +42,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/AuditTrail:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -1053,7 +1053,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/ChangeLog:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -1063,7 +1063,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/ChangeLog:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -1959,7 +1959,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/InvoiceItem:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -1969,7 +1969,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/InvoiceItem:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -3124,7 +3124,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Invoice:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -3134,7 +3134,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Invoice:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -3239,7 +3239,7 @@ paths:
               - asc
               - desc
         -
-          name: 'order[targetOrganization]'
+          name: 'order[organization]'
           in: query
           required: false
           schema:
@@ -3312,6 +3312,15 @@ paths:
               - desc
         -
           name: 'order[paymentUrl]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[redirectUrl]'
           in: query
           required: false
           schema:
@@ -3474,13 +3483,13 @@ paths:
           style: form
           explode: true
         -
-          name: reference
+          name: organization
           in: query
           required: false
           schema:
             type: string
         -
-          name: 'reference[]'
+          name: 'organization[]'
           in: query
           required: false
           schema:
@@ -3490,13 +3499,13 @@ paths:
           style: form
           explode: true
         -
-          name: targetOrganization
+          name: reference
           in: query
           required: false
           schema:
             type: string
         -
-          name: 'targetOrganization[]'
+          name: 'reference[]'
           in: query
           required: false
           schema:
@@ -4442,7 +4451,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Organization:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -4452,7 +4461,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Organization:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -5507,7 +5516,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Payment:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -5517,7 +5526,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Payment:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -6642,7 +6651,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Service:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -6652,7 +6661,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Service:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -6722,6 +6731,15 @@ paths:
               - desc
         -
           name: 'order[type]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[organization]'
           in: query
           required: false
           schema:
@@ -6837,6 +6855,22 @@ paths:
             type: string
         -
           name: 'type[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: organization
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'organization[]'
           in: query
           required: false
           schema:
@@ -7838,7 +7872,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Tax:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/json+ld:
@@ -7848,7 +7882,7 @@ paths:
                   'hydra:member': { type: array, items: { $ref: '#/components/schemas/Tax:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
                 required:
                   - 'hydra:member'
             application/hal+json:
@@ -9351,8 +9385,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
-        targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+        organization:
+          description: 'The organization this invoice belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
           nullable: true
         items:
@@ -9363,11 +9399,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         taxes:
           readOnly: true
           description: 'A list of total taxes'
@@ -9398,12 +9436,12 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
-        organization:
           nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Organization-read'
         paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        redirectUrl:
           description: 'url of payment'
           type: string
           nullable: true
@@ -9429,9 +9467,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-read'
-      required:
-        - price
-        - customer
     Invoice-write:
       type: object
       description: 'An entity representing an invoice.'
@@ -9448,8 +9483,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
-        targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+        organization:
+          description: 'The organization this invoice belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
           nullable: true
         items:
@@ -9460,11 +9497,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         order:
           description: 'The order of this invoice'
           type: string
@@ -9479,6 +9518,11 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
+        redirectUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -9497,9 +9541,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-write'
-      required:
-        - price
-        - customer
     'Invoice:jsonld-read':
       type: object
       description: 'An entity representing an invoice.'
@@ -9532,8 +9573,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
-        targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+        organization:
+          description: 'The organization this invoice belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
           nullable: true
         items:
@@ -9544,11 +9587,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         taxes:
           readOnly: true
           description: 'A list of total taxes'
@@ -9579,12 +9624,12 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
-        organization:
           nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Organization:jsonld-read'
         paymentUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
+        redirectUrl:
           description: 'url of payment'
           type: string
           nullable: true
@@ -9610,9 +9655,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
-      required:
-        - price
-        - customer
     'Invoice:jsonld-write':
       type: object
       description: 'An entity representing an invoice.'
@@ -9638,8 +9680,10 @@ components:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
           type: string
           nullable: true
-        targetOrganization:
-          description: 'The RSIN of the organization that ownes this proces'
+        organization:
+          description: 'The organization this invoice belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
           type: string
           nullable: true
         items:
@@ -9650,11 +9694,13 @@ components:
         price:
           description: 'The price of this product'
           type: string
+          nullable: true
         priceCurrency:
           description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
           externalDocs:
             url: 'http://schema.org/priceCurrency'
           type: string
+          nullable: true
         order:
           description: 'The order of this invoice'
           type: string
@@ -9669,6 +9715,11 @@ components:
           externalDocs:
             url: 'http://schema.org/url'
           type: string
+          nullable: true
+        redirectUrl:
+          description: 'url of payment'
+          type: string
+          nullable: true
         status:
           description: 'status of invoice'
           type: string
@@ -9687,9 +9738,6 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
-      required:
-        - price
-        - customer
     InvoiceItem-read:
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -9932,8 +9980,10 @@ components:
           type: string
           format: uuid
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -9969,8 +10019,10 @@ components:
         - redirectUrl
       properties:
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10004,8 +10056,10 @@ components:
           type: string
           format: uuid
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10050,8 +10104,10 @@ components:
           readOnly: true
           type: string
         shortCode:
+          description: 'shortCode of this organization'
           type: string
         rsin:
+          description: 'rsin of this organization'
           type: string
         services:
           description: 'The payment providers configured for this organization'
@@ -10209,8 +10265,11 @@ components:
           description: 'The status of this payment'
           type: string
         organization:
-          description: 'The organization this payment provider is linked to'
-          $ref: '#/components/schemas/Organization-read'
+          description: 'The organization this Service belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10239,8 +10298,11 @@ components:
           description: 'The status of this payment'
           type: string
         organization:
-          description: 'The organization this payment provider is linked to'
-          $ref: '#/components/schemas/Organization-write'
+          description: 'The organization this Service belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         authorization:
           description: 'The API key for this payment provider'
           type: string
@@ -10274,8 +10336,11 @@ components:
           description: 'The status of this payment'
           type: string
         organization:
-          description: 'The organization this payment provider is linked to'
-          $ref: '#/components/schemas/Organization:jsonld-read'
+          description: 'The organization this Service belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         configuration:
           description: 'Configuration options for this payment provider'
           type: array
@@ -10313,8 +10378,11 @@ components:
           description: 'The status of this payment'
           type: string
         organization:
-          description: 'The organization this payment provider is linked to'
-          $ref: '#/components/schemas/Organization:jsonld-write'
+          description: 'The organization this Service belongs to'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
         authorization:
           description: 'The API key for this payment provider'
           type: string
@@ -10523,14 +10591,14 @@ definitions:
         type: string
         example: 6666-2019-0000000012
         maxLength: 255
-      targetOrganization:
-        description: 'The RSIN of the organization that ownes this proces'
+      organization:
+        description: 'The organization this invoice belongs to'
         type: string
-        example: '002851234'
+        format: url
         maxLength: 255
       price:
         description: 'The price of this product'
-        type: string
+        type: float
         example: '50.00'
       priceCurrency:
         description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
@@ -10561,6 +10629,9 @@ definitions:
       paymentUrl:
         description: 'url of payment'
         type: string
+      redirectUrl:
+        description: 'url of payment'
+        type: string
       paymentId:
         description: 'url of payment'
         type: string
@@ -10579,13 +10650,10 @@ definitions:
       payments:
         description: 'The payments of this Invoice'
         type: \Payment
-      organization: []
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
-    required:
-      - price
-      - customer
+    required: []
   Invoice-write:
     properties:
       name:
@@ -10603,14 +10671,14 @@ definitions:
         type: string
         example: 6666-2019-0000000012
         maxLength: 255
-      targetOrganization:
-        description: 'The RSIN of the organization that ownes this proces'
+      organization:
+        description: 'The organization this invoice belongs to'
         type: string
-        example: '002851234'
+        format: url
         maxLength: 255
       price:
         description: 'The price of this product'
-        type: string
+        type: float
         example: '50.00'
       priceCurrency:
         description: 'The currency of this product in an [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format'
@@ -10626,6 +10694,9 @@ definitions:
         type: string
         example: 'https://example.org/people/1'
         format: url
+      redirectUrl:
+        description: 'url of payment'
+        type: string
       status:
         description: 'status of invoice'
         type: string
@@ -10644,9 +10715,7 @@ definitions:
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
-    required:
-      - price
-      - customer
+    required: []
   InvoiceItem-read:
     properties:
       id:
@@ -10750,8 +10819,12 @@ definitions:
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
       shortCode:
+        description: 'shortCode of this organization'
+        type: string
         maxLength: 4
       rsin:
+        description: 'rsin of this organization'
+        type: string
         maxLength: 16
         minLength: 4
       redirectUrl:
@@ -10774,8 +10847,12 @@ definitions:
   Organization-write:
     properties:
       shortCode:
+        description: 'shortCode of this organization'
+        type: string
         maxLength: 4
       rsin:
+        description: 'rsin of this organization'
+        type: string
         maxLength: 16
         minLength: 4
       redirectUrl:
@@ -10856,6 +10933,11 @@ definitions:
         type: string
         example: open
         maxLength: 255
+      organization:
+        description: 'The organization this Service belongs to'
+        type: string
+        format: url
+        maxLength: 255
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
@@ -10865,9 +10947,6 @@ definitions:
       dateModified:
         description: 'The moment this request last Modified'
         type: \Datetime
-      organization:
-        description: 'The organization this payment provider is linked to'
-        type: \Organization
     required:
       - type
   Service-write:
@@ -10877,15 +10956,17 @@ definitions:
         type: string
         example: open
         maxLength: 255
+      organization:
+        description: 'The organization this Service belongs to'
+        type: string
+        format: url
+        maxLength: 255
       authorization:
         description: 'The API key for this payment provider'
         type: string
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
-      organization:
-        description: 'The organization this payment provider is linked to'
-        type: \Organization
     required:
       - type
   Tax-read:
@@ -11063,12 +11144,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-03-26 13:05:59'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-03-26 13:05:59'
     required: []
   AuditTrail-write:
     properties:
@@ -11116,12 +11197,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-03-26 13:05:59'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-12-29 14:10:28'
+        example: '2021-03-26 13:05:59'
     required: []
   ChangeLog-write:
     properties:
@@ -11199,7 +11280,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: conduction.nl
-    url: bc.dev.conduction.nl
+    url: betaalservice.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'
