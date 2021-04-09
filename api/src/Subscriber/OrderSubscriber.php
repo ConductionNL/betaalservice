@@ -104,6 +104,7 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
             }
 
+            $invoice = [];
             if (isset($latestInvoice)) {
                 $invoice = $latestInvoice;
                 $invoice->setRedirectUrl($post['redirectUrl']);
@@ -131,8 +132,12 @@ class OrderSubscriber implements EventSubscriberInterface
                 $service = $invoice->getService();
                 switch ($service->getType()) {
                     case 'mollie':
-                        $mollieService = new MollieService($service);
-                        $payment = $mollieService->createPayment($invoice, $event->getRequest());
+                        $mollieService = new MollieService($service, $this->commonGroundService, $this->em);
+                        if (isset($post['paymentType']) && $post['paymentType'] === 'subscription') {
+                            $payment = $mollieService->createSubscriptionPayment($invoice);
+                        } else {
+                            $payment = $mollieService->createPayment($invoice);
+                        }
                         $invoice->setPaymentUrl($payment['checkOutUrl']);
                         $invoice->setPaymentId($payment['mollieId']);
                         $this->em->persist($invoice);
@@ -183,10 +188,10 @@ class OrderSubscriber implements EventSubscriberInterface
     public function createInvoiceFromOrder($order, $redirectUrl)
     {
         $invoice = new Invoice();
-        $invoice->setRedirectUrl($redirectUrl);
+        $invoice->setRedirectUrl($redirectUrl . '?invoiceUrl=' . $invoice->getId());
 
-        if (array_key_exists('reference', $order) && $order['reference']) {
-            $invoice->setName($order['reference']);
+        if (array_key_exists('name', $order) && $order['name']) {
+            $invoice->setName($order['name']);
         }
         if (array_key_exists('description', $order) && $order['description']) {
             $invoice->setDescription($order['description']);
@@ -204,7 +209,7 @@ class OrderSubscriber implements EventSubscriberInterface
             $invoice->setPrice($order['price']);
         }
         if (array_key_exists('priceCurrency', $order) && $order['priceCurrency'] != null) {
-            $invoice->setPrice($order['priceCurrency']);
+            $invoice->setPriceCurrency($order['priceCurrency']);
         }
         $this->em->persist($invoice);
         $this->em->flush();
