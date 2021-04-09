@@ -91,12 +91,15 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
             if ($invoice instanceof Invoice) {
                 $mollieService = new MollieService($invoice->getService(), $this->commonGroundService, $this->em);
                 $mollieService->createSubscription($invoice);
-                $result = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
-                if ($result instanceof Invoice) {
-                    return $result;
-                } else {
-                    return $result;
-                }
+                $result = $this->commonGroundService->getResource(['component' => 'bc', 'type' => 'invoices', 'id' => $post['invoice']]);
+
+                $response = new Response(
+                    json_encode($result),
+                    Response::HTTP_OK,
+                    ['content-type' => 'application/json']
+                );
+
+                $event->setResponse($response);
             } else {
                 return 'Invoice not found';
             }
