@@ -146,12 +146,11 @@ class MollieService
         return $object;
     }
 
-    public function createSubscription($invoice)
+    public function createSubscription(Invoice $invoice)
     {
         $invoiceItem = $invoice->getItems()->first();
         $interval = $this->commonGroundService->getResource($invoiceItem->getOffer())['recurrence'];
 
-        var_dump($this->commonGroundService->getResource($invoiceItem->getOffer()));die;
         if ($interval == "P30D" || $interval == "P1M") {
             $interval = "1 month";
         } elseif ($interval == "P1Y" || $interval == "P12M") {
@@ -173,7 +172,5 @@ class MollieService
         $this->em->persist($invoice);
         $this->em->flush();
 
-        var_dump($invoice->getName());die;
-        return $invoice;
     }
 }

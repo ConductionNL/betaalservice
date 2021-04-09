@@ -45,12 +45,12 @@ class InvoiceStatusSubscriber implements EventSubscriberInterface
         $method = $event->getRequest()->getMethod();
         $route = $event->getRequest()->attributes->get('_route');
 
-        if (!$invoice instanceof Invoice || $route != 'api_invoices_get_collection') {
+        if (!$invoice instanceof Invoice || $method != 'GET') {
             return;
         }
         $service = $invoice->getService();
 
-        $mollieService = new MollieService($service);
+        $mollieService = new MollieService($service, $this->commonGroundService, $this->em);
         $resultFromMollie = $mollieService->checkPayment($invoice->getPaymentId());
 
         $invoice->setStatus($resultFromMollie['status']);

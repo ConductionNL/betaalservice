@@ -72,7 +72,7 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
                     $renderType = 'json';
             }
 
-            if ($method != 'POST' || ($route != 'api_invoices_post_create_subscription_collection' || $post == null)) {
+            if ($method != 'POST' || $route != 'api_invoices_post_create_subscription_collection') {
                 return;
             }
 
@@ -87,13 +87,16 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
             }
 
             $invoiceRepostiory = $this->em->getRepository(Invoice::class);
-            $invoice = $invoiceRepostiory->find($post['invoice']);
+            $invoice = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
             if ($invoice instanceof Invoice) {
                 $mollieService = new MollieService($invoice->getService(), $this->commonGroundService, $this->em);
-                $invoice = $mollieService->createSubscription($invoice);
-
-                var_dump($invoice->getName());die;
-                return $invoice;
+                $mollieService->createSubscription($invoice);
+                $result = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
+                if ($result instanceof Invoice) {
+                    return $result;
+                } else {
+                    return $result;
+                }
             } else {
                 return 'Invoice not found';
             }
