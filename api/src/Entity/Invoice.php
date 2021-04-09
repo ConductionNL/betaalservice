@@ -299,14 +299,14 @@ class Invoice
      */
     private $payments;
 
+
     /**
-     * @var string The customer that receives this invoice
+     * @var Customer The customer this invoice relates to
      *
-     * @example https://example.org/people/1
-     *
-     * @Groups({"read","write"})
-     * @Assert\Url
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @Groups({"read", "write"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="invoices")
+     * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
      */
     private $customer;
 
@@ -669,12 +669,12 @@ class Invoice
         return $this;
     }
 
-    public function getCustomer(): ?string
+    public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
-    public function setCustomer(string $customer): self
+    public function setCustomer(Customer $customer): self
     {
         $this->customer = $customer;
 

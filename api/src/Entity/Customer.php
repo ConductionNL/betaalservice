@@ -7,6 +7,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\UuidInterface;
@@ -15,9 +18,9 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * An entity representing a payment.
+ * An entity representing a unique customer from a payment provider.
  *
- * This entity represents a payment of an invoice.
+ * This entity represents a unique customer of a payment provider.
  *
  * @author Barry Brands <barry@conduction.nl>
  * @license EUPL <https://github.com/ConductionNL/betaalservice/blob/master/LICENSE.md>
@@ -32,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/payments/{id}/change_log",
+ *              "path"="/customers/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -40,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/payments/{id}/audit_trail",
+ *              "path"="/customers/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -53,23 +56,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "post",
  *          "post_webhook"={
  *              "method"="POST",
- *              "path"="payments/mollie_webhook",
+ *              "path"="customers/mollie_webhook",
  *              "input_formats"={"x-www-form-urlencoded"={"application/x-www-form-urlencoded"}},
  *              "swagger_context" = {
- *                  "summary"="Webhook to update payment statuses from Mollie",
- *                  "description"="Webhook to update payment statuses from Mollie"
+ *                  "summary"="Webhook to update customer statuses from Mollie",
+ *                  "description"="Webhook to update customer statuses from Mollie"
  *              }
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PaymentRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
  */
-class Payment
+class Customer
 {
     /**
      * @var UuidInterface
@@ -86,74 +89,55 @@ class Payment
     private $id;
 
     /**
-     * @var Service The provider that handles the payment
+     * @var string The customer id from the provider
      *
-     * @Assert\NotNull
-     * @Groups({"read", "write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Service")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $paymentProvider;
-
-    /**
-     * @var string The payment id of this payment
-     *
-     * @example 87782426a21cbd70fc9823cbe1e024fb25804c833743b41529a23ae94b3b1cc2
+     * @example randomid_1234778
      *
      * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Length(
-     *     max = 255
-     * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $paymentId;
+    private $customerId;
 
     /**
-     * @var string The status of this payment
+     * @var string The url of a customer saved in another database
      *
-     * @example open
+     * @example https://commonground.conduction.nl/api/v1/cc/people/{id}
      *
      * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Length(
-     *     max = 255
-     * )
-     * @Assert\Choice(
-     *     {
-     *     "open",
-     *     "pending",
-     *     "authorized",
-     *     "expired",
-     *     "failed",
-     *     "paid"
-     *     }
-     * )
      * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $status;
+    private $customerUrl;
 
     /**
-     * @var Invoice The invoice this payment relates to
+     * @var string The id of the active subscription from a payment provider
      *
-     * @Groups({"read", "write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Invoice", inversedBy="payments")
-     * @ORM\JoinColumn(nullable=false)
-     * @MaxDepth(1)
+     * @example ABC12678
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read","write"})
+     * @ORM\Column(type="string", nullable=true, length=255)
      */
-    private $invoice;
+    private $subscriptionId;
 
     /**
-     * @var Customer The customer this payment relates to
+     * @var ArrayCollection The payments made by this customer
      *
      * @Groups({"read", "write"})
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="payments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="customer", cascade={"persist"})
      * @MaxDepth(1)
      */
-    private $customer;
+    private $payments;
+
+    /**
+     * @var ArrayCollection The invoices made for this customer
+     *
+     * @Groups({"read", "write"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer", cascade={"persist"})
+     * @MaxDepth(1)
+     */
+    private $invoices;
 
     /**
      * @var Datetime The moment this request was created
@@ -171,69 +155,114 @@ class Payment
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
+
     private $dateModified;
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getPaymentProvider(): ?Service
+    public function getCustomerId(): ?string
     {
-        return $this->paymentProvider;
+        return $this->customerId;
     }
 
-    public function setPaymentProvider(Service $paymentProvider): self
+    public function setCustomerId(string $customerId): self
     {
-        $this->paymentProvider = $paymentProvider;
+        $this->customerId = $customerId;
 
         return $this;
     }
 
-    public function getPaymentId(): ?string
+    public function getSubscriptionId(): ?string
     {
-        return $this->paymentId;
+        return $this->subscriptionId;
     }
 
-    public function setPaymentId(string $paymentId): self
+    public function setSubscriptionId(string $subscriptionId): self
     {
-        $this->paymentId = $paymentId;
+        $this->subscriptionId = $subscriptionId;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getCustomerUrl(): ?string
     {
-        return $this->status;
+        return $this->customerUrl;
     }
 
-    public function setStatus(string $status): self
+    public function setCustomerUrl(string $customerUrl): self
     {
-        $this->status = $status;
+        $this->customerUrl = $customerUrl;
 
         return $this;
     }
 
-    public function getInvoice(): ?Invoice
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
     {
-        return $this->invoice;
+        return $this->payments;
     }
 
-    public function setInvoice(?Invoice $invoice): self
+    public function addPayment(Payment $payment): self
     {
-        $this->invoice = $invoice;
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setCustomer($this);
+        }
 
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    public function removePayment(Payment $payment): self
     {
-        return $this->customer;
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getCustomer() === $this) {
+                $payment->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setCustomer(?Customer $customer): self
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
     {
-        $this->customer = $customer;
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->contains($invoice)) {
+            $this->invoices->removeElement($invoice);
+            // set the owning side to null (unless already changed)
+            if ($invoice->getCustomer() === $this) {
+                $invoice->setCustomer(null);
+            }
+        }
 
         return $this;
     }
