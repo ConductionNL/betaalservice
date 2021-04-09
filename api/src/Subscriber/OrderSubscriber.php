@@ -107,7 +107,7 @@ class OrderSubscriber implements EventSubscriberInterface
             $invoice = [];
             if (isset($latestInvoice)) {
                 $invoice = $latestInvoice;
-                $invoice->setRedirectUrl($post['redirectUrl']);
+                $invoice->setRedirectUrl($post['redirectUrl'] . '?invoiceUrl=' . $invoice->getId());
             } else {
                 $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
             }
@@ -239,6 +239,10 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
         $invoice->setOrder($order['@id']);
+        $this->em->persist($invoice);
+        $this->em->flush();
+
+        $invoice->setRedirectUrl($redirectUrl . '?invoiceUrl=' . $invoice->getId());
         $this->em->persist($invoice);
         $this->em->flush();
 
