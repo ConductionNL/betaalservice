@@ -188,7 +188,7 @@ class OrderSubscriber implements EventSubscriberInterface
     public function createInvoiceFromOrder($order, $redirectUrl)
     {
         $invoice = new Invoice();
-        $invoice->setRedirectUrl($redirectUrl . '?invoiceUrl=' . $invoice->getId());
+        $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
 
         if (array_key_exists('name', $order) && $order['name']) {
             $invoice->setName($order['name']);
@@ -242,7 +242,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->em->persist($invoice);
         $this->em->flush();
 
-        $invoice->setRedirectUrl($redirectUrl . '?invoiceUrl=' . $invoice->getId());
+        $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
         $this->em->persist($invoice);
         $this->em->flush();
 
