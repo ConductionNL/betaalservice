@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/customers/{id}/change_log",
+ *              "path"="/subscriptions/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -43,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/customers/{id}/audit_trail",
+ *              "path"="/subscriptions/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -56,23 +56,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "post",
  *          "post_webhook"={
  *              "method"="POST",
- *              "path"="customers/mollie_webhook",
+ *              "path"="subscriptions/mollie_webhook",
  *              "input_formats"={"x-www-form-urlencoded"={"application/x-www-form-urlencoded"}},
  *              "swagger_context" = {
- *                  "summary"="Webhook to update customer statuses from Mollie",
- *                  "description"="Webhook to update customer statuses from Mollie"
+ *                  "summary"="Webhook to update subscription statuses from Mollie",
+ *                  "description"="Webhook to update subscription statuses from Mollie"
  *              }
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SubscriptionRepository")
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
  */
-class Customer
+class Subscription
 {
     /**
      * @var UuidInterface
@@ -89,7 +89,7 @@ class Customer
     private $id;
 
     /**
-     * @var string The customer id from the provider
+     * @var string The subscription id from the payment provider
      *
      * @example randomid_1234778
      *
@@ -97,45 +97,29 @@ class Customer
      * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $customerId;
+    private $subscriptionId;
 
     /**
-     * @var string The url of a customer saved in another database
+     * @var string The organization this subscription is offered by
      *
-     * @example https://commonground.conduction.nl/api/v1/cc/people/{id}
-     *
-     * @Gedmo\Versioned
      * @Groups({"read", "write"})
+     * @Assert\Url
+     * @Assert\Length(
+     *     max=255
+     * )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $customerUrl;
+    private $organization;
 
     /**
-     * @var ArrayCollection The subscriptions in this invoice
+     * @var Customer The customer this subscriptions belongs to
      *
-     * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Subscription", mappedBy="customer", cascade={"persist"})
+     * @Groups({"read","write"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="subscriptions")
+     * @ORM\JoinColumn(nullable=false)
      * @MaxDepth(1)
      */
-    private $subscriptions;
-
-    /**
-     * @var ArrayCollection The payments made by this customer
-     *
-     * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="customer", cascade={"persist"})
-     * @MaxDepth(1)
-     */
-    private $payments;
-
-    /**
-     * @var ArrayCollection The invoices made for this customer
-     *
-     * @Groups({"read", "write"})
-     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer", cascade={"persist"})
-     * @MaxDepth(1)
-     */
-    private $invoices;
+    private $customer;
 
     /**
      * @var Datetime The moment this request was created
@@ -167,18 +151,6 @@ class Customer
         return $this->id;
     }
 
-    public function getCustomerId(): ?string
-    {
-        return $this->customerId;
-    }
-
-    public function setCustomerId(string $customerId): self
-    {
-        $this->customerId = $customerId;
-
-        return $this;
-    }
-
     public function getSubscriptionId(): ?string
     {
         return $this->subscriptionId;
@@ -191,107 +163,26 @@ class Customer
         return $this;
     }
 
-    public function getCustomerUrl(): ?string
+    public function getOrganization(): ?string
     {
-        return $this->customerUrl;
+        return $this->organization;
     }
 
-    public function setCustomerUrl(string $customerUrl): self
+    public function setOrganization(string $organization): self
     {
-        $this->customerUrl = $customerUrl;
+        $this->organization = $organization;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Payment[]
-     */
-    public function getPayments(): Collection
+    public function getCustomer(): ?Customer
     {
-        return $this->payments;
+        return $this->customer;
     }
 
-    public function addPayment(Payment $payment): self
+    public function setCustomer(?Customer $customer): self
     {
-        if (!$this->payments->contains($payment)) {
-            $this->payments[] = $payment;
-            $payment->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removePayment(Payment $payment): self
-    {
-        if ($this->payments->contains($payment)) {
-            $this->payments->removeElement($payment);
-            // set the owning side to null (unless already changed)
-            if ($payment->getCustomer() === $this) {
-                $payment->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Subscription[]
-     */
-    public function getSubscriptions(): Collection
-    {
-        return $this->subscriptions;
-    }
-
-    public function addSubscription(Subscription $subscription): self
-    {
-        if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions[] = $subscription;
-            $subscription->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubscription(Subscription $subscription): self
-    {
-        if ($this->subscriptions->contains($subscription)) {
-            $this->subscriptions->removeElement($subscription);
-            // set the owning side to null (unless already changed)
-            if ($subscription->getCustomer() === $this) {
-                $subscription->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Invoice[]
-     */
-    public function getInvoices(): Collection
-    {
-        return $this->invoices;
-    }
-
-    public function addInvoice(Invoice $invoice): self
-    {
-        if (!$this->invoices->contains($invoice)) {
-            $this->invoices[] = $invoice;
-            $invoice->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): self
-    {
-        if ($this->invoices->contains($invoice)) {
-            $this->invoices->removeElement($invoice);
-            // set the owning side to null (unless already changed)
-            if ($invoice->getCustomer() === $this) {
-                $invoice->setCustomer(null);
-            }
-        }
+        $this->customer = $customer;
 
         return $this;
     }

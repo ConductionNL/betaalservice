@@ -299,7 +299,6 @@ class Invoice
      */
     private $payments;
 
-
     /**
      * @var Customer The customer this invoice relates to
      *
@@ -674,7 +673,7 @@ class Invoice
         return $this->customer;
     }
 
-    public function setCustomer(Customer $customer): self
+    public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
 
