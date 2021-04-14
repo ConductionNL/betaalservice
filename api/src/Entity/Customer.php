@@ -94,10 +94,21 @@ class Customer
      * @example randomid_1234778
      *
      * @Gedmo\Versioned
-     * @Groups({"read", "write"})
+     * @Groups({"read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $customerId;
+
+    /***
+     * @var array The customer from the payment service
+     *
+     * @example ['id' => 'abc_123153', 'name' => 'John Doe']
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read"})
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $customerFromService = [];
 
     /**
      * @var string The url of a customer saved in another database
@@ -138,6 +149,16 @@ class Customer
     private $invoices;
 
     /**
+     * @var Service The service this subscription uses
+     *
+     * @Groups({"read","write"})
+     * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="subscriptions")
+     * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
+     */
+    private $service;
+
+    /**
      * @var Datetime The moment this request was created
      *
      * @Groups({"read"})
@@ -175,18 +196,6 @@ class Customer
     public function setCustomerId(string $customerId): self
     {
         $this->customerId = $customerId;
-
-        return $this;
-    }
-
-    public function getSubscriptionId(): ?string
-    {
-        return $this->subscriptionId;
-    }
-
-    public function setSubscriptionId(string $subscriptionId): self
-    {
-        $this->subscriptionId = $subscriptionId;
 
         return $this;
     }
@@ -296,6 +305,18 @@ class Customer
         return $this;
     }
 
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
+
+        return $this;
+    }
+
     public function getDateCreated(): ?\DateTimeInterface
     {
         return $this->dateCreated;
@@ -316,6 +337,18 @@ class Customer
     public function setDateModified(\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getCustomerFromService(): ?array
+    {
+        return $this->customerFromService;
+    }
+
+    public function setCustomerFromService(?array $customerFromService): self
+    {
+        $this->customerFromService = $customerFromService;
 
         return $this;
     }

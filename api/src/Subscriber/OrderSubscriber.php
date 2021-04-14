@@ -60,6 +60,7 @@ class OrderSubscriber implements EventSubscriberInterface
             if (!$contentType) {
                 $contentType = $event->getRequest()->headers->get('Accept');
             }
+
             switch ($contentType) {
                 case 'application/json':
                     $renderType = 'json';
@@ -93,7 +94,6 @@ class OrderSubscriber implements EventSubscriberInterface
             // Get actual order from given @id
             $order = $this->commonGroundService->getResource($post['orderUrl']);
 
-
             // Check if there is already a invoice for this order if this is not a subscription
             if ((isset($post['paymentType']) && $post['paymentType'] !== 'subcsription') || !isset($post['paymentType'])) {
                 $invoiceRepostiory = $this->em->getRepository(Invoice::class);
@@ -118,6 +118,7 @@ class OrderSubscriber implements EventSubscriberInterface
             ]);
             if (!isset($customer)) {
                 $customer = new Customer();
+                $customer->setCustomerUrl($order['customer']);
                 $this->em->persist($customer);
                 $this->em->flush();
             }
@@ -143,21 +144,6 @@ class OrderSubscriber implements EventSubscriberInterface
                 return;
             }
 
-            if (isset($post['paymentType']) && $post['paymentType'] == 'subscription' &&
-                isset($post['accumulateSubscription']) && $post['accumulateSubscription'] == true) {
-                $subscriptionRepo = $this->em->getRepository(Subscription::class);
-                $subscription = $serviceRepository->findOneBy(array(
-                    'organization' => $order['organization'],
-                    'customer' => $customer
-                ));
-
-                if (!isset($subscription)) {
-                    // Make subscription
-                }
-            } else {
-                // Make subscription
-            }
-
             // Update the order
             $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
             unset($order['items']);
@@ -170,10 +156,27 @@ class OrderSubscriber implements EventSubscriberInterface
                 $service = $invoice->getService();
                 switch ($service->getType()) {
                     case 'mollie':
-                        $mollieService = new MollieService($service, $this->commonGroundService, $this->em);
-                        if (isset($post['paymentType']) && $post['paymentType'] === 'subscription') {
+                        $mollieService = new MollieService($this->commonGroundService, $this->em, $service);
+                        if (isset($post['paymentType']) && $post['paymentType'] == 'subscription' &&
+                            isset($post['accumulateSubscription']) && $post['accumulateSubscription'] == true) {
+                            $subscriptionRepo = $this->em->getRepository(Subscription::class);
+                            $subscription = $subscriptionRepo->findOneBy(array(
+                                'organization' => $order['organization'],
+                                'customer' => $customer
+                            ));
+
+                            if (isset($subscription)) {
+                                // Update subscription
+                                $payment = $mollieService->updateSubscription($subscription, $order['items']);
+                            } else {
+                                // Make subscription payment
+                                $payment = $mollieService->createSubscriptionPayment($invoice);
+                            }
+                        } elseif (isset($post['paymentType']) && $post['paymentType'] == 'subscription') {
+                            // Make subscription payment
                             $payment = $mollieService->createSubscriptionPayment($invoice);
                         } else {
+                            // Make normal payment
                             $payment = $mollieService->createPayment($invoice);
                         }
                         $invoice->setPaymentUrl($payment['checkOutUrl']);

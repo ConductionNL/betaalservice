@@ -99,6 +99,17 @@ class Subscription
      */
     private $subscriptionId;
 
+    /***
+     * @var array The subscription from the payment service
+     *
+     * @example ['id' => 'abc_123153', 'name' => 'Subscription for John Doe']
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read"})
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $subscriptionFromService = [];
+
     /**
      * @var string The organization this subscription is offered by
      *
@@ -120,6 +131,16 @@ class Subscription
      * @MaxDepth(1)
      */
     private $customer;
+
+    /**
+     * @var Service The service this subscription uses
+     *
+     * @Groups({"read","write"})
+     * @ORM\ManyToOne(targetEntity=Service::class, inversedBy="subscriptions")
+     * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
+     */
+    private $service;
 
     /**
      * @var Datetime The moment this request was created
@@ -163,6 +184,18 @@ class Subscription
         return $this;
     }
 
+    public function getSubscriptionFromService(): ?array
+    {
+        return $this->subscriptionFromService;
+    }
+
+    public function setSubscriptionFromService(?array $subscriptionFromService): self
+    {
+        $this->subscriptionFromService = $subscriptionFromService;
+
+        return $this;
+    }
+
     public function getOrganization(): ?string
     {
         return $this->organization;
@@ -183,6 +216,18 @@ class Subscription
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
 
         return $this;
     }

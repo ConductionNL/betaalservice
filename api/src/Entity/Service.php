@@ -14,6 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -140,9 +141,29 @@ class Service
      */
     private $invoices;
 
+    /**
+     * @var ArrayCollection The subscriptions under this payment service
+     *
+     * @Groups({"read","write"})
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="service")
+     * @MaxDepth(1)
+     */
+    private $subscriptions;
+
+    /**
+     * @var ArrayCollection The customers under this payment service
+     *
+     * @Groups({"read","write"})
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="service")
+     * @MaxDepth(1)
+     */
+    private $customers;
+
     public function __construct()
     {
         $this->invoices = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -247,6 +268,66 @@ class Service
             // set the owning side to null (unless already changed)
             if ($invoice->getService() === $this) {
                 $invoice->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscription[]
+     */
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function addSubscription(Subscription $subscription): self
+    {
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions[] = $subscription;
+            $subscription->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscription(Subscription $subscription): self
+    {
+        if ($this->subscriptions->removeElement($subscription)) {
+            // set the owning side to null (unless already changed)
+            if ($subscription->getService() === $this) {
+                $subscription->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getService() === $this) {
+                $customer->setService(null);
             }
         }
 

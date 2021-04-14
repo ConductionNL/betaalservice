@@ -6,11 +6,14 @@ use App\Entity\Invoice;
 use App\Entity\InvoiceItem;
 use App\Entity\Payment;
 use App\Entity\Service;
+use App\Entity\Subscription;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Symfony\Component\HttpFoundation\Request;
+use GuzzleHttp\Psr7;
 
 class MollieService
 {
@@ -19,14 +22,16 @@ class MollieService
     private $service;
     private $commonGroundService;
     private $em;
+    private $client;
 
-    public function __construct(Service $service, CommonGroundService $commonGroundService, EntityManagerInterface $em)
+    public function __construct(CommonGroundService $commonGroundService, EntityManagerInterface $em, Client $client = null, Service $service = null)
     {
         $this->mollie = new MollieApiClient();
         $this->serviceId = $service->getId();
         $this->service = $service;
         $this->commonGroundService = $commonGroundService;
         $this->em = $em;
+        $this->client = $client;
 
 
         try {
@@ -109,18 +114,58 @@ class MollieService
         return $object;
     }
 
+    public function getCustomer($customerId)
+    {
+        return $this->mollie->customers->get($customerId);
+    }
+
+    public function createCustomer($customerUrl)
+    {
+        $customer = $this->commonGroundService->getResource($customerUrl);
+        $customerMollie = $this->mollie->customers->create([
+            'name' => $customer['name'],
+            'metadata' => [
+                'customerUrl' => $customerUrl
+            ]
+        ]);
+
+        return $customerMollie;
+    }
+
+    public function updateSubscription(Subscription $subscription, $orderItems)
+    {
+        $newPrice = 0;
+        $offerUrls = [];
+        foreach ($orderItems as $item) {
+            $newPrice += ($item['quantity'] * $item['price']);
+            $offerUrls[] = $item['offer'];
+        }
+
+        $headers = ['Authorization' => 'Bearer ' . $subscription->getService()->getAuthorization()];
+        $body = [
+            'amount' => [
+                'currency' => $orderItems[0]['priceCurrency'],
+                'value' => $newPrice
+            ],
+            'metadata' => [
+                'offerUrls' => $offerUrls
+            ]
+        ];
+        $request = new Request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getId(), $headers, $body);
+        $response = $this->client->send($request, ['timeout' => 2]);
+
+        return $response;
+
+    }
+
     public function createSubscriptionPayment(Invoice $invoice)
     {
-        $customer = $this->commonGroundService->getResource($invoice->getCustomer());
+        $customerMollie = $this->createCustomer($invoice->getCustomer());
 
         $currency = $invoice->getPriceCurrency();
         $amount = '' . $invoice->getPrice();
         $description = $invoice->getDescription();
         $redirectUrl = $invoice->getRedirectUrl();
-
-        $customerMollie = $this->mollie->customers->create([
-            'name' => $customer['name']
-        ]);
 
         $invoice->setPaymentCustomerId($customerMollie->id);
         $this->em->persist($invoice);
@@ -144,6 +189,14 @@ class MollieService
         $object['mollieId'] = $molliePayment->id;
 
         return $object;
+    }
+
+    public function getSubscription($customerId, $subscriptionId)
+    {
+        $customer = $this->mollie->customers->get($customerId);
+        $subscription = $this->mollie->subscriptions->getFor($customer, $subscriptionId);
+
+        return $subscriptionId;
     }
 
     public function createSubscription(Invoice $invoice)
