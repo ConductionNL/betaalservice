@@ -146,6 +146,16 @@ class Payment
     private $invoice;
 
     /**
+     * @var Customer The customer this payment relates to
+     *
+     * @Groups({"read", "write"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="payments")
+     * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
+     */
+    private $customer;
+
+    /**
      * @var Datetime The moment this request was created
      *
      * @Groups({"read"})
@@ -212,6 +222,18 @@ class Payment
     public function setInvoice(?Invoice $invoice): self
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

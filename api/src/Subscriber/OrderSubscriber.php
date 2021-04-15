@@ -3,11 +3,13 @@
 namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\Customer;
 use App\Entity\Invoice;
 use App\Entity\InvoiceItem;
 use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Service;
+use App\Entity\Subscription;
 use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
@@ -16,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -57,6 +60,7 @@ class OrderSubscriber implements EventSubscriberInterface
             if (!$contentType) {
                 $contentType = $event->getRequest()->headers->get('Accept');
             }
+
             switch ($contentType) {
                 case 'application/json':
                     $renderType = 'json';
@@ -87,23 +91,48 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
             }
 
+            // Get actual order from given @id
             $order = $this->commonGroundService->getResource($post['orderUrl']);
 
-            $invoiceRepostiory = $this->em->getRepository(Invoice::class);
-            $invoices = $invoiceRepostiory->findBy([
-                'order' => $order['@id']
+            // If there is no Service for the offering organization exit
+            $serviceRepository = $this->em->getRepository(Service::class);
+            $service = $serviceRepository->findOneBy([
+                'organization' => $order['organization']
             ]);
+            if (!isset($service)) {
+                throw new BadRequestHttpException('No service found for given organization');
+            }
 
-            if (isset($invoices)) {
-                $highestTimestamp = 0;
-                foreach ($invoices as $invoice) {
-                    if ($invoice->getDateCreated()->getTimestamp() > $highestTimestamp) {
-                        $highestTimestamp = $invoice->getDateCreated()->getTimestamp();
-                        $latestInvoice = $invoice;
+            // Check if there is already a invoice for this order if this is not a subscription
+            if ((isset($post['paymentType']) && $post['paymentType'] !== 'subscription') || !isset($post['paymentType'])) {
+                $invoiceRepository = $this->em->getRepository(Invoice::class);
+                $invoices = $invoiceRepository->findBy([
+                    'order' => $order['@id']
+                ]);
+                if (isset($invoices)) {
+                    $highestTimestamp = 0;
+                    foreach ($invoices as $invoice) {
+                        if ($invoice->getDateCreated()->getTimestamp() > $highestTimestamp) {
+                            $highestTimestamp = $invoice->getDateCreated()->getTimestamp();
+                            $latestInvoice = $invoice;
+                        }
                     }
                 }
             }
 
+            // If there is no Customer with the customer from the order create a Customer
+            $customerRepository = $this->em->getRepository(Customer::class);
+            $customer = $customerRepository->findOneBy([
+                'customerUrl' => $order['customer']
+            ]);
+            if (!isset($customer)) {
+                $customerFromCommonground = $this->commonGroundService->getResource($order['customer']);
+                $customer = new Customer();
+                $customer->setName($customerFromCommonground['name']);
+                $customer->setCustomerUrl($customerFromCommonground['@id']);
+                $customer->setService($service);
+                $this->em->persist($customer);
+            }
             $invoice = [];
             if (isset($latestInvoice)) {
                 $invoice = $latestInvoice;
@@ -111,20 +140,15 @@ class OrderSubscriber implements EventSubscriberInterface
             } else {
                 $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
             }
+            $invoice->setService($service);
+            $invoice->setCustomer($customer);
+            $this->em->persist($invoice);
+            $this->em->flush();
 
-            $serviceRepository = $this->em->getRepository(Service::class);
-            $services = $serviceRepository->findBy(array('organization' => $order['organization']));
-
-            if (isset($services) && count($services) > 0) {
-                $invoice->setService($services[0]);
-                $this->em->persist($invoice);
-                $this->em->flush();
-            }
-            // Update the order
-            $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
             unset($order['items']);
-            $this->commonGroundService->saveResource($order, $order['@id']);
+            $this->commonGroundService->updateResource($order, ['component' => 'orc', 'type' => 'orders', 'id' => $order['id']]);
 
+            $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
             // recalculate all the invoice totals
             $invoice->calculateTotals();
 
@@ -132,16 +156,32 @@ class OrderSubscriber implements EventSubscriberInterface
                 $service = $invoice->getService();
                 switch ($service->getType()) {
                     case 'mollie':
-                        $mollieService = new MollieService($service, $this->commonGroundService, $this->em);
-                        if (isset($post['paymentType']) && $post['paymentType'] === 'subscription') {
+                        $mollieService = new MollieService($this->commonGroundService, $this->em, $service);
+                        if (isset($post['paymentType']) && $post['paymentType'] == 'subscription' &&
+                            isset($post['accumulateSubscription']) && $post['accumulateSubscription'] == true) {
+                            $subscriptionRepo = $this->em->getRepository(Subscription::class);
+                            $subscription = $subscriptionRepo->findOneBy(array(
+                                'organization' => $order['organization'],
+                                'customer' => $customer
+                            ));
+
+                            if (isset($subscription)) {
+                                // Update subscription
+                                $payment = $mollieService->updateSubscription($subscription, $order['items']);
+                            } else {
+                                // Make subscription payment
+                                $payment = $mollieService->createSubscriptionPayment($invoice);
+                            }
+                        } elseif (isset($post['paymentType']) && $post['paymentType'] == 'subscription') {
+                            // Make subscription payment
                             $payment = $mollieService->createSubscriptionPayment($invoice);
                         } else {
+                            // Make normal payment
                             $payment = $mollieService->createPayment($invoice);
                         }
                         $invoice->setPaymentUrl($payment['checkOutUrl']);
                         $invoice->setPaymentId($payment['mollieId']);
                         $this->em->persist($invoice);
-                        $this->em->flush();
                         break;
                     case 'sumup':
                         $sumupService = new SumUpService($invoice->getService());
@@ -150,6 +190,8 @@ class OrderSubscriber implements EventSubscriberInterface
                         break;
                 }
             }
+
+            $this->em->flush();
 
             $json = $this->serializer->serialize(
                 $invoice,
@@ -163,10 +205,12 @@ class OrderSubscriber implements EventSubscriberInterface
                 Response::HTTP_CREATED,
                 ['content-type' => $contentType]
             );
+
             $event->setResponse($response);
+
+            return $invoice;
+
         } catch (\Exception $e) {
-
-
             $json = $this->serializer->serialize(
                 $e->getMessage(),
                 $renderType,
@@ -180,9 +224,9 @@ class OrderSubscriber implements EventSubscriberInterface
                 ['content-type' => $contentType]
             );
             $event->setResponse($response);
-        }
 
-        return $invoice;
+            return $e->getMessage();
+        }
     }
 
     public function createInvoiceFromOrder($order, $redirectUrl)
@@ -199,9 +243,6 @@ class OrderSubscriber implements EventSubscriberInterface
         if (array_key_exists('remark', $order) && $order['remark'] != null) {
             $invoice->setRemark($order['remark']);
         }
-        if (array_key_exists('customer', $order) && $order['customer'] != null) {
-            $invoice->setCustomer($order['customer']);
-        }
         if (array_key_exists('organization', $order) && $order['organization'] != null) {
             $invoice->setOrganization($order['organization']);
         }
@@ -212,7 +253,6 @@ class OrderSubscriber implements EventSubscriberInterface
             $invoice->setPriceCurrency($order['priceCurrency']);
         }
         $this->em->persist($invoice);
-        $this->em->flush();
 
         if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
             foreach ($order['items'] as $item) {
@@ -239,12 +279,8 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
         $invoice->setOrder($order['@id']);
-        $this->em->persist($invoice);
-        $this->em->flush();
-
         $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
         $this->em->persist($invoice);
-        $this->em->flush();
 
         return $invoice;
     }

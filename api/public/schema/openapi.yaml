@@ -1942,6 +1942,1166 @@ paths:
             schema:
               $ref: '#/components/schemas/ChangeLog-write'
         description: 'The updated ChangeLog resource'
+  /customers:
+    get:
+      tags:
+        - Customer
+      operationId: getCustomerCollection
+      summary: 'Retrieves the collection of Customer resources.'
+      responses:
+        200:
+          description: 'Customer collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Customer:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json+ld:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Customer:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer-read'
+      parameters:
+        -
+          name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[name]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[customerId]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[customerUrl]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateCreated]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateModified]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'dateCreated[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'name[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: customerId
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'customerId[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: customerUrl
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'customerUrl[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      produces:
+        - application/health+json
+    post:
+      tags:
+        - Customer
+      operationId: postCustomerCollection
+      summary: 'Creates a Customer resource.'
+      responses:
+        201:
+          description: 'Customer resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+          links:
+            GetCustomerItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getCustomerItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /customers/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Customer:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Customer:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+        description: 'The new Customer resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  /customers/mollie_webhook:
+    post:
+      tags:
+        - Customer
+      operationId: post_webhookCustomerCollection
+      summary: 'Creates a Customer resource.'
+      responses:
+        201:
+          description: 'Customer resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+          links:
+            GetCustomerItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getCustomerItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /customers/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+        description: 'The new Customer resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/customers/{id}':
+    get:
+      tags:
+        - Customer
+      operationId: getCustomerItem
+      summary: 'Retrieves a Customer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Customer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+    put:
+      tags:
+        - Customer
+      operationId: putCustomerItem
+      summary: 'Replaces the Customer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+      responses:
+        200:
+          description: 'Customer resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Customer:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Customer:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Customer-write'
+        description: 'The updated Customer resource'
+    delete:
+      tags:
+        - Customer
+      operationId: deleteCustomerItem
+      summary: 'Removes the Customer resource.'
+      responses:
+        204:
+          description: 'Customer resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/customers/{id}/audit_trail':
+    get:
+      tags:
+        - Customer
+      operationId: get_audit_trailCustomerItem
+      summary: 'Retrieves a Customer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Customer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+  '/customers/{id}/change_log':
+    get:
+      tags:
+        - Customer
+      operationId: get_change_logsCustomerItem
+      summary: 'Retrieves a Customer resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Customer resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Customer:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Customer-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /invoice_items:
     get:
       tags:
@@ -3230,15 +4390,6 @@ paths:
               - asc
               - desc
         -
-          name: 'order[paymentCustomerId]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
           name: 'order[referenceId]'
           in: query
           required: false
@@ -3303,24 +4454,6 @@ paths:
               - desc
         -
           name: 'order[order]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[customer]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[subscriptionId]'
           in: query
           required: false
           schema:
@@ -3524,22 +4657,6 @@ paths:
             type: string
         -
           name: 'reference[]'
-          in: query
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-        -
-          name: paymentCustomerId
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: 'paymentCustomerId[]'
           in: query
           required: false
           schema:
@@ -8020,6 +9137,1141 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  /subscriptions:
+    get:
+      tags:
+        - Subscription
+      operationId: getSubscriptionCollection
+      summary: 'Retrieves the collection of Subscription resources.'
+      responses:
+        200:
+          description: 'Subscription collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Subscription:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json+ld:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Subscription:jsonld-read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string, nullable: true }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription-read'
+      parameters:
+        -
+          name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[subscriptionId]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[organization]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateCreated]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateModified]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'dateCreated[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: subscriptionId
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'subscriptionId[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: organization
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'organization[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      produces:
+        - application/health+json
+    post:
+      tags:
+        - Subscription
+      operationId: postSubscriptionCollection
+      summary: 'Creates a Subscription resource.'
+      responses:
+        201:
+          description: 'Subscription resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+          links:
+            GetSubscriptionItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getSubscriptionItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /subscriptions/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Subscription:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Subscription:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+        description: 'The new Subscription resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  /subscriptions/mollie_webhook:
+    post:
+      tags:
+        - Subscription
+      operationId: post_webhookSubscriptionCollection
+      summary: 'Creates a Subscription resource.'
+      responses:
+        201:
+          description: 'Subscription resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+          links:
+            GetSubscriptionItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getSubscriptionItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /subscriptions/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+        description: 'The new Subscription resource'
+      parameters:
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/subscriptions/{id}':
+    get:
+      tags:
+        - Subscription
+      operationId: getSubscriptionItem
+      summary: 'Retrieves a Subscription resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Subscription resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+    put:
+      tags:
+        - Subscription
+      operationId: putSubscriptionItem
+      summary: 'Replaces the Subscription resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+      responses:
+        200:
+          description: 'Subscription resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Subscription:jsonld-write'
+          application/json+ld:
+            schema:
+              $ref: '#/components/schemas/Subscription:jsonld-write'
+          application/hal+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+hal:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+vnd.api:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/health+json:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/json+health:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          text/csv:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/Subscription-write'
+        description: 'The updated Subscription resource'
+    delete:
+      tags:
+        - Subscription
+      operationId: deleteSubscriptionItem
+      summary: 'Removes the Subscription resource.'
+      responses:
+        204:
+          description: 'Subscription resource deleted'
+        404:
+          description: 'Resource not found'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+  '/subscriptions/{id}/audit_trail':
+    get:
+      tags:
+        - Subscription
+      operationId: get_audit_trailSubscriptionItem
+      summary: 'Retrieves a Subscription resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Subscription resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
+  '/subscriptions/{id}/change_log':
+    get:
+      tags:
+        - Subscription
+      operationId: get_change_logsSubscriptionItem
+      summary: 'Retrieves a Subscription resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Subscription resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Subscription:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Subscription-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /taxes:
     get:
       tags:
@@ -9527,6 +11779,184 @@ components:
         '@type':
           readOnly: true
           type: string
+    Customer-read:
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        id:
+          readOnly: true
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
+        customerId:
+          description: 'The customer id from the provider'
+          type: string
+          nullable: true
+        customerUrl:
+          description: 'The url of a customer saved in another database'
+          type: string
+          nullable: true
+        subscriptions:
+          description: 'The subscriptions in this invoice'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-read'
+        payments:
+          description: 'The payments made by this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment-read'
+        invoices:
+          description: 'The invoices made for this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-read'
+        dateCreated:
+          description: 'The moment this request was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The moment this request last Modified'
+          type: string
+          format: date-time
+          nullable: true
+    Customer-write:
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
+        customerUrl:
+          description: 'The url of a customer saved in another database'
+          type: string
+          nullable: true
+        subscriptions:
+          description: 'The subscriptions in this invoice'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-write'
+        payments:
+          description: 'The payments made by this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment-write'
+        invoices:
+          description: 'The invoices made for this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-write'
+    'Customer:jsonld-read':
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
+        customerId:
+          description: 'The customer id from the provider'
+          type: string
+          nullable: true
+        customerUrl:
+          description: 'The url of a customer saved in another database'
+          type: string
+          nullable: true
+        subscriptions:
+          description: 'The subscriptions in this invoice'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-read'
+        payments:
+          description: 'The payments made by this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment:jsonld-read'
+        invoices:
+          description: 'The invoices made for this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-read'
+        dateCreated:
+          description: 'The moment this request was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The moment this request last Modified'
+          type: string
+          format: date-time
+          nullable: true
+    'Customer:jsonld-write':
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
+        customerUrl:
+          description: 'The url of a customer saved in another database'
+          type: string
+          nullable: true
+        subscriptions:
+          description: 'The subscriptions in this invoice'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-write'
+        payments:
+          description: 'The payments made by this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment:jsonld-write'
+        invoices:
+          description: 'The invoices made for this customer'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-write'
     Invoice-read:
       type: object
       description: 'An entity representing an invoice.'
@@ -9548,10 +11978,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9601,15 +12027,8 @@ components:
           items:
             $ref: '#/components/schemas/Payment-read'
         customer:
-          description: 'The customer that receives this invoice'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
-          nullable: true
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
+          description: 'The customer this invoice relates to'
+          $ref: '#/components/schemas/Customer-read'
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -9640,6 +12059,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-read'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription-read'
     Invoice-write:
       type: object
       description: 'An entity representing an invoice.'
@@ -9654,10 +12079,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9691,15 +12112,8 @@ components:
           items:
             $ref: '#/components/schemas/Payment-write'
         customer:
-          description: 'The customer that receives this invoice'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
-          nullable: true
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
+          description: 'The customer this invoice relates to'
+          $ref: '#/components/schemas/Customer-write'
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -9722,6 +12136,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-write'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription-write'
     'Invoice:jsonld-read':
       type: object
       description: 'An entity representing an invoice.'
@@ -9752,10 +12172,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9805,15 +12221,8 @@ components:
           items:
             $ref: '#/components/schemas/Payment:jsonld-read'
         customer:
-          description: 'The customer that receives this invoice'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
-          nullable: true
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
+          description: 'The customer this invoice relates to'
+          $ref: '#/components/schemas/Customer:jsonld-read'
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -9844,6 +12253,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription:jsonld-read'
     'Invoice:jsonld-write':
       type: object
       description: 'An entity representing an invoice.'
@@ -9867,10 +12282,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -9904,15 +12315,8 @@ components:
           items:
             $ref: '#/components/schemas/Payment:jsonld-write'
         customer:
-          description: 'The customer that receives this invoice'
-          externalDocs:
-            url: 'http://schema.org/url'
-          type: string
-          nullable: true
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
+          description: 'The customer this invoice relates to'
+          $ref: '#/components/schemas/Customer:jsonld-write'
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -9935,6 +12339,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription:jsonld-write'
     InvoiceItem-read:
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -10339,6 +12749,9 @@ components:
         invoice:
           description: 'The invoice this payment relates to'
           $ref: '#/components/schemas/Invoice-read'
+        customer:
+          description: 'The customer this payment relates to'
+          $ref: '#/components/schemas/Customer-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -10373,6 +12786,9 @@ components:
         invoice:
           description: 'The invoice this payment relates to'
           $ref: '#/components/schemas/Invoice-write'
+        customer:
+          description: 'The customer this payment relates to'
+          $ref: '#/components/schemas/Customer-write'
     'Payment:jsonld-read':
       type: object
       description: 'An entity representing a payment.'
@@ -10404,6 +12820,9 @@ components:
         invoice:
           description: 'The invoice this payment relates to'
           $ref: '#/components/schemas/Invoice:jsonld-read'
+        customer:
+          description: 'The customer this payment relates to'
+          $ref: '#/components/schemas/Customer:jsonld-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -10447,6 +12866,9 @@ components:
         invoice:
           description: 'The invoice this payment relates to'
           $ref: '#/components/schemas/Invoice:jsonld-write'
+        customer:
+          description: 'The customer this payment relates to'
+          $ref: '#/components/schemas/Customer:jsonld-write'
     Service-read:
       type: object
       description: ''
@@ -10483,6 +12905,16 @@ components:
           type: string
           format: date-time
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-read'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer-read'
       required:
         - type
     Service-write:
@@ -10509,6 +12941,16 @@ components:
           items:
             type: string
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-write'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer-write'
     'Service:jsonld-read':
       type: object
       description: ''
@@ -10554,6 +12996,16 @@ components:
           type: string
           format: date-time
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-read'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer:jsonld-read'
       required:
         - type
     'Service:jsonld-write':
@@ -10589,6 +13041,166 @@ components:
           items:
             type: string
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-write'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer:jsonld-write'
+    Subscription-read:
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        id:
+          readOnly: true
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        subscriptionId:
+          description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        organization:
+          description: 'The organization this subscription is offered by'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
+        customer:
+          description: 'The customer this subscriptions belongs to'
+          $ref: '#/components/schemas/Customer-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-read'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-read'
+        dateCreated:
+          description: 'The moment this request was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The moment this request last Modified'
+          type: string
+          format: date-time
+          nullable: true
+    Subscription-write:
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        subscriptionId:
+          description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        organization:
+          description: 'The organization this subscription is offered by'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
+        customer:
+          description: 'The customer this subscriptions belongs to'
+          $ref: '#/components/schemas/Customer-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-write'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-write'
+    'Subscription:jsonld-read':
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          externalDocs:
+            url: 'http://schema.org/identifier'
+          type: string
+          format: uuid
+        subscriptionId:
+          description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        organization:
+          description: 'The organization this subscription is offered by'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
+        customer:
+          description: 'The customer this subscriptions belongs to'
+          $ref: '#/components/schemas/Customer:jsonld-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-read'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-read'
+        dateCreated:
+          description: 'The moment this request was created'
+          type: string
+          format: date-time
+          nullable: true
+        dateModified:
+          description: 'The moment this request last Modified'
+          type: string
+          format: date-time
+          nullable: true
+    'Subscription:jsonld-write':
+      type: object
+      description: 'An entity representing a unique customer from a payment provider.'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        subscriptionId:
+          description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        organization:
+          description: 'The organization this subscription is offered by'
+          externalDocs:
+            url: 'http://schema.org/url'
+          type: string
+          nullable: true
+        customer:
+          description: 'The customer this subscriptions belongs to'
+          $ref: '#/components/schemas/Customer:jsonld-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-write'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-write'
     Tax-read:
       type: object
       description: 'An entity representing an tax.'
@@ -10766,6 +13378,67 @@ components:
           items:
             $ref: '#/components/schemas/InvoiceItem:jsonld-write'
 definitions:
+  Customer-read:
+    properties:
+      id:
+        description: ''
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      name:
+        description: 'The customers name'
+        type: string
+        example: 'John Doe'
+      customerId:
+        description: 'The customer id from the provider'
+        type: string
+        example: randomid_1234778
+      customerUrl:
+        description: 'The url of a customer saved in another database'
+        type: string
+        example: 'https://commonground.conduction.nl/api/v1/cc/people/{id}'
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      subscriptions:
+        description: 'The subscriptions in this invoice'
+        type: \ArrayCollection
+      payments:
+        description: 'The payments made by this customer'
+        type: \ArrayCollection
+      invoices:
+        description: 'The invoices made for this customer'
+        type: \ArrayCollection
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+    required: []
+  Customer-write:
+    properties:
+      name:
+        description: 'The customers name'
+        type: string
+        example: 'John Doe'
+      customerUrl:
+        description: 'The url of a customer saved in another database'
+        type: string
+        example: 'https://commonground.conduction.nl/api/v1/cc/people/{id}'
+      subscriptions:
+        description: 'The subscriptions in this invoice'
+        type: \ArrayCollection
+      payments:
+        description: 'The payments made by this customer'
+        type: \ArrayCollection
+      invoices:
+        description: 'The invoices made for this customer'
+        type: \ArrayCollection
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+    required: []
   Invoice-read:
     properties:
       id:
@@ -10787,11 +13460,6 @@ definitions:
         description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
         type: string
         example: 6666-2019-0000000012
-        maxLength: 255
-      paymentCustomerId:
-        description: 'The identification number of the customer generated by the payment provider'
-        type: string
-        example: ABC12345678
         maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
@@ -10823,15 +13491,6 @@ definitions:
         type: string
         example: 'https://www.example.org/order/1'
         maxLength: 255
-      customer:
-        description: 'The customer that receives this invoice'
-        type: string
-        example: 'https://example.org/people/1'
-        format: url
-      subscriptionId:
-        description: 'The id of the active subscription (non commonground)'
-        type: string
-        example: ABC12678
       paymentUrl:
         description: 'url of payment'
         type: string
@@ -10856,9 +13515,15 @@ definitions:
       payments:
         description: 'The payments of this Invoice'
         type: \Payment
+      customer:
+        description: 'The customer this invoice relates to'
+        type: \Customer
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
+      subscription:
+        description: 'The subscription this invoice is made for'
+        type: \Subscription
     required: []
   Invoice-write:
     properties:
@@ -10876,11 +13541,6 @@ definitions:
         description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
         type: string
         example: 6666-2019-0000000012
-        maxLength: 255
-      paymentCustomerId:
-        description: 'The identification number of the customer generated by the payment provider'
-        type: string
-        example: ABC12345678
         maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
@@ -10900,15 +13560,6 @@ definitions:
         type: string
         example: 'https://www.example.org/order/1'
         maxLength: 255
-      customer:
-        description: 'The customer that receives this invoice'
-        type: string
-        example: 'https://example.org/people/1'
-        format: url
-      subscriptionId:
-        description: 'The id of the active subscription (non commonground)'
-        type: string
-        example: ABC12678
       redirectUrl:
         description: 'redirect url after payment'
         type: string
@@ -10927,9 +13578,15 @@ definitions:
       payments:
         description: 'The payments of this Invoice'
         type: \Payment
+      customer:
+        description: 'The customer this invoice relates to'
+        type: \Customer
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
+      subscription:
+        description: 'The subscription this invoice is made for'
+        type: \Subscription
     required: []
   InvoiceItem-read:
     properties:
@@ -11110,6 +13767,9 @@ definitions:
       invoice:
         description: 'The invoice this payment relates to'
         type: \Invoice
+      customer:
+        description: 'The customer this payment relates to'
+        type: \Customer
     required:
       - paymentId
       - status
@@ -11132,6 +13792,9 @@ definitions:
       invoice:
         description: 'The invoice this payment relates to'
         type: \Invoice
+      customer:
+        description: 'The customer this payment relates to'
+        type: \Customer
     required:
       - paymentId
       - status
@@ -11162,6 +13825,12 @@ definitions:
       dateModified:
         description: 'The moment this request last Modified'
         type: \Datetime
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
     required:
       - type
   Service-write:
@@ -11182,8 +13851,67 @@ definitions:
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
     required:
       - type
+  Subscription-read:
+    properties:
+      id:
+        description: ''
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      subscriptionId:
+        description: 'The subscription id from the payment provider'
+        type: string
+        example: randomid_1234778
+      organization:
+        description: 'The organization this subscription is offered by'
+        type: string
+        format: url
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      customer:
+        description: 'The customer this subscriptions belongs to'
+        type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
+    required: []
+  Subscription-write:
+    properties:
+      subscriptionId:
+        description: 'The subscription id from the payment provider'
+        type: string
+        example: randomid_1234778
+      organization:
+        description: 'The organization this subscription is offered by'
+        type: string
+        format: url
+        maxLength: 255
+      customer:
+        description: 'The customer this subscriptions belongs to'
+        type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
+    required: []
   Tax-read:
     properties:
       id:
@@ -11359,12 +14087,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-04-09 05:15:55'
+        example: '2021-04-15 10:04:46'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-04-09 05:15:55'
+        example: '2021-04-15 10:04:46'
     required: []
   AuditTrail-write:
     properties:
@@ -11412,12 +14140,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-04-09 05:15:55'
+        example: '2021-04-15 10:04:46'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-04-09 05:15:55'
+        example: '2021-04-15 10:04:46'
     required: []
   ChangeLog-write:
     properties:
@@ -11428,6 +14156,12 @@ definitions:
         maxLength: 2555
     required: []
 tags:
+  -
+    name: Customer
+    description: |
+      An entity representing a unique customer from a payment provider.
+      
+      This entity represents a unique customer of a payment provider.
   -
     name: Invoice
     description: |
@@ -11458,6 +14192,12 @@ tags:
       
       
       
+  -
+    name: Subscription
+    description: |
+      An entity representing a unique customer from a payment provider.
+      
+      This entity represents a unique customer of a payment provider.
   -
     name: Tax
     description: |

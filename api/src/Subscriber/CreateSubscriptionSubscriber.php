@@ -88,20 +88,25 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
 
             $invoiceRepostiory = $this->em->getRepository(Invoice::class);
             $invoice = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
-            if ($invoice instanceof Invoice) {
-                $mollieService = new MollieService($invoice->getService(), $this->commonGroundService, $this->em);
-                $mollieService->createSubscription($invoice);
-                $result = $this->commonGroundService->getResource(['component' => 'bc', 'type' => 'invoices', 'id' => $post['invoice']]);
+            if ($invoice instanceof Invoice && $invoice->getPaid() == true && $invoice->getPaymentId() != null && $invoice->getSubscription() != null) {
+
+                $mollieService = new MollieService($this->commonGroundService, $this->em, $invoice->getService());
+
+                if ($invoice->getSubscription()->getSubscriptionId() != null) {
+                    $subscription = $mollieService->getSubscription($invoice->getCustomer()->getCustomerId(), $invoice->getSubscription()->getSubscriptionId());
+                } else {
+                    $subscription = $mollieService->createSubscription($invoice);
+                }
 
                 $response = new Response(
-                    json_encode($result),
+                    json_encode((array)$subscription),
                     Response::HTTP_OK,
                     ['content-type' => 'application/json']
                 );
 
                 $event->setResponse($response);
             } else {
-                return 'Invoice not found';
+                return 'Invoice not found or not paid';
             }
         } catch (\Exception $e) {
             $json = $this->serializer->serialize(

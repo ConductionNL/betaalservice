@@ -50,7 +50,8 @@ class InvoiceStatusSubscriber implements EventSubscriberInterface
         }
         $service = $invoice->getService();
 
-        $mollieService = new MollieService($service, $this->commonGroundService, $this->em);
+        $mollieService = new MollieService($this->commonGroundService, $this->em, $service);
+
         $resultFromMollie = $mollieService->checkPayment($invoice->getPaymentId());
 
         $invoice->setStatus($resultFromMollie['status']);
