@@ -69,7 +69,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          },
  *          "post_create_subscription"={
  *              "method"="POST",
- *              "path"="subscription",
+ *              "path"="create_subscription",
  *              "swagger_context" = {
  *                  "summary"="Create an subscription by just providing an invoice",
  *                  "description"="Create an subscription by just providing an invoice"
