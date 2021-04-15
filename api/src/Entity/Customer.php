@@ -89,6 +89,17 @@ class Customer
     private $id;
 
     /**
+     * @var string The customers name
+     *
+     * @example John Doe
+     *
+     * @Gedmo\Versioned
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
      * @var string The customer id from the provider
      *
      * @example randomid_1234778
@@ -105,8 +116,8 @@ class Customer
      * @example ['id' => 'abc_123153', 'name' => 'John Doe']
      *
      * @Gedmo\Versioned
-     * @Groups({"read"})
-     * @ORM\Column(type="array", nullable=true)
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="json", nullable=true)
      */
     private $customerFromService = [];
 
@@ -181,11 +192,24 @@ class Customer
     {
         $this->payments = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getCustomerId(): ?string

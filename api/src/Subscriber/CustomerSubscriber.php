@@ -42,33 +42,33 @@ class CustomerSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['createCustomerForMollie', EventPriorities::POST_DESERIALIZE],
-            KernelEvents::VIEW => ['getCustomerFromMollie', EventPriorities::PRE_VALIDATE],
+//            KernelEvents::REQUEST => ['createCustomerForMollie', EventPriorities::POST_DESERIALIZE],
+            KernelEvents::VIEW => ['getCustomerFromMollie', EventPriorities::PRE_SERIALIZE],
         ];
     }
 
-    public function createCustomerForMollie(RequestEvent $event)
-    {
-        $customer = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
-        $route = $event->getRequest()->attributes->get('_route');
-
-        if (!$customer instanceof Customer || $method != 'POST') {
-            return;
-        }
-
-        $mollieService = new MollieService($this->commonGroundService, $this->em);
-
-        if ($customer->getCustomerId() == null) {
-            $customerMollie = $mollieService->createCustomer($customer->getCustomerUrl());
-
-            $customer->setCustomerId($customerMollie->id);
-            $customer->setCustomerFromService((array)$customerMollie);
-            $this->em->persist($customer);
-            $this->em->flush();
-        }
-
-    }
+//    public function createCustomerForMollie(RequestEvent $event)
+//    {
+//        $customer = $event->getControllerResult();
+//        $method = $event->getRequest()->getMethod();
+//        $route = $event->getRequest()->attributes->get('_route');
+//
+//        if (!$customer instanceof Customer || $method != 'POST') {
+//            return;
+//        }
+//
+//        $mollieService = new MollieService($this->commonGroundService, $this->em);
+//
+//        if ($customer->getCustomerId() == null) {
+//            $customerMollie = $mollieService->createCustomer($customer->getCustomerUrl());
+//
+//            $customer->setCustomerId($customerMollie->id);
+//            $customer->setCustomerFromService((array)$customerMollie);
+//            $this->em->persist($customer);
+//            $this->em->flush();
+//        }
+//
+//    }
 
     public function getCustomerFromMollie(ViewEvent $event)
     {

@@ -2038,6 +2038,15 @@ paths:
               - asc
               - desc
         -
+          name: 'order[name]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[customerId]'
           in: query
           required: false
@@ -2129,6 +2138,22 @@ paths:
             type: string
         -
           name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'name[]'
           in: query
           required: false
           schema:
@@ -4365,15 +4390,6 @@ paths:
               - asc
               - desc
         -
-          name: 'order[paymentCustomerId]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
           name: 'order[referenceId]'
           in: query
           required: false
@@ -4438,15 +4454,6 @@ paths:
               - desc
         -
           name: 'order[order]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[subscriptionId]'
           in: query
           required: false
           schema:
@@ -4650,22 +4657,6 @@ paths:
             type: string
         -
           name: 'reference[]'
-          in: query
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-        -
-          name: paymentCustomerId
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: 'paymentCustomerId[]'
           in: query
           required: false
           schema:
@@ -11798,6 +11789,10 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
         customerId:
           description: 'The customer id from the provider'
           type: string
@@ -11821,6 +11816,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invoice-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -11835,8 +11833,8 @@ components:
       type: object
       description: 'An entity representing a unique customer from a payment provider.'
       properties:
-        customerId:
-          description: 'The customer id from the provider'
+        name:
+          description: 'The customers name'
           type: string
           nullable: true
         customerUrl:
@@ -11858,6 +11856,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invoice-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-write'
     'Customer:jsonld-read':
       type: object
       description: 'An entity representing a unique customer from a payment provider.'
@@ -11877,6 +11878,10 @@ components:
             url: 'http://schema.org/identifier'
           type: string
           format: uuid
+        name:
+          description: 'The customers name'
+          type: string
+          nullable: true
         customerId:
           description: 'The customer id from the provider'
           type: string
@@ -11900,6 +11905,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invoice:jsonld-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -11923,8 +11931,8 @@ components:
         '@type':
           readOnly: true
           type: string
-        customerId:
-          description: 'The customer id from the provider'
+        name:
+          description: 'The customers name'
           type: string
           nullable: true
         customerUrl:
@@ -11946,6 +11954,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Invoice:jsonld-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-write'
     Invoice-read:
       type: object
       description: 'An entity representing an invoice.'
@@ -11967,10 +11978,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -12022,10 +12029,6 @@ components:
         customer:
           description: 'The customer this invoice relates to'
           $ref: '#/components/schemas/Customer-read'
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -12056,6 +12059,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-read'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription-read'
     Invoice-write:
       type: object
       description: 'An entity representing an invoice.'
@@ -12070,10 +12079,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -12109,10 +12114,6 @@ components:
         customer:
           description: 'The customer this invoice relates to'
           $ref: '#/components/schemas/Customer-write'
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -12135,6 +12136,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service-write'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription-write'
     'Invoice:jsonld-read':
       type: object
       description: 'An entity representing an invoice.'
@@ -12165,10 +12172,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -12220,10 +12223,6 @@ components:
         customer:
           description: 'The customer this invoice relates to'
           $ref: '#/components/schemas/Customer:jsonld-read'
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -12254,6 +12253,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-read'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription:jsonld-read'
     'Invoice:jsonld-write':
       type: object
       description: 'An entity representing an invoice.'
@@ -12277,10 +12282,6 @@ components:
           nullable: true
         reference:
           description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
-          type: string
-          nullable: true
-        paymentCustomerId:
-          description: 'The identification number of the customer generated by the payment provider'
           type: string
           nullable: true
         organization:
@@ -12316,10 +12317,6 @@ components:
         customer:
           description: 'The customer this invoice relates to'
           $ref: '#/components/schemas/Customer:jsonld-write'
-        subscriptionId:
-          description: 'The id of the active subscription (non commonground)'
-          type: string
-          nullable: true
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -12342,6 +12339,12 @@ components:
           anyOf:
             -
               $ref: '#/components/schemas/Service:jsonld-write'
+        subscription:
+          description: 'The subscription this invoice is made for'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Subscription:jsonld-write'
     InvoiceItem-read:
       type: object
       description: 'An entity representing an item of an invoice.'
@@ -12902,6 +12905,16 @@ components:
           type: string
           format: date-time
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-read'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer-read'
       required:
         - type
     Service-write:
@@ -12928,6 +12941,16 @@ components:
           items:
             type: string
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription-write'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer-write'
     'Service:jsonld-read':
       type: object
       description: ''
@@ -12973,6 +12996,16 @@ components:
           type: string
           format: date-time
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-read'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer:jsonld-read'
       required:
         - type
     'Service:jsonld-write':
@@ -13008,6 +13041,16 @@ components:
           items:
             type: string
           nullable: true
+        subscriptions:
+          description: 'The subscriptions under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription:jsonld-write'
+        customers:
+          description: 'The customers under this payment service'
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer:jsonld-write'
     Subscription-read:
       type: object
       description: 'An entity representing a unique customer from a payment provider.'
@@ -13031,6 +13074,14 @@ components:
         customer:
           description: 'The customer this subscriptions belongs to'
           $ref: '#/components/schemas/Customer-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-read'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -13058,6 +13109,14 @@ components:
         customer:
           description: 'The customer this subscriptions belongs to'
           $ref: '#/components/schemas/Customer-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service-write'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice-write'
     'Subscription:jsonld-read':
       type: object
       description: 'An entity representing a unique customer from a payment provider.'
@@ -13090,6 +13149,14 @@ components:
         customer:
           description: 'The customer this subscriptions belongs to'
           $ref: '#/components/schemas/Customer:jsonld-read'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-read'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-read'
         dateCreated:
           description: 'The moment this request was created'
           type: string
@@ -13126,6 +13193,14 @@ components:
         customer:
           description: 'The customer this subscriptions belongs to'
           $ref: '#/components/schemas/Customer:jsonld-write'
+        service:
+          description: 'The service this subscription uses'
+          $ref: '#/components/schemas/Service:jsonld-write'
+        invoices:
+          description: 'Invoices made for this subscription'
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice:jsonld-write'
     Tax-read:
       type: object
       description: 'An entity representing an tax.'
@@ -13310,6 +13385,10 @@ definitions:
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
+      name:
+        description: 'The customers name'
+        type: string
+        example: 'John Doe'
       customerId:
         description: 'The customer id from the provider'
         type: string
@@ -13333,13 +13412,16 @@ definitions:
       invoices:
         description: 'The invoices made for this customer'
         type: \ArrayCollection
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
     required: []
   Customer-write:
     properties:
-      customerId:
-        description: 'The customer id from the provider'
+      name:
+        description: 'The customers name'
         type: string
-        example: randomid_1234778
+        example: 'John Doe'
       customerUrl:
         description: 'The url of a customer saved in another database'
         type: string
@@ -13353,6 +13435,9 @@ definitions:
       invoices:
         description: 'The invoices made for this customer'
         type: \ArrayCollection
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
     required: []
   Invoice-read:
     properties:
@@ -13375,11 +13460,6 @@ definitions:
         description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
         type: string
         example: 6666-2019-0000000012
-        maxLength: 255
-      paymentCustomerId:
-        description: 'The identification number of the customer generated by the payment provider'
-        type: string
-        example: ABC12345678
         maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
@@ -13411,10 +13491,6 @@ definitions:
         type: string
         example: 'https://www.example.org/order/1'
         maxLength: 255
-      subscriptionId:
-        description: 'The id of the active subscription (non commonground)'
-        type: string
-        example: ABC12678
       paymentUrl:
         description: 'url of payment'
         type: string
@@ -13445,6 +13521,9 @@ definitions:
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
+      subscription:
+        description: 'The subscription this invoice is made for'
+        type: \Subscription
     required: []
   Invoice-write:
     properties:
@@ -13462,11 +13541,6 @@ definitions:
         description: 'The human readable reference for this request, build as {gemeentecode}-{year}-{referenceId}. Where gemeentecode is a four digit number for gemeenten and a four letter abriviation for other organizations'
         type: string
         example: 6666-2019-0000000012
-        maxLength: 255
-      paymentCustomerId:
-        description: 'The identification number of the customer generated by the payment provider'
-        type: string
-        example: ABC12345678
         maxLength: 255
       organization:
         description: 'The organization this invoice belongs to'
@@ -13486,10 +13560,6 @@ definitions:
         type: string
         example: 'https://www.example.org/order/1'
         maxLength: 255
-      subscriptionId:
-        description: 'The id of the active subscription (non commonground)'
-        type: string
-        example: ABC12678
       redirectUrl:
         description: 'redirect url after payment'
         type: string
@@ -13514,6 +13584,9 @@ definitions:
       service:
         description: 'The chosen payment service for the invoice'
         type: \Service
+      subscription:
+        description: 'The subscription this invoice is made for'
+        type: \Subscription
     required: []
   InvoiceItem-read:
     properties:
@@ -13752,6 +13825,12 @@ definitions:
       dateModified:
         description: 'The moment this request last Modified'
         type: \Datetime
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
     required:
       - type
   Service-write:
@@ -13772,6 +13851,12 @@ definitions:
       configuration:
         description: 'Configuration options for this payment provider'
         type: array
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
     required:
       - type
   Subscription-read:
@@ -13799,6 +13884,12 @@ definitions:
       customer:
         description: 'The customer this subscriptions belongs to'
         type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
     required: []
   Subscription-write:
     properties:
@@ -13814,6 +13905,12 @@ definitions:
       customer:
         description: 'The customer this subscriptions belongs to'
         type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
     required: []
   Tax-read:
     properties:
@@ -13990,12 +14087,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-04-14 07:56:12'
+        example: '2021-04-15 10:04:46'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-04-14 07:56:12'
+        example: '2021-04-15 10:04:46'
     required: []
   AuditTrail-write:
     properties:
@@ -14043,12 +14140,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-04-14 07:56:12'
+        example: '2021-04-15 10:04:46'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-04-14 07:56:12'
+        example: '2021-04-15 10:04:46'
     required: []
   ChangeLog-write:
     properties:

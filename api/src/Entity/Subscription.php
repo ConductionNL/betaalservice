@@ -105,8 +105,8 @@ class Subscription
      * @example ['id' => 'abc_123153', 'name' => 'Subscription for John Doe']
      *
      * @Gedmo\Versioned
-     * @Groups({"read"})
-     * @ORM\Column(type="array", nullable=true)
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="json", nullable=true)
      */
     private $subscriptionFromService = [];
 
@@ -141,6 +141,15 @@ class Subscription
      * @MaxDepth(1)
      */
     private $service;
+
+    /**
+     * @var ArrayCollection Invoices made for this subscription
+     *
+     * @Groups({"read","write"})
+     * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="subscription")
+     * @MaxDepth(1)
+     */
+    private $invoices;
 
     /**
      * @var Datetime The moment this request was created
@@ -252,6 +261,36 @@ class Subscription
     public function setDateModified(\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setSubscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->removeElement($invoice)) {
+            // set the owning side to null (unless already changed)
+            if ($invoice->getSubscription() === $this) {
+                $invoice->setSubscription(null);
+            }
+        }
 
         return $this;
     }

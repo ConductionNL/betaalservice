@@ -43,7 +43,7 @@ class SubscriptionSubscriber implements EventSubscriberInterface
     {
         return [
 //            KernelEvents::REQUEST => ['createSubscriptionForMollie', EventPriorities::POST_DESERIALIZE],
-            KernelEvents::VIEW => ['getSubscriptionFromMollie', EventPriorities::PRE_VALIDATE],
+            KernelEvents::VIEW => ['getSubscriptionFromMollie', EventPriorities::PRE_SERIALIZE],
         ];
     }
 

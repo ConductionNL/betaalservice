@@ -94,10 +94,19 @@ class OrderSubscriber implements EventSubscriberInterface
             // Get actual order from given @id
             $order = $this->commonGroundService->getResource($post['orderUrl']);
 
+            // If there is no Service for the offering organization exit
+            $serviceRepository = $this->em->getRepository(Service::class);
+            $service = $serviceRepository->findOneBy([
+                'organization' => $order['organization']
+            ]);
+            if (!isset($service)) {
+                throw new BadRequestHttpException('No service found for given organization');
+            }
+
             // Check if there is already a invoice for this order if this is not a subscription
-            if ((isset($post['paymentType']) && $post['paymentType'] !== 'subcsription') || !isset($post['paymentType'])) {
-                $invoiceRepostiory = $this->em->getRepository(Invoice::class);
-                $invoices = $invoiceRepostiory->findBy([
+            if ((isset($post['paymentType']) && $post['paymentType'] !== 'subscription') || !isset($post['paymentType'])) {
+                $invoiceRepository = $this->em->getRepository(Invoice::class);
+                $invoices = $invoiceRepository->findBy([
                     'order' => $order['@id']
                 ]);
                 if (isset($invoices)) {
@@ -117,10 +126,12 @@ class OrderSubscriber implements EventSubscriberInterface
                 'customerUrl' => $order['customer']
             ]);
             if (!isset($customer)) {
+                $customerFromCommonground = $this->commonGroundService->getResource($order['customer']);
                 $customer = new Customer();
-                $customer->setCustomerUrl($order['customer']);
+                $customer->setName($customerFromCommonground['name']);
+                $customer->setCustomerUrl($customerFromCommonground['@id']);
+                $customer->setService($service);
                 $this->em->persist($customer);
-                $this->em->flush();
             }
             $invoice = [];
             if (isset($latestInvoice)) {
@@ -129,26 +140,15 @@ class OrderSubscriber implements EventSubscriberInterface
             } else {
                 $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
             }
+            $invoice->setService($service);
             $invoice->setCustomer($customer);
             $this->em->persist($invoice);
             $this->em->flush();
 
-            // If there is no Service for the offering organization exit
-            $serviceRepository = $this->em->getRepository(Service::class);
-            $service = $serviceRepository->findOneBy(array('organization' => $order['organization']));
-            if (isset($service)) {
-                $invoice->setService($service);
-                $this->em->persist($invoice);
-                $this->em->flush();
-            } else {
-                return;
-            }
-
-            // Update the order
-            $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
             unset($order['items']);
-            $this->commonGroundService->saveResource($order, $order['@id']);
+            $this->commonGroundService->updateResource($order, ['component' => 'orc', 'type' => 'orders', 'id' => $order['id']]);
 
+            $order['invoice'] = $this->commonGroundService->cleanUrl(['component' => 'bc', 'type' => 'invoices', 'id' => $invoice->getId()]);
             // recalculate all the invoice totals
             $invoice->calculateTotals();
 
@@ -182,7 +182,6 @@ class OrderSubscriber implements EventSubscriberInterface
                         $invoice->setPaymentUrl($payment['checkOutUrl']);
                         $invoice->setPaymentId($payment['mollieId']);
                         $this->em->persist($invoice);
-                        $this->em->flush();
                         break;
                     case 'sumup':
                         $sumupService = new SumUpService($invoice->getService());
@@ -191,6 +190,8 @@ class OrderSubscriber implements EventSubscriberInterface
                         break;
                 }
             }
+
+            $this->em->flush();
 
             $json = $this->serializer->serialize(
                 $invoice,
@@ -204,10 +205,12 @@ class OrderSubscriber implements EventSubscriberInterface
                 Response::HTTP_CREATED,
                 ['content-type' => $contentType]
             );
+
             $event->setResponse($response);
+
+            return $invoice;
+
         } catch (\Exception $e) {
-
-
             $json = $this->serializer->serialize(
                 $e->getMessage(),
                 $renderType,
@@ -221,12 +224,12 @@ class OrderSubscriber implements EventSubscriberInterface
                 ['content-type' => $contentType]
             );
             $event->setResponse($response);
-        }
 
-        return $invoice;
+            return $e->getMessage();
+        }
     }
 
-    public function createInvoiceFromOrder($order, $redirectUrl, $customer)
+    public function createInvoiceFromOrder($order, $redirectUrl)
     {
         $invoice = new Invoice();
         $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
@@ -250,7 +253,6 @@ class OrderSubscriber implements EventSubscriberInterface
             $invoice->setPriceCurrency($order['priceCurrency']);
         }
         $this->em->persist($invoice);
-        $this->em->flush();
 
         if (array_key_exists('items', $order) && $order['items'] != null && $order['items'] > 0) {
             foreach ($order['items'] as $item) {
@@ -277,12 +279,8 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
         $invoice->setOrder($order['@id']);
-        $this->em->persist($invoice);
-        $this->em->flush();
-
         $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
         $this->em->persist($invoice);
-        $this->em->flush();
 
         return $invoice;
     }

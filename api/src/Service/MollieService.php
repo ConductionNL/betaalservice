@@ -22,16 +22,14 @@ class MollieService
     private $service;
     private $commonGroundService;
     private $em;
-    private $client;
 
-    public function __construct(CommonGroundService $commonGroundService, EntityManagerInterface $em, Client $client = null, Service $service = null)
+    public function __construct(CommonGroundService $commonGroundService, EntityManagerInterface $em, Service $service = null)
     {
         $this->mollie = new MollieApiClient();
         $this->serviceId = $service->getId();
         $this->service = $service;
         $this->commonGroundService = $commonGroundService;
         $this->em = $em;
-        $this->client = $client;
 
 
         try {
@@ -119,13 +117,12 @@ class MollieService
         return $this->mollie->customers->get($customerId);
     }
 
-    public function createCustomer($customerUrl)
+    public function createCustomer($customer)
     {
-        $customer = $this->commonGroundService->getResource($customerUrl);
         $customerMollie = $this->mollie->customers->create([
-            'name' => $customer['name'],
+            'name' => $customer->getName(),
             'metadata' => [
-                'customerUrl' => $customerUrl
+                'customerUrl' => $customer->getCustomerUrl()
             ]
         ]);
 
@@ -151,24 +148,38 @@ class MollieService
                 'offerUrls' => $offerUrls
             ]
         ];
-        $request = new Request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getId(), $headers, $body);
-        $response = $this->client->send($request, ['timeout' => 2]);
+
+        $client = new Client($headers);
+        $response = $client->request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getSubscriptionId(), ['form_params' => $body]);
 
         return $response;
-
     }
 
     public function createSubscriptionPayment(Invoice $invoice)
     {
-        $customerMollie = $this->createCustomer($invoice->getCustomer());
+        if ($invoice->getCustomer()->getCustomerId() == null) {
+            $customerMollie = $this->createCustomer($invoice->getCustomer());
+        } else {
+            $customerMollie = $this->getCustomer($invoice->getCustomer()->getCustomerId());
+        }
+
+        $subscription = new Subscription();
+        $subscription->addInvoice($invoice);
+        $subscription->setCustomer($invoice->getCustomer());
+        $subscription->setService($invoice->getService());
+        $this->em->persist($subscription);
+        $this->em->flush();
 
         $currency = $invoice->getPriceCurrency();
         $amount = '' . $invoice->getPrice();
         $description = $invoice->getDescription();
         $redirectUrl = $invoice->getRedirectUrl();
 
-        $invoice->setPaymentCustomerId($customerMollie->id);
+        $invoice->getCustomer()->setCustomerId($customerMollie->id);
+        $customer = $invoice->getCustomer();
+        $customer->setCustomerFromService((array)$customerMollie);
         $this->em->persist($invoice);
+        $this->em->persist($customer);
         $this->em->flush();
 
         $molliePayment = $this->mollie->payments->create([
@@ -196,7 +207,7 @@ class MollieService
         $customer = $this->mollie->customers->get($customerId);
         $subscription = $this->mollie->subscriptions->getFor($customer, $subscriptionId);
 
-        return $subscriptionId;
+        return $subscription;
     }
 
     public function createSubscription(Invoice $invoice)
@@ -210,9 +221,9 @@ class MollieService
             $interval = "12 months";
         }
 
-        $paymentCustomer = $this->mollie->customers->get($invoice->getPaymentCustomerId());
+        $paymentCustomer = $this->mollie->customers->get($invoice->getCustomer()->getCustomerId());
 
-        $subscription = $this->mollie->subscriptions->createFor($paymentCustomer, [
+        $subscriptionFromMollie = $this->mollie->subscriptions->createFor($paymentCustomer, [
             'interval' => $interval,
             'amount' => [
                 'currency' => $invoiceItem->getPriceCurrency(),
@@ -221,9 +232,12 @@ class MollieService
             'description' => $invoice->getDescription(),
         ]);
 
-        $invoice->setSubscriptionId($subscription->id);
-        $this->em->persist($invoice);
+        $subscription = $invoice->getSubscription();
+        $subscription->setSubscriptionId($subscriptionFromMollie->id);
+        $subscription->setSubscriptionFromService((array)$subscriptionFromMollie);
+        $this->em->persist($subscription);
         $this->em->flush();
 
+        return $subscription;
     }
 }
