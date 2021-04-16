@@ -136,7 +136,7 @@ class MollieService
         $offerUrls = [];
         foreach ($invoiceItems as $item) {
             $newPrice += ($item->getQuantity() * $item->getPrice());
-            $offerUrls[] = $item['offer'];
+            $offerUrls[] = $item->getOffer();
         }
 
         $headers = ['Authorization' => 'Bearer ' . $subscription->getService()->getAuthorization()];
