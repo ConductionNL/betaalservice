@@ -130,27 +130,33 @@ class MollieService
         return $customerMollie;
     }
 
-    public function updateSubscription(Subscription $subscription, $invoiceItems)
+    public function updateSubscription(Subscription $subscription, $invoiceItemsArray)
     {
         $newPrice = 0;
         $offerUrls = [];
-        foreach ($invoiceItems as $item) {
-            $newPrice += ($item->getQuantity() * $item->getPrice());
-            $offerUrls[] = $item->getOffer();
+        foreach ($invoiceItemsArray as $array) {
+            foreach ($array as $item) {
+                if (!in_array($item->getOffer(), $offerUrls)) {
+                    $newPrice += ($item->getQuantity() * $item->getPrice());
+                    $offerUrls[] = $item->getOffer();
+                }
+            }
         }
+
+        $newPrice = ((string) $newPrice) . '.00';
 
         $customer = $this->mollie->customers->get($subscription->getCustomer()->getCustomerId());
 
-        $subscription = $customer->getSubscription($subscription->getSubscriptionId());
-        $subscription->amount = (object) [
-            "currency" => $invoiceItems->first()->getPriceCurrency(),
+        $subscriptionFromMollie = $customer->getSubscription($subscription->getSubscriptionId());
+        $subscriptionFromMollie->amount = (object)[
+            "currency" => $invoiceItemsArray[0][0]->getPriceCurrency(),
             "value" => $newPrice,
         ];
-        $updatedSubscription = $subscription->update();
+        $updatedSubscription = $subscriptionFromMollie->update();
 
         $subscription->setSubscriptionId($updatedSubscription->id);
-
-        return $subscription;
+        $this->em->persist($subscription);
+        $this->em->flush();
     }
 
     public function createSubscriptionPayment(Invoice $invoice)
@@ -237,7 +243,5 @@ class MollieService
         $subscription->setSubscriptionId($subscriptionFromMollie->id);
         $this->em->persist($subscription);
         $this->em->flush();
-
-        return $subscription;
     }
 }
