@@ -130,19 +130,19 @@ class MollieService
         return $customerMollie;
     }
 
-    public function updateSubscription(Subscription $subscription, $orderItems)
+    public function updateSubscription(Subscription $subscription, $invoiceItems)
     {
         $newPrice = 0;
         $offerUrls = [];
-        foreach ($orderItems as $item) {
-            $newPrice += ($item['quantity'] * $item['price']);
+        foreach ($invoiceItems as $item) {
+            $newPrice += ($item->getQuantity() * $item->getPrice());
             $offerUrls[] = $item['offer'];
         }
 
         $headers = ['Authorization' => 'Bearer ' . $subscription->getService()->getAuthorization()];
         $body = [
             'amount' => [
-                'currency' => $orderItems[0]['priceCurrency'],
+                'currency' => $invoiceItems->first()->getPriceCurrency(),
                 'value' => $newPrice
             ],
             'metadata' => [
