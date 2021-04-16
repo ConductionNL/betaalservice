@@ -14,6 +14,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Psr7;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class MollieService
 {
@@ -150,9 +151,12 @@ class MollieService
         ];
 
         $client = new Client($headers);
-        $response = $client->request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getSubscriptionId(), ['form_params' => $body]);
+        $subscriptionFromMollie = $client->request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getSubscriptionId(), ['form_params' => $body]);
 
-        return $response;
+        $subscription->setSubscriptionId($subscriptionFromMollie->id);
+        $subscription->setSubscriptionFromService((array)$subscriptionFromMollie);
+
+        return $subscription;
     }
 
     public function createSubscriptionPayment(Invoice $invoice)
@@ -214,6 +218,10 @@ class MollieService
     {
         $invoiceItem = $invoice->getItems()->first();
         $interval = $this->commonGroundService->getResource($invoiceItem->getOffer())['recurrence'];
+
+        if (!isset($interval)) {
+            throw new BadRequestHttpException('Recurrence of invoice\'s offer not set or not found');
+        }
 
         if ($interval == "P30D" || $interval == "P1M") {
             $interval = "1 month";
