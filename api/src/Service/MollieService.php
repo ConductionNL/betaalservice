@@ -139,21 +139,16 @@ class MollieService
             $offerUrls[] = $item->getOffer();
         }
 
-        $headers = ['Authorization' => 'Bearer ' . $subscription->getService()->getAuthorization()];
-        $body = [
-            'amount' => [
-                'currency' => $invoiceItems->first()->getPriceCurrency(),
-                'value' => $newPrice
-            ],
-            'metadata' => [
-                'offerUrls' => $offerUrls
-            ]
+        $customer = $this->mollie->customers->get($subscription->getCustomer()->getCustomerId());
+
+        $subscription = $customer->getSubscription($subscription->getSubscriptionId());
+        $subscription->amount = (object) [
+            "currency" => $invoiceItems->first()->getPriceCurrency(),
+            "value" => $newPrice,
         ];
+        $updatedSubscription = $subscription->update();
 
-        $client = new Client($headers);
-        $subscriptionFromMollie = $client->request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getSubscriptionId(), ['form_params' => $body]);
-
-        $subscription->setSubscriptionId($subscriptionFromMollie->id);
+        $subscription->setSubscriptionId($updatedSubscription->id);
 
         return $subscription;
     }
