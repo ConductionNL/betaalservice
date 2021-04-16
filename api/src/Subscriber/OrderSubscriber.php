@@ -167,7 +167,20 @@ class OrderSubscriber implements EventSubscriberInterface
 
                             if (isset($subscription)) {
                                 // Update subscription
-                                $payment = $mollieService->updateSubscription($subscription, $order['items']);
+                                $subscription = $mollieService->updateSubscription($subscription, $order['items']);
+                                $this->em->flush();
+                                $json = $this->serializer->serialize(
+                                    $subscription,
+                                    $renderType,
+                                    ['enable_max_depth' => true]
+                                );
+                                // Creating a response
+                                $response = new Response(
+                                    $json,
+                                    Response::HTTP_CREATED,
+                                    ['content-type' => $contentType]
+                                );
+                                $event->setResponse($response);
                             } else {
                                 // Make subscription payment
                                 $payment = $mollieService->createSubscriptionPayment($invoice);
@@ -285,5 +298,9 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->em->persist($invoice);
 
         return $invoice;
+    }
+
+    function returnResponse($returnedObject) {
+
     }
 }
