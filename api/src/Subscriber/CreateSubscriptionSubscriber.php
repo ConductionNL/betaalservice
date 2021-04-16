@@ -89,11 +89,12 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
             $invoiceRepostiory = $this->em->getRepository(Invoice::class);
             $invoice = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
             if ($invoice instanceof Invoice && $invoice->getPaid() == true && $invoice->getPaymentId() != null && $invoice->getSubscription() != null) {
+                $subscription = $invoice->getSubscription();
 
                 $mollieService = new MollieService($this->commonGroundService, $this->em, $invoice->getService());
 
                 if ($invoice->getSubscription()->getSubscriptionId() != null) {
-                    $subscription = $mollieService->getSubscription($invoice->getCustomer()->getCustomerId(), $invoice->getSubscription()->getSubscriptionId());
+                    $subscription = $mollieService->updateSubscription($subscription, $invoice->getItems());
                 } else {
                     $subscription = $mollieService->createSubscription($invoice);
                 }

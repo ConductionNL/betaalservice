@@ -167,7 +167,7 @@ class OrderSubscriber implements EventSubscriberInterface
 
                             if (isset($subscription)) {
                                 // Update subscription
-                                $subscription = $mollieService->updateSubscription($subscription, $order['items']);
+                                $subscription = $mollieService->updateSubscription($subscription, $invoice->getItems());
                                 $this->em->flush();
                                 $json = $this->serializer->serialize(
                                     $subscription,
