@@ -96,6 +96,7 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
                 if ($invoice->getSubscription()->getSubscriptionId() != null) {
                     $subscription = $mollieService->updateSubscription($subscription, $invoice->getItems());
                 } else {
+
                     $subscription = $mollieService->createSubscription($invoice);
                 }
 

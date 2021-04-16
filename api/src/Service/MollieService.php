@@ -154,7 +154,6 @@ class MollieService
         $subscriptionFromMollie = $client->request('PATCH', 'https://api.mollie.com/v2/customers/' . $subscription->getCustomer()->getCustomerId() . '/subscriptions/' . $subscription->getSubscriptionId(), ['form_params' => $body]);
 
         $subscription->setSubscriptionId($subscriptionFromMollie->id);
-        $subscription->setSubscriptionFromService((array)$subscriptionFromMollie);
 
         return $subscription;
     }
@@ -181,7 +180,6 @@ class MollieService
 
         $invoice->getCustomer()->setCustomerId($customerMollie->id);
         $customer = $invoice->getCustomer();
-        $customer->setCustomerFromService((array)$customerMollie);
         $this->em->persist($invoice);
         $this->em->persist($customer);
         $this->em->flush();
@@ -242,7 +240,6 @@ class MollieService
 
         $subscription = $invoice->getSubscription();
         $subscription->setSubscriptionId($subscriptionFromMollie->id);
-        $subscription->setSubscriptionFromService((array)$subscriptionFromMollie);
         $this->em->persist($subscription);
         $this->em->flush();
 
