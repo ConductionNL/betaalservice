@@ -268,6 +268,8 @@ class OrderSubscriber implements EventSubscriberInterface
                 }
                 if (array_key_exists('quantity', $item) && $item['quantity'] != null) {
                     $invoiceItem->setQuantity($item['quantity']);
+                } else {
+                    $invoiceItem->setQuantity(0);
                 }
                 if (array_key_exists('price', $item) && $item['price'] != null) {
                     $invoiceItem->setPrice($item['price']);
