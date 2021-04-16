@@ -8,6 +8,7 @@ use App\Entity\InvoiceItem;
 use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Service;
+use App\Entity\Subscription;
 use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
@@ -18,6 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -42,11 +44,11 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['invoice', EventPriorities::PRE_DESERIALIZE],
+            KernelEvents::VIEW => ['subscription', EventPriorities::PRE_VALIDATE],
         ];
     }
 
-    public function invoice(RequestEvent $event)
+    public function subscription(ViewEvent $event)
     {
         try {
             $method = $event->getRequest()->getMethod();
@@ -71,7 +73,6 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
                     $contentType = 'application/json';
                     $renderType = 'json';
             }
-
             if ($method != 'POST' || $route != 'api_invoices_post_create_subscription_collection') {
                 return;
             }
@@ -93,22 +94,35 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
 
                 $mollieService = new MollieService($this->commonGroundService, $this->em, $invoice->getService());
 
-                if ($invoice->getSubscription()->getSubscriptionId() != null) {
-                    $subscription = $mollieService->updateSubscription($subscription, $invoice->getItems());
+                if ($subscription != null && $subscription instanceof Subscription) {
+                    $allInvoices = $subscription->getInvoices();
+                    if (isset($allInvoices)) {
+                        $invoiceItemsArray = [];
+                        foreach ($allInvoices as $invoice) {
+                            $invoiceItemsArray[] = $invoice->getItems();
+                        }
+                        if (isset($invoiceItemsArray)) {
+                            $mollieService->updateSubscription($subscription, $invoiceItemsArray);
+                        }
+                    }
                 } else {
-
-                    $subscription = $mollieService->createSubscription($invoice);
+                    $mollieService->createSubscription($invoice);
                 }
 
+//                $subrepo = $this->em->getRepository(Subscription::class);
+//                $subscription = $subrepo->find($subscription->getId());
+
+                $subscription = $this->commonGroundService->getResource(['component' => 'bc', 'type' => 'subscriptions', 'id' => $subscription->getId()]);
+
                 $response = new Response(
-                    json_encode((array)$subscription),
+                    json_encode($subscription),
                     Response::HTTP_OK,
                     ['content-type' => 'application/json']
                 );
 
                 $event->setResponse($response);
             } else {
-                return 'Invoice not found or not paid';
+                throw new BadRequestHttpException('Invoice not paid or not found :(');
             }
         } catch (\Exception $e) {
             $json = $this->serializer->serialize(

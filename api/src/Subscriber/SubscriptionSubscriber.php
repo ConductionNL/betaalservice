@@ -72,14 +72,14 @@ class SubscriptionSubscriber implements EventSubscriberInterface
 
     public function getSubscriptionFromMollie(ViewEvent $event)
     {
-//        $subscription = $event->getControllerResult();
-//        $method = $event->getRequest()->getMethod();
-//        $route = $event->getRequest()->attributes->get('_route');
+        $subscription = $event->getControllerResult();
+        $method = $event->getRequest()->getMethod();
+        $route = $event->getRequest()->attributes->get('_route');
 //
-//        if (!$subscription instanceof Subscription || $method != 'GET' && $subscription->getCustomer() != null &&
+        if (!$subscription instanceof Subscription || $method != 'GET' && $subscription->getCustomer() != null) {
 //            $subscription->getCustomer()->getCustomerId() != null && $subscription->getSubscriptionId() != null) {
-//            return;
-//        }
+            return;
+        }
 //        $mollieService = new MollieService($this->commonGroundService, $this->em);
 //
 //        $subscriptionMollie = $mollieService->getSubscription($subscription->getCustomer()->getCustomerId(), $subscription->getSubscriptionId());

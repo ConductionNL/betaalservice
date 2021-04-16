@@ -72,13 +72,13 @@ class CustomerSubscriber implements EventSubscriberInterface
 
     public function getCustomerFromMollie(ViewEvent $event)
     {
-//        $customer = $event->getControllerResult();
-//        $method = $event->getRequest()->getMethod();
-//        $route = $event->getRequest()->attributes->get('_route');
-//
-//        if (!$customer instanceof Customer || $method != 'GET') {
-//            return;
-//        }
+        $customer = $event->getControllerResult();
+        $method = $event->getRequest()->getMethod();
+        $route = $event->getRequest()->attributes->get('_route');
+
+        if (!$customer instanceof Customer || $method != 'GET') {
+            return;
+        }
 //        $mollieService = new MollieService($this->commonGroundService, $this->em);
 //
 //        $customerMollie = $mollieService->getCustomer($customer->getCustomerUrl());
