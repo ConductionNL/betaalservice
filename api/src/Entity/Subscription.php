@@ -101,6 +101,25 @@ class Subscription
      */
     private $subscriptionId;
 
+    /**
+     * @var string The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**
+     *
+     * @example active
+     *
+     * @Gedmo\Versioned
+     * @ORM\Column(nullable=true)
+     * @Assert\Choice(
+     *     choices = { "pending", "cancelled", "active","suspended","completed"},
+     *     message = "Choose either pending, cancelled, active, suspended or completed, got {{ value }}"
+     * )
+     * @Assert\Length(
+     *     max = 15
+     * )
+     * @Groups({"read", "write"})
+     */
+    private $status;
+
+
     /***
      * @var array The subscription from the payment service
      *
@@ -191,6 +210,18 @@ class Subscription
     public function setSubscriptionId(string $subscriptionId): self
     {
         $this->subscriptionId = $subscriptionId;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
