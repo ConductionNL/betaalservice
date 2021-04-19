@@ -109,10 +109,18 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
                     $mollieService->createSubscription($invoice);
                 }
 
-//                $subrepo = $this->em->getRepository(Subscription::class);
-//                $subscription = $subrepo->find($subscription->getId());
+//                FOR LOCAL TEST PURPOSE
+                $result = $this->em->createQueryBuilder();
+                $subscription = $result->select('p')
+                    ->from(Subscription::class, 'p')
+                    ->where('p.id= :id')
+                    ->setParameter('id', $subscription->getId())
+                    ->getQuery()
+                    ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+                $subscription = $subscription[0];
 
-                $subscription = $this->commonGroundService->getResource(['component' => 'bc', 'type' => 'subscriptions', 'id' => $subscription->getId()]);
+//                COMMIT/UNCOMMENT THIS LINE
+//                $subscription = $this->commonGroundService->getResource(['component' => 'bc', 'type' => 'subscriptions', 'id' => $subscription->getId()]);
 
                 $response = new Response(
                     json_encode($subscription),
