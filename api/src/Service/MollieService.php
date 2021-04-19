@@ -152,6 +152,7 @@ class MollieService
             "currency" => $invoiceItemsArray[0][0]->getPriceCurrency(),
             "value" => $newPrice,
         ];
+
         $updatedSubscription = $subscriptionFromMollie->update();
 
         $subscription->setSubscriptionId($updatedSubscription->id);
