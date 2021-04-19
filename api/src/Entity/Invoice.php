@@ -290,7 +290,6 @@ class Invoice
      *
      * @Groups({"read", "write"})
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="invoices")
-     * @ORM\JoinColumn(nullable=false)
      * @MaxDepth(1)
      */
     private $customer;
