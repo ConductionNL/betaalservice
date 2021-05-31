@@ -10,7 +10,6 @@ use App\Entity\Organization;
 use App\Entity\Payment;
 use App\Entity\Service;
 use App\Entity\Subscription;
-use App\Entity\Tax;
 use App\Service\MollieService;
 use App\Service\SumUpService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
@@ -18,7 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -82,7 +80,7 @@ class OrderSubscriber implements EventSubscriberInterface
 
             $needed = [
                 'orderUrl',
-                'redirectUrl'
+                'redirectUrl',
             ];
 
             foreach ($needed as $requirement) {
@@ -97,7 +95,7 @@ class OrderSubscriber implements EventSubscriberInterface
             // If there is no Service for the offering organization exit
             $serviceRepository = $this->em->getRepository(Service::class);
             $service = $serviceRepository->findOneBy([
-                'organization' => $order['organization']
+                'organization' => $order['organization'],
             ]);
             if (!isset($service)) {
                 throw new BadRequestHttpException('No service found for given organization');
@@ -107,7 +105,7 @@ class OrderSubscriber implements EventSubscriberInterface
             if ((isset($post['paymentType']) && $post['paymentType'] !== 'subscription') || !isset($post['paymentType'])) {
                 $invoiceRepository = $this->em->getRepository(Invoice::class);
                 $invoices = $invoiceRepository->findBy([
-                    'order' => $order['@id']
+                    'order' => $order['@id'],
                 ]);
                 if (isset($invoices)) {
                     $highestTimestamp = 0;
@@ -123,7 +121,7 @@ class OrderSubscriber implements EventSubscriberInterface
             // If there is no Customer with the customer from the order create a Customer
             $customerRepository = $this->em->getRepository(Customer::class);
             $customer = $customerRepository->findOneBy([
-                'customerUrl' => $order['customer']
+                'customerUrl' => $order['customer'],
             ]);
             if (!isset($customer)) {
                 $customerFromCommonground = $this->commonGroundService->getResource($order['customer']);
@@ -136,7 +134,7 @@ class OrderSubscriber implements EventSubscriberInterface
             $invoice = [];
             if (isset($latestInvoice)) {
                 $invoice = $latestInvoice;
-                $invoice->setRedirectUrl($post['redirectUrl'] . '?invoiceUrl=' . $invoice->getId());
+                $invoice->setRedirectUrl($post['redirectUrl'].'?invoiceUrl='.$invoice->getId());
             } else {
                 $invoice = $this->createInvoiceFromOrder($order, $post['redirectUrl']);
             }
@@ -160,10 +158,10 @@ class OrderSubscriber implements EventSubscriberInterface
                         if (isset($post['paymentType']) && $post['paymentType'] == 'subscription' &&
                             isset($post['accumulateSubscription']) && $post['accumulateSubscription'] == true) {
                             $subscriptionRepo = $this->em->getRepository(Subscription::class);
-                            $subscription = $subscriptionRepo->findOneBy(array(
+                            $subscription = $subscriptionRepo->findOneBy([
                                 'organization' => $order['organization'],
-                                'customer' => $customer
-                            ));
+                                'customer'     => $customer,
+                            ]);
 
                             if (isset($subscription)) {
                                 // Update subscription
@@ -231,7 +229,6 @@ class OrderSubscriber implements EventSubscriberInterface
             $event->setResponse($response);
 
             return $invoice;
-
         } catch (\Exception $e) {
             $json = $this->serializer->serialize(
                 $e->getMessage(),
@@ -254,7 +251,7 @@ class OrderSubscriber implements EventSubscriberInterface
     public function createInvoiceFromOrder($order, $redirectUrl)
     {
         $invoice = new Invoice();
-        $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
+        $invoice->setRedirectUrl($redirectUrl.'?invoiceId='.$invoice->getId());
 
         if (array_key_exists('name', $order) && $order['name']) {
             $invoice->setName($order['name']);
@@ -303,13 +300,13 @@ class OrderSubscriber implements EventSubscriberInterface
             }
         }
         $invoice->setOrder($order['@id']);
-        $invoice->setRedirectUrl($redirectUrl . '?invoiceId=' . $invoice->getId());
+        $invoice->setRedirectUrl($redirectUrl.'?invoiceId='.$invoice->getId());
         $this->em->persist($invoice);
 
         return $invoice;
     }
 
-    function returnResponse($returnedObject) {
-
+    public function returnResponse($returnedObject)
+    {
     }
 }
