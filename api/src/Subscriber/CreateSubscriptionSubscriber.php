@@ -4,21 +4,14 @@ namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
-use App\Entity\InvoiceItem;
-use App\Entity\Organization;
-use App\Entity\Payment;
-use App\Entity\Service;
 use App\Entity\Subscription;
-use App\Entity\Tax;
 use App\Service\MollieService;
-use App\Service\SumUpService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -78,7 +71,7 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
             }
 
             $needed = [
-                'invoice'
+                'invoice',
             ];
 
             foreach ($needed as $requirement) {
@@ -90,7 +83,6 @@ class CreateSubscriptionSubscriber implements EventSubscriberInterface
             $invoiceRepostiory = $this->em->getRepository(Invoice::class);
             $invoice = $invoiceRepostiory->findOneBy(['id' => $post['invoice']]);
             if ($invoice instanceof Invoice && $invoice->getPaid() == true && $invoice->getPaymentId() != null && $invoice->getSubscription() != null) {
-
                 $subscription = $invoice->getSubscription();
                 $mollieService = new MollieService($this->commonGroundService, $this->em, $invoice->getService());
 

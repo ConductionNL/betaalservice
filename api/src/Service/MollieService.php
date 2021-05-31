@@ -3,17 +3,13 @@
 namespace App\Service;
 
 use App\Entity\Invoice;
-use App\Entity\InvoiceItem;
 use App\Entity\Payment;
 use App\Entity\Service;
 use App\Entity\Subscription;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
-use Symfony\Component\HttpFoundation\Request;
-use GuzzleHttp\Psr7;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class MollieService
@@ -32,7 +28,6 @@ class MollieService
         $this->commonGroundService = $commonGroundService;
         $this->em = $em;
 
-
         try {
             $this->mollie->setApiKey($service->getAuthorization());
         } catch (ApiException $e) {
@@ -44,7 +39,7 @@ class MollieService
     {
         if ($invoice->getPrice() > 0.00) {
             $currency = $invoice->getPriceCurrency();
-            $amount = '' . $invoice->getPrice();
+            $amount = ''.$invoice->getPrice();
             $description = $invoice->getDescription();
             $redirectUrl = $invoice->getRedirectUrl();
 
@@ -52,11 +47,11 @@ class MollieService
                 $molliePayment = $this->mollie->payments->create([
                     'amount' => [
                         'currency' => $currency,
-                        'value' => $amount,
+                        'value'    => $amount,
                     ],
                     'description' => $description,
                     'redirectUrl' => $redirectUrl,
-                    'metadata' => [
+                    'metadata'    => [
                         'order_id' => $invoice->getReference(),
                     ],
                 ]);
@@ -65,11 +60,11 @@ class MollieService
 
                 return $object;
             } catch (ApiException $e) {
-                return '<section><h2>Could not connect to payment provider</h2>' . $e->getMessage() . '</section>';
+                return '<section><h2>Could not connect to payment provider</h2>'.$e->getMessage().'</section>';
             }
         }
 
-        return $this->service->getOrganization()->getRedirectUrl() . '/' . $invoice->getId();
+        return $this->service->getOrganization()->getRedirectUrl().'/'.$invoice->getId();
     }
 
     public function updatePayment(string $paymentId, Service $service): ?Payment
@@ -121,10 +116,10 @@ class MollieService
     public function createCustomer($customer)
     {
         $customerMollie = $this->mollie->customers->create([
-            'name' => $customer->getName(),
+            'name'     => $customer->getName(),
             'metadata' => [
-                'customerUrl' => $customer->getCustomerUrl()
-            ]
+                'customerUrl' => $customer->getCustomerUrl(),
+            ],
         ]);
 
         return $customerMollie;
@@ -143,14 +138,14 @@ class MollieService
             }
         }
 
-        $newPrice = ((string) $newPrice) . '.00';
+        $newPrice = ((string) $newPrice).'.00';
 
         $customer = $this->mollie->customers->get($subscription->getCustomer()->getCustomerId());
 
         $subscriptionFromMollie = $customer->getSubscription($subscription->getSubscriptionId());
-        $subscriptionFromMollie->amount = (object)[
-            "currency" => $invoiceItemsArray[0][0]->getPriceCurrency(),
-            "value" => $newPrice,
+        $subscriptionFromMollie->amount = (object) [
+            'currency' => $invoiceItemsArray[0][0]->getPriceCurrency(),
+            'value'    => $newPrice,
         ];
 
         $updatedSubscription = $subscriptionFromMollie->update();
@@ -176,7 +171,7 @@ class MollieService
         $this->em->flush();
 
         $currency = $invoice->getPriceCurrency();
-        $amount = '' . $invoice->getPrice();
+        $amount = ''.$invoice->getPrice();
         $description = $invoice->getDescription();
         $redirectUrl = $invoice->getRedirectUrl();
 
@@ -189,15 +184,15 @@ class MollieService
         $molliePayment = $this->mollie->payments->create([
             'amount' => [
                 'currency' => $currency,
-                'value' => $amount,
+                'value'    => $amount,
             ],
             'description' => $description,
             'redirectUrl' => $redirectUrl,
-            'metadata' => [
+            'metadata'    => [
                 'order_id' => $invoice->getReference(),
             ],
-            'customerId' => $customerMollie->id,
-            'sequenceType' => 'first'
+            'customerId'   => $customerMollie->id,
+            'sequenceType' => 'first',
         ]);
 
         $object['checkOutUrl'] = $molliePayment->getCheckoutUrl();
@@ -223,19 +218,19 @@ class MollieService
             throw new BadRequestHttpException('Recurrence of invoice\'s offer not set or not found');
         }
 
-        if ($interval == "P30D" || $interval == "P1M") {
-            $interval = "1 month";
-        } elseif ($interval == "P1Y" || $interval == "P12M") {
-            $interval = "12 months";
+        if ($interval == 'P30D' || $interval == 'P1M') {
+            $interval = '1 month';
+        } elseif ($interval == 'P1Y' || $interval == 'P12M') {
+            $interval = '12 months';
         }
 
         $paymentCustomer = $this->mollie->customers->get($invoice->getCustomer()->getCustomerId());
 
         $subscriptionFromMollie = $this->mollie->subscriptions->createFor($paymentCustomer, [
             'interval' => $interval,
-            'amount' => [
+            'amount'   => [
                 'currency' => $invoiceItem->getPriceCurrency(),
-                'value' => $invoiceItem->getPrice(),
+                'value'    => $invoiceItem->getPrice(),
             ],
             'description' => $invoice->getDescription(),
         ]);

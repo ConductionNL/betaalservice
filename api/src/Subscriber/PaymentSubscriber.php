@@ -3,7 +3,6 @@
 namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\Payment;
 use App\Entity\Service;
 use App\Service\MollieService;
 use Doctrine\ORM\EntityManagerInterface;
