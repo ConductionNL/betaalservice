@@ -119,7 +119,6 @@ class Subscription
      */
     private $status;
 
-
     /***
      * @var array The subscription from the payment service
      *
@@ -188,7 +187,6 @@ class Subscription
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
-
     private $dateModified;
 
     public function __construct()

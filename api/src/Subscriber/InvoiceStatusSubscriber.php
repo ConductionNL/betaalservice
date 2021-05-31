@@ -4,7 +4,6 @@ namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
-use App\Entity\Order;
 use App\Service\MollieService;
 use Conduction\CommonGroundBundle\Service\CommonGroundService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,7 +61,6 @@ class InvoiceStatusSubscriber implements EventSubscriberInterface
 
         $this->em->persist($invoice);
         $this->em->flush();
-
 
         return $invoice;
     }
