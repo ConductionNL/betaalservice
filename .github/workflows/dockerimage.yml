@@ -115,18 +115,6 @@ jobs:
           else
             echo "##[set-output name=success]false"
           fi
-      - name: Rollout new containers
-        if: (contains( github.ref, 'development' )) && steps.kubeconfig.outputs.success == 'true' && success()
-        run: |
-          kubectl rollout restart deployment/$APP_NAME-php --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-          kubectl rollout restart deployment/$APP_NAME-nginx --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-          kubectl rollout restart deployment/$APP_NAME-varnish --kubeconfig="kubeconfig.yaml"  --namespace=$APP_ENV
-      #            - name: Export release code
-      #              if: (success() || failure())
-      #              id: releasecode
-      #              run: |
-      #                  export RELEASE=$APP_BUILD-$(git rev-parse --short $GITHUB_SHA)
-      #                  echo "##[set-output name=releasename]$RELEASE"
       - name: Print release name
         if: (success() || failure())
         run: echo $RELEASENAME
