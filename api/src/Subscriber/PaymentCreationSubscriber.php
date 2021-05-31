@@ -4,7 +4,6 @@ namespace App\Subscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
-use App\Entity\Payment;
 use App\Service\MollieService;
 use App\Service\SumUpService;
 use Doctrine\ORM\EntityManagerInterface;
