@@ -1,8 +1,14 @@
-# proto-component
+# betaalservice
+[![StyleCI](https://github.styleci.io/repos/206145303/shield?branch=master)](https://github.styleci.io/repos/206145303?branch=master)
+[![Docker Image CI](https://github.com/ConductionNL/betaalservice/workflows/Docker%20Image%20CI/badge.svg?branch=master)](https://github.com/ConductionNL/betaalservice/actions?query=workflow%3A"Docker+Image+CI")
+[![Artifacthub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/betaalservice)](https://artifacthub.io/packages/helm/betaalservice/betaalservice)
+[![BCH compliance](https://bettercodehub.com/edge/badge/ConductionNL/betaalservice?branch=master)](https://bettercodehub.com/)
 
 Description
 ----
-Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.
+Het Betalen Component handelt, bij voorkeur in samenwerking met het Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden de resultaten van de payment provider verwerkt, waarmee een invoice overzicht wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten.
+
+Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen), BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van betalingen in de trant van herinneringen en aanmaningen.
 
 Additional Information
 ----
