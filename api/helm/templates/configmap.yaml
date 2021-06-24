@@ -1,46 +1,26 @@
-{{- $redisServiceName := include "redis.fullname" . -}}
+{{ $redisServiceName := printf "%s-redis" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "fullname" . }}
-  #namespace: {{ .Values.settings.env }}
+  #namespace: {{ .Values.config.env }}
   labels:
-    app.kubernetes.io/name: {{ .Values.settings.name }}
-    app.kubernetes.io/part-of: {{ .Values.settings.name }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ include "chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  project_name: {{ .Values.settings.projectName | quote }}
-  app-name: {{ .Values.settings.name | quote }}
-  app-version: {{ .Values.settings.version | quote }}
-  {{ if .Values.settings.id }}
-  app-id: {{ .Values.settings.id | quote }}
-  {{ end }}
-  app-repro: {{ .Values.settings.repro | quote }}
-  app-demo: {{ .Values.settings.demo | quote }}
-  app-domain: {{ .Values.settings.domain | quote }} 
-  app-description: {{ .Values.settings.description | quote }}
-  app-type: {{ .Values.settings.type | quote }}
-  app-web: {{ .Values.settings.web | quote }}
-  app-subpath-routing: {{ .Values.settings.subpathRouting | quote }}
-  app-subpath: {{ .Values.settings.subpath | quote }}
-  
-  app-auth: {{ .Values.settings.authorisationEnabled | quote }}
-  app-audittrail: {{ .Values.settings.audittrailEnabled | quote }}
-  app-notification: {{ .Values.settings.notificationEnabled | quote }}
+  app-version: {{ .Values.config.version | quote }}
+  app-corsAllowOrigin: {{ .Values.php.corsAllowOrigin | quote }}
+  cache: {{ .Values.config.cache | quote }}
+  debug: {{ .Values.config.debug | quote }}
+  trusted-proxies: {{ join "," .Values.php.trustedProxies }}
+  trusted-hosts: {{ .Values.php.trustedHosts | quote }}
+  php-service: {{ .Release.Name }}-php  
 
-  {{ if (eq $.Values.settings.type "application" ) }}
-  redis-host: {{ printf "%s-redis-headless" $redisServiceName | quote }}
+  {{- if .Values.redis.enabled }}
+  redis-host: {{ $redisServiceName | quote }}
   redis-port: {{ .Values.redis.redisPort | toString | quote }}
-  digispoof-location: {{ .Values.commonground.digispoof.location }}
-  eherkenning-location: {{ .Values.commonground.eherkenning.location }}
-  {{ end }}
 
-  cache: {{ .Values.settings.cache | quote }}
-  env: {{ .Values.settings.env | quote }}
-  debug: {{ .Values.settings.debug | quote }}
-  trusted-proxies: {{ join "," .Values.settings.trustedProxies }}
-  trusted-hosts: {{ .Values.settings.trustedHosts | quote }}
-  php-service: {{ .Values.settings.name }}-{{ .Values.settings.env }}-php
-
+  {{- end }}

@@ -39,6 +39,11 @@ COPY src src/
 COPY templates templates/
 COPY translations translations/
 
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install xdebug-2.9.2 \
+    && docker-php-ext-enable xdebug;\
+    echo -e "xdebug.overload_var_dump=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
@@ -53,50 +58,24 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
-#############################
-# 		"nginx" stage 		#
-#############################
-# depends on the "php" stage above, and with an litle bit of help from https://github.com/shiphp/nginx-env
-FROM conduction/pc-nginx:prod AS api_platform_nginx
 
-# Due to our config we need a copy of the public folder for serving static content
-COPY docker/nginx/conf.d/default.conf.template /etc/nginx/conf.d/default.conf
-WORKDIR /srv/api
-COPY --from=api_platform_php /srv/api/public public/
-
-#############################
-# 		"varnish" stage 	#
-#############################
-# does not depend on any of the above stages, but placed here to keep everything in one Dockerfile
-FROM conduction/pc-varnish:prod AS api_platform_varnish
-
-COPY docker/varnish/conf/default.vcl /etc/varnish/conf.d/
-# Lets install envsubst
-#RUN apk --no-cache add gettext
-
-#COPY docker/varnish/conf /usr/local/etc/varnish/
-
-#RUN envsubst '$PHP_SERVICE' < /usr/local/etc/varnish/default.vcl.template > /usr/local/etc/varnish/default.vcl
-
-# Lets parse the toml file
-# RUN envsubst < /usr/local/etc/varnish/default.vcl.template > /usr/local/etc/varnish/default.vcl
 
 #############################
 # 		NLX Outway	 		#
 #############################
 # does not depend on any of the above stages, but placed here to keep everything in one Dockerfile
-FROM nlxio/outway AS api-nlx-outway
-
-COPY nlx-setup /certs/
+#FROM nlxio/outway AS api-nlx-outway
+#
+#COPY nlx-setup /certs/
 
 #############################
 # 		NLX Inway	 		#
 #############################
 # depends on the "php" stage above
-FROM nlxio/inway AS api-nlx-inway
-
-COPY nlx-setup /certs/
-COPY nlx-setup/service-config.toml.template /service-config.toml.template
+#FROM nlxio/inway AS api-nlx-inway
+#
+#COPY nlx-setup /certs/
+#COPY nlx-setup/service-config.toml.template /service-config.toml.template
 
 # Lets install envsubst
 #RUN apk --no-cache add gettext
