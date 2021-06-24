@@ -76,6 +76,10 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			# this should only be done in an build
 			echo "Updating publiccode charts"
 			bin/console app:publiccode:update --location=/srv/api/public/schema/ --spec-version=0.2
+
+
+			echo "Run unit tests"
+			./vendor/bin/phpunit --coverage-clover coverage.xml
 		fi
 	fi
 fi

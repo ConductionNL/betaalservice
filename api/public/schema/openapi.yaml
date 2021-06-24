@@ -11,9 +11,8 @@ info:
     - Repository: [online](https://github.com/ConductionNL/betaalservice) / [zip](https://github.com/ConductionNL/betaalservice/archive/master.zip)
     - Docker Image: [online]() 
     - Datamodel: [postman](schema/betaalservice.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
-    
+
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
-    
 paths:
   /audit_trails:
     get:
@@ -9242,6 +9241,15 @@ paths:
               - asc
               - desc
         -
+          name: 'order[status]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[organization]'
           in: query
           required: false
@@ -11972,7 +11980,10 @@ components:
             $ref: '#/components/schemas/Payment-read'
         customer:
           description: 'The customer this invoice relates to'
-          $ref: '#/components/schemas/Customer-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Customer-read'
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -12057,7 +12068,10 @@ components:
             $ref: '#/components/schemas/Payment-write'
         customer:
           description: 'The customer this invoice relates to'
-          $ref: '#/components/schemas/Customer-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Customer-write'
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -12166,7 +12180,10 @@ components:
             $ref: '#/components/schemas/Payment:jsonld-read'
         customer:
           description: 'The customer this invoice relates to'
-          $ref: '#/components/schemas/Customer:jsonld-read'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Customer:jsonld-read'
         paymentUrl:
           description: 'url of payment'
           type: string
@@ -12260,7 +12277,10 @@ components:
             $ref: '#/components/schemas/Payment:jsonld-write'
         customer:
           description: 'The customer this invoice relates to'
-          $ref: '#/components/schemas/Customer:jsonld-write'
+          nullable: true
+          anyOf:
+            -
+              $ref: '#/components/schemas/Customer:jsonld-write'
         redirectUrl:
           description: 'redirect url after payment'
           type: string
@@ -13009,6 +13029,10 @@ components:
           description: 'The subscription id from the payment provider'
           type: string
           nullable: true
+        status:
+          description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
+          type: string
+          nullable: true
         organization:
           description: 'The organization this subscription is offered by'
           externalDocs:
@@ -13042,6 +13066,10 @@ components:
       properties:
         subscriptionId:
           description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        status:
+          description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
           type: string
           nullable: true
         organization:
@@ -13082,6 +13110,10 @@ components:
           format: uuid
         subscriptionId:
           description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        status:
+          description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
           type: string
           nullable: true
         organization:
@@ -13126,6 +13158,10 @@ components:
           type: string
         subscriptionId:
           description: 'The subscription id from the payment provider'
+          type: string
+          nullable: true
+        status:
+          description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
           type: string
           nullable: true
         organization:
@@ -13383,6 +13419,129 @@ definitions:
         description: 'The service this subscription uses'
         type: \Service
     required: []
+  Subscription-read:
+    properties:
+      id:
+        description: ''
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      subscriptionId:
+        description: 'The subscription id from the payment provider'
+        type: string
+        example: randomid_1234778
+      status:
+        description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
+        type: string
+        example: active
+        maxLength: 15
+      organization:
+        description: 'The organization this subscription is offered by'
+        type: string
+        format: url
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      customer:
+        description: 'The customer this subscriptions belongs to'
+        type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
+    required: []
+  Subscription-write:
+    properties:
+      subscriptionId:
+        description: 'The subscription id from the payment provider'
+        type: string
+        example: randomid_1234778
+      status:
+        description: 'The status of this subscription. **pending**, **cancelled**, **active**, **suspended**, **completed**'
+        type: string
+        example: active
+        maxLength: 15
+      organization:
+        description: 'The organization this subscription is offered by'
+        type: string
+        format: url
+        maxLength: 255
+      customer:
+        description: 'The customer this subscriptions belongs to'
+        type: \Customer
+      service:
+        description: 'The service this subscription uses'
+        type: \Service
+      invoices:
+        description: 'Invoices made for this subscription'
+        type: \ArrayCollection
+    required: []
+  Service-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      type:
+        description: 'The status of this payment'
+        type: string
+        example: open
+        maxLength: 255
+      organization:
+        description: 'The organization this Service belongs to'
+        type: string
+        format: url
+        maxLength: 255
+      configuration:
+        description: 'Configuration options for this payment provider'
+        type: array
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
+    required:
+      - type
+  Service-write:
+    properties:
+      type:
+        description: 'The status of this payment'
+        type: string
+        example: open
+        maxLength: 255
+      organization:
+        description: 'The organization this Service belongs to'
+        type: string
+        format: url
+        maxLength: 255
+      authorization:
+        description: 'The API key for this payment provider'
+        type: string
+      configuration:
+        description: 'Configuration options for this payment provider'
+        type: array
+      subscriptions:
+        description: 'The subscriptions under this payment service'
+        type: \ArrayCollection
+      customers:
+        description: 'The customers under this payment service'
+        type: \ArrayCollection
+    required:
+      - type
   Invoice-read:
     properties:
       id:
@@ -13627,235 +13786,6 @@ definitions:
     required:
       - price
       - invoice
-  Organization-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      shortCode:
-        description: 'shortCode of this organization'
-        type: string
-        maxLength: 4
-      rsin:
-        description: 'rsin of this organization'
-        type: string
-        maxLength: 16
-        minLength: 4
-      redirectUrl:
-        description: 'The url payment providers should return to'
-        type: string
-        format: url
-      dateCreated:
-        description: 'The moment this request was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: \Datetime
-      services:
-        description: 'The payment providers configured for this organization'
-        type: \ArrayCollection
-    required:
-      - shortCode
-      - rsin
-      - redirectUrl
-  Organization-write:
-    properties:
-      shortCode:
-        description: 'shortCode of this organization'
-        type: string
-        maxLength: 4
-      rsin:
-        description: 'rsin of this organization'
-        type: string
-        maxLength: 16
-        minLength: 4
-      redirectUrl:
-        description: 'The url payment providers should return to'
-        type: string
-        format: url
-      services:
-        description: 'The payment providers configured for this organization'
-        type: \ArrayCollection
-    required:
-      - shortCode
-      - rsin
-      - redirectUrl
-  Payment-read:
-    properties:
-      id:
-        description: ''
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      paymentId:
-        description: 'The payment id of this payment'
-        type: string
-        example: 87782426a21cbd70fc9823cbe1e024fb25804c833743b41529a23ae94b3b1cc2
-        maxLength: 255
-      status:
-        description: 'The status of this payment'
-        type: string
-        example: open
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: \Datetime
-      paymentProvider:
-        description: 'The provider that handles the payment'
-        type: \Service
-      invoice:
-        description: 'The invoice this payment relates to'
-        type: \Invoice
-      customer:
-        description: 'The customer this payment relates to'
-        type: \Customer
-    required:
-      - paymentId
-      - status
-      - paymentProvider
-  Payment-write:
-    properties:
-      paymentId:
-        description: 'The payment id of this payment'
-        type: string
-        example: 87782426a21cbd70fc9823cbe1e024fb25804c833743b41529a23ae94b3b1cc2
-        maxLength: 255
-      status:
-        description: 'The status of this payment'
-        type: string
-        example: open
-        maxLength: 255
-      paymentProvider:
-        description: 'The provider that handles the payment'
-        type: \Service
-      invoice:
-        description: 'The invoice this payment relates to'
-        type: \Invoice
-      customer:
-        description: 'The customer this payment relates to'
-        type: \Customer
-    required:
-      - paymentId
-      - status
-      - paymentProvider
-  Service-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      type:
-        description: 'The status of this payment'
-        type: string
-        example: open
-        maxLength: 255
-      organization:
-        description: 'The organization this Service belongs to'
-        type: string
-        format: url
-        maxLength: 255
-      configuration:
-        description: 'Configuration options for this payment provider'
-        type: array
-      dateCreated:
-        description: 'The moment this request was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: \Datetime
-      subscriptions:
-        description: 'The subscriptions under this payment service'
-        type: \ArrayCollection
-      customers:
-        description: 'The customers under this payment service'
-        type: \ArrayCollection
-    required:
-      - type
-  Service-write:
-    properties:
-      type:
-        description: 'The status of this payment'
-        type: string
-        example: open
-        maxLength: 255
-      organization:
-        description: 'The organization this Service belongs to'
-        type: string
-        format: url
-        maxLength: 255
-      authorization:
-        description: 'The API key for this payment provider'
-        type: string
-      configuration:
-        description: 'Configuration options for this payment provider'
-        type: array
-      subscriptions:
-        description: 'The subscriptions under this payment service'
-        type: \ArrayCollection
-      customers:
-        description: 'The customers under this payment service'
-        type: \ArrayCollection
-    required:
-      - type
-  Subscription-read:
-    properties:
-      id:
-        description: ''
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      subscriptionId:
-        description: 'The subscription id from the payment provider'
-        type: string
-        example: randomid_1234778
-      organization:
-        description: 'The organization this subscription is offered by'
-        type: string
-        format: url
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: \Datetime
-      customer:
-        description: 'The customer this subscriptions belongs to'
-        type: \Customer
-      service:
-        description: 'The service this subscription uses'
-        type: \Service
-      invoices:
-        description: 'Invoices made for this subscription'
-        type: \ArrayCollection
-    required: []
-  Subscription-write:
-    properties:
-      subscriptionId:
-        description: 'The subscription id from the payment provider'
-        type: string
-        example: randomid_1234778
-      organization:
-        description: 'The organization this subscription is offered by'
-        type: string
-        format: url
-        maxLength: 255
-      customer:
-        description: 'The customer this subscriptions belongs to'
-        type: \Customer
-      service:
-        description: 'The service this subscription uses'
-        type: \Service
-      invoices:
-        description: 'Invoices made for this subscription'
-        type: \ArrayCollection
-    required: []
   Tax-read:
     properties:
       id:
@@ -13927,6 +13857,175 @@ definitions:
     required:
       - name
       - price
+  Payment-read:
+    properties:
+      id:
+        description: ''
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      paymentId:
+        description: 'The payment id of this payment'
+        type: string
+        example: 87782426a21cbd70fc9823cbe1e024fb25804c833743b41529a23ae94b3b1cc2
+        maxLength: 255
+      status:
+        description: 'The status of this payment'
+        type: string
+        example: open
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      paymentProvider:
+        description: 'The provider that handles the payment'
+        type: \Service
+      invoice:
+        description: 'The invoice this payment relates to'
+        type: \Invoice
+      customer:
+        description: 'The customer this payment relates to'
+        type: \Customer
+    required:
+      - paymentId
+      - status
+      - paymentProvider
+  Payment-write:
+    properties:
+      paymentId:
+        description: 'The payment id of this payment'
+        type: string
+        example: 87782426a21cbd70fc9823cbe1e024fb25804c833743b41529a23ae94b3b1cc2
+        maxLength: 255
+      status:
+        description: 'The status of this payment'
+        type: string
+        example: open
+        maxLength: 255
+      paymentProvider:
+        description: 'The provider that handles the payment'
+        type: \Service
+      invoice:
+        description: 'The invoice this payment relates to'
+        type: \Invoice
+      customer:
+        description: 'The customer this payment relates to'
+        type: \Customer
+    required:
+      - paymentId
+      - status
+      - paymentProvider
+  Organization-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      shortCode:
+        description: 'shortCode of this organization'
+        type: string
+        maxLength: 4
+      rsin:
+        description: 'rsin of this organization'
+        type: string
+        maxLength: 16
+        minLength: 4
+      redirectUrl:
+        description: 'The url payment providers should return to'
+        type: string
+        format: url
+      dateCreated:
+        description: 'The moment this request was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: \Datetime
+      services:
+        description: 'The payment providers configured for this organization'
+        type: \ArrayCollection
+    required:
+      - shortCode
+      - rsin
+      - redirectUrl
+  Organization-write:
+    properties:
+      shortCode:
+        description: 'shortCode of this organization'
+        type: string
+        maxLength: 4
+      rsin:
+        description: 'rsin of this organization'
+        type: string
+        maxLength: 16
+        minLength: 4
+      redirectUrl:
+        description: 'The url payment providers should return to'
+        type: string
+        format: url
+      services:
+        description: 'The payment providers configured for this organization'
+        type: \ArrayCollection
+    required:
+      - shortCode
+      - rsin
+      - redirectUrl
+  ChangeLog-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
+        type: string
+      objectId:
+        description: ''
+        type: string
+      objectClass:
+        description: ''
+        type: string
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
+        type: string
+      session:
+        description: 'The moment this request was created'
+        type: string
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: string
+        format: date-time
+        example: '2021-06-24 09:37:56'
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: string
+        format: date-time
+        example: '2021-06-24 09:37:56'
+    required: []
+  ChangeLog-write:
+    properties:
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+    required: []
   AuditTrail-read:
     properties:
       id:
@@ -14031,12 +14130,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-04-16 09:09:11'
+        example: '2021-06-24 09:37:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-04-16 09:09:11'
+        example: '2021-06-24 09:37:56'
     required: []
   AuditTrail-write:
     properties:
@@ -14046,119 +14145,64 @@ definitions:
         example: 'This log line looks suspicius'
         maxLength: 2555
     required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2021-04-16 09:09:11'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2021-04-16 09:09:11'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
 tags:
   -
     name: Customer
-    description: |
+    description: |-
       An entity representing a unique customer from a payment provider.
-      
+
       This entity represents a unique customer of a payment provider.
   -
+    name: Subscription
+    description: |-
+      An entity representing a unique customer from a payment provider.
+
+      This entity represents a unique customer of a payment provider.
+  -
+    name: Service
+    description: |+
+
+
+  -
     name: Invoice
-    description: |
+    description: |-
       An entity representing an invoice.
-      
+
       This entity represents an invoice for sales
   -
     name: InvoiceItem
-    description: |
+    description: |-
       An entity representing an item of an invoice.
-      
+
       This entity represents an item that is placed on the invoice
   -
-    name: Organization
-    description: |
-      
-      
-      
-  -
-    name: Payment
-    description: |
-      An entity representing a payment.
-      
-      This entity represents a payment of an invoice.
-  -
-    name: Service
-    description: |
-      
-      
-      
-  -
-    name: Subscription
-    description: |
-      An entity representing a unique customer from a payment provider.
-      
-      This entity represents a unique customer of a payment provider.
-  -
     name: Tax
-    description: |
+    description: |-
       An entity representing an tax.
-      
+
       This entity represents an offer that bridges products to the OrderRegistratieComponent to be able to change prices without invalidating past orders.
   -
-    name: AuditTrail
-    description: |
-      An resource representing a log line.
-      
-      This entity represents a product that can be ordered via the OrderRegistratieComponent.
+    name: Payment
+    description: |-
+      An entity representing a payment.
+
+      This entity represents a payment of an invoice.
+  -
+    name: Organization
+    description: |+
+
+
   -
     name: ChangeLog
-    description: |
+    description: |-
       An resource representing a log line.
-      
+
+      This entity represents a product that can be ordered via the OrderRegistratieComponent.
+  -
+    name: AuditTrail
+    description: |-
+      An resource representing a log line.
+
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
 securityDefinitions:
   JWT-Oauth:
@@ -14166,20 +14210,20 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -
-    name: commonground.conduction.nl
-    url: betaalservice.dev.commonground.conduction.nl
+    name: conduction.nl
+    url: betaalservice.dev.conduction.nl
 externalDocs:
   -
     description: 'OAS Documentatie'
