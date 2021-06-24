@@ -17,6 +17,7 @@
         "symfony/dotenv": "^5.1",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^5.1",
+        "symfony/intl": "^5.1",
         "symfony/mercure-bundle": "*",
         "symfony/property-access": "^5.1",
         "symfony/translation": "^5.1",

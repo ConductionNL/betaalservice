@@ -1,8 +1,10 @@
-apiVersion: v1
+annotations:
+    artifacthub.io/containsSecurityUpdates: "true"
+apiVersion: v2
 appVersion: V1.0
-description: 'Het Betalen Component handelt, bij voorkeur in samenwerking met het Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden de resultaten van de payment provider verwerkt, waarmee een invoice overzicht wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten. Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen), BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van betalingen in de trant van herinneringen en aanmaningen.'
+description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
 name: betaalservice
-version: 0.1.0
+version: 1.0.0
 home: https://www.conduction.nl
 icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
 sources:
@@ -23,3 +25,7 @@ dependencies:
       repository: https://charts.bitnami.com/bitnami
       version: 10.1.1
       condition: postgresql.enabled
+    - name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.7.7
+      condition: redis.enabled
