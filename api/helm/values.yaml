@@ -8,10 +8,10 @@ settings:
   name: betaalservice
   version: V1.0
   majorVersion: v1
-  description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
+  description: 'Het Betalen Component handelt, bij voorkeur in samenwerking met het Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden de resultaten van de payment provider verwerkt, waarmee een invoice overzicht wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten. Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen), BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van betalingen in de trant van herinneringen en aanmaningen.'
   repro: https://github.com/ConductionNL/betaalservice
   demo: pc.zaakonline.nl
-  domain: commonground.conduction.nl
+  domain: conduction.nl
   subdomain: betaalservice
   subpath: betaalservice
   subpathRouting: true
@@ -40,7 +40,7 @@ settings:
   archiveEnabled: false
 
 security:
-  applicationKey: "9ae5a5ed-07eb-4477-b25e-50d336868f67"
+  applicationKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
 
 
 php:
@@ -60,9 +60,9 @@ redis:
   enabled: false
 commonground:
   eherkenning:
-    location: https://commonground.conduction.nl/eherkenning
+    location: https://conduction.nl/eherkenning
   digispoof:
-    location: https://commonground.conduction.nl/digispoof
+    location: https://conduction.nl/digispoof
 
 nginx:
   repository: docker.io/conduction/protocomponent-nginx

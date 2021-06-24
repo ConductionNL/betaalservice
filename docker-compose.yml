@@ -50,6 +50,7 @@ services:
       - APP_APPLICATION_KEY=${APP_APPLICATION_KEY}
       - APP_BUILD_ALL_FIXTURES=${APP_BUILD_ALL_FIXTURES}
       - APP_WEB=${APP_WEB}
+      - BADGES=${BADGES}
       - APP_BUILD=${APP_BUILD}
       - APP_INTERNAL=${APP_INTERNAL}
       - APP_URL=${APP_URL}
@@ -77,6 +78,7 @@ services:
     build:
       context: ./api
       target: api_platform_nginx
+      dockerfile: Dockerfile-nginx
       <<: *cache
     depends_on:
       - php
@@ -91,25 +93,6 @@ services:
       - "80:80"
     environment:
       - NGINX_HOST=php
-
-  cache-proxy:
-    &varnish
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-varnish:${APP_ENV}
-    build:
-      context: ./api
-      target: api_platform_varnish
-      <<: *cache
-    depends_on:
-      - api
-      - php
-    volumes:
-      - ./api/docker/varnish/conf:/usr/local/etc/varnish:rw,cached
-    tmpfs:
-      - /usr/local/var/varnish:exec
-    ports:
-      - "81:80"
-    environment:
-      - BACKENDS=php
 
         # nlx-outway:
         #   image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-nlx-outway:${APP_ENV}
