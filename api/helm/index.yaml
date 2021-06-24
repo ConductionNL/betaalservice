@@ -1,11 +1,79 @@
 apiVersion: v1
 entries:
+  betaalservice:
+  - annotations:
+      artifacthub.io/containsSecurityUpdates: "true"
+    apiVersion: v2
+    appVersion: V1.0
+    created: "2021-06-24T15:22:12.7964072+02:00"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.1.1
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.7.7
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 934cb6db23649195a97af0dae638d9312646a4e621afd5708e65e6fa48624ac9
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: betaalservice
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - betaalservice-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v1
+    appVersion: V1.0
+    created: "2021-06-24T15:22:12.7135728+02:00"
+    description: Het Betalen Component handelt, bij voorkeur in samenwerking met het
+      Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan
+      en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden
+      de resultaten van de payment provider verwerkt, waarmee een invoice overzicht
+      wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten.
+      Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen),
+      BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van
+      betalingen in de trant van herinneringen en aanmaningen.
+    digest: 9348b9325e2a2583f17edfb7fe8af915f33fa7e29725ef52cbb1985ff78ce9b4
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
+    name: betaalservice
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
+    urls:
+    - betaalservice-0.1.0.tgz
+    version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-06-24T09:36:20.7432829Z"
+    created: "2021-06-24T15:22:12.8719318+02:00"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -34,49 +102,12 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-  proto-component:
-  - annotations:
-      artifacthub.io/containsSecurityUpdates: "true"
-    apiVersion: v2
-    appVersion: V1.0
-    created: "2021-06-24T09:36:20.6947601Z"
-    dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 10.1.1
-    - condition: redis.enabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 12.7.7
-    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
-      beschikbaar.
-    digest: 776e8ba4da79f5c039f7c57bb8cafadf0de39156ff2151a2b0c991ad33aee523
-    home: https://www.conduction.nl
-    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
-    keywords:
-    - commonground
-    - haven
-    - nlx
-    - component
-    maintainers:
-    - email: ruben@conduction.nl
-      name: Ruben van der Linde
-    - email: info@conduction.nl
-      name: Conduction
-    name: proto-component
-    sources:
-    - https://commonground.conduction.nl/
-    - https://www.commonground.nl/
-    urls:
-    - proto-component-1.0.0.tgz
-    version: 1.0.0
   redis:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 6.0.11
-    created: "2021-06-24T09:36:20.8015037Z"
+    created: "2021-06-24T15:22:12.9397045+02:00"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -105,4 +136,4 @@ entries:
     urls:
     - charts/redis-12.7.7.tgz
     version: 12.7.7
-generated: "2021-06-24T09:36:20.6300122Z"
+generated: "2021-06-24T15:22:12.6371577+02:00"
