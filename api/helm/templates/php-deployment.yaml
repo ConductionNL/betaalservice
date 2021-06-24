@@ -1,44 +1,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.settings.name }}-php
+  name: {{ .Release.Name }}-php
   labels:
-    app.kubernetes.io/name: {{ .Values.settings.name }}-php
-    app.kubernetes.io/part-of: {{ .Values.settings.name }}
+    app.kubernetes.io/name: {{ .Release.Name }}-php
+    app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ include "chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.settings.name }}-php
+      app.kubernetes.io/name: {{ .Release.Name }}-php
   replicas: {{ .Values.php.replicaCount }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ .Values.settings.name }}-php
-        app.kubernetes.io/part-of: {{ .Values.settings.name }}
+        app.kubernetes.io/name: {{ .Release.Name }}-php
+        app.kubernetes.io/part-of: {{ .Release.Name }}
         helm.sh/chart: {{ include "chart" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
     spec:
+      volumes:
+          - name: dependencies
+            secret:
+              secretName: {{ template "fullname" . }}-dependencies
+              defaultMode: 420
       containers:
-        - name: {{ .Values.settings.name }}-php
-        {{ if eq .Values.settings.env "prod"}}
-          image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-php:latest"
-        {{ else }}
-          image: "{{ .Values.settings.registryBase }}/{{ .Values.settings.projectName }}-php:{{ .Values.settings.env }}"
-        {{ end }}
-          imagePullPolicy: {{ .Values.settings.pullPolicy }}
+        - name: {{ .Release.Name }}-php
+          image: "{{ .Values.php.image }}:{{ .Values.php.tag }}"
+          imagePullPolicy: {{ .Values.php.pullPolicy }}
           ports:
             - containerPort: 9000
+          volumeMounts:
+            - mountPath: /srv/api/config/packages/dependencies.yaml
+              subPath: dependencies.yaml
+              name: dependencies
+              readOnly: true
           env:
             - name: JWT_SECRET_KEY
               value: '%kernel.project_dir%/config/jwt/private.pem'
             - name: JWT_PUBLIC_KEY
               value: '%kernel.project_dir%/config/jwt/public.pem'
             - name: JWT_PASSPHRASE
-              value: 'bafe1dc254b45471754c221081f874aa' #@todo this should be a variable
+              value: 'bafe1dc254b45471754c221081f874aa'
+            - name: APP_ENV
+              value: 'prod'
             - name: TRUSTED_HOSTS
               valueFrom:
                 configMapKeyRef:
@@ -49,108 +57,37 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: trusted-proxies
-            - name: APP_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-name
-            - name: APP_DESCRIPTION
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-description
             - name: APP_VERSION
               valueFrom:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: app-version
-            - name: APP_ENV
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: env
             - name: APP_DEBUG
               valueFrom:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: debug
-            - name: APP_TYPE
-              valueFrom:
-                  configMapKeyRef:
-                      name: {{ template "fullname" . }}
-                      key: app-type
-            {{ if .Values.settings.id }}
-            - name: APP_ID
-              valueFrom:
-                    configMapKeyRef:
-                        name: {{ template "fullname" . }}
-                        key: app-id
-            {{ end }}
-            - name: APP_DEMO
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-demo
-
-            - name: APP_REPRO
-              valueFrom:
-                  configMapKeyRef:
-                      name: {{ template "fullname" . }}
-                      key: app-repro
-            - name: APP_DOMAIN
-              valueFrom:
-                  configMapKeyRef:
-                      name: {{ template "fullname" . }}
-                      key: app-domain
             - name: APP_CACHE
               valueFrom:
                   configMapKeyRef:
                       name: {{ template "fullname" . }}
                       key: cache      
-            # config
-            - name: AUTH_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-auth
-            - name: AUDITTRAIL_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-audittrail
-            - name: NOTIFICATION_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-notification
-            - name: APP_WEB
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-web
-            - name: APP_SUBPATH_ROUTING
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-subpath-routing
-            - name: APP_SUBPATH
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: app-subpath
-            
-            # bla bla      
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: database-url
+            - name: CORS_ALLOW_ORIGIN
+              valueFrom:
+                  configMapKeyRef:
+                      name: {{ template "fullname" . }}
+                      key: app-corsAllowOrigin
             - name: APP_APPLICATION_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: app_application_key
-            {{- if (eq $.Values.settings.type "application" ) }}
+          {{ if .Values.redis.enabled }}
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
@@ -161,31 +98,9 @@ spec:
                 configMapKeyRef:
                   name: {{ template "fullname" . }}
                   key: redis-port
-            - name: APP_DIGISPOOF_LOCATION
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: digispoof-location
-            - name: APP_EHERKENNING_LOCATION
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fullname" . }}
-                  key: eherkenning-location
             {{- end }}
             - name: APP_URL
-              {{- if and (eq $.Values.settings.env "prod") (eq $.Values.settings.type "component") }}
-              value: https://{{ $.Values.settings.domain }}/api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}
-              {{- else if and (eq $.Values.settings.env "prod") $.Values.settings.subpath }}
-              value: https://{{ $.Values.settings.domain }}/{{ $.Values.settings.subpath }}
-              {{- else if eq $.Values.settings.env "prod" }}
-              value: https://{{ $.Values.settings.domain }}
-              {{- else if eq $.Values.settings.type "component" }}
-              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}/api/{{ $.Values.settings.majorVersion }}/{{ $.Values.settings.subpath }}
-              {{- else if $.Values.settings.subpath }}
-              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}/{{ $.Values.settings.subpath }}
-              {{- else }}
-              value: https://{{ $.Values.settings.env }}.{{ $.Values.settings.domain }}
-              {{- end }}
+              value: https://{{ $.Values.ingress.domain }}/{{ $.Values.ingress.path }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
