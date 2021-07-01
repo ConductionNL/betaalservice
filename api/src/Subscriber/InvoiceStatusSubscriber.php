@@ -47,6 +47,11 @@ class InvoiceStatusSubscriber implements EventSubscriberInterface
         if (!$invoice instanceof Invoice || $method != 'GET') {
             return;
         }
+
+        if ($invoice->getPaid() || $invoice->getService() == null) {
+            return;
+        }
+
         $service = $invoice->getService();
 
         $mollieService = new MollieService($this->commonGroundService, $this->em, $service);
