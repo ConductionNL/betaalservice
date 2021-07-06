@@ -3,82 +3,84 @@
 # Declare variables to be passed into your templates.
 
 config:
-  version: V1.0
-  debug: 0
-  cache: true
-  internal: false
+    version: V1.0
+    debug: 0
+    cache: true
+    internal: false
 
 security:
-  applicationKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
-  secret: ""
-  jwt:
-    id:
-    privateKey:
+    applicationKey: "45c1a4b6-59d3-4a6e-86bf-88a872f35845"
+    secret: ""
+    jwt:
+        id:
+        privateKey:
 
 php:
-  repository: docker.io/conduction/protocomponent-php
-  image: docker.io/conduction/betaalservice-php
-  tag: latest
-  env: prod
-  replicaCount: 2
-  pullPolicy: Always
-  trustedHosts: '^.+$'
-  corsAllowOrigin: ['*']
-  trustedProxies:
-    - 10.0.0.0/8
-    - 172.16.0.0/12
-    - 192.168.0.0/16
+    repository: docker.io/conduction/protocomponent-php
+    image: docker.io/conduction/betaalservice-php
+    tag: latest
+    env: prod
+    replicaCount: 2
+    pullPolicy: Always
+    trustedHosts: "^.+$"
+    corsAllowOrigin: ["*"]
+    trustedProxies:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
 
 redis:
-  cluster:
+    cluster:
+        enabled: false
+    redisPort: 6379
+    usePassword: false
     enabled: false
-  redisPort: 6379
-  usePassword: false
-  enabled: false
-  pullPolicy: IfNotPresent
+    pullPolicy: IfNotPresent
 
 nginx:
-  repository: docker.io/conduction/protocomponent-nginx
-  image: docker.io/conduction/betaalservice-nginx
-  tag: latest
-  pullPolicy: Always
-  replicaCount: 2
+    repository: docker.io/conduction/protocomponent-nginx
+    image: docker.io/conduction/betaalservice-nginx
+    tag: latest
+    pullPolicy: Always
+    replicaCount: 2
 
 postgresql:
-  enabled: true
-  imageTag: 10-alpine
-  # If bringing your own PostgreSQL, the full uri to use
-  url: "psql://a:b@example.com/c"
-  postgresqlUsername: "example"
-  postgresqlPassword: "!ChangeMe!"
-  postgresqlDatabase: "api"
-  # Persistent Volume Storage configuration.
-  # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
-  persistence:
     enabled: true
-  pullPolicy: IfNotPresent
+    imageTag: 10-alpine
+    # If bringing your own PostgreSQL, the full uri to use
+    url: "psql://a:b@example.com/c"
+    postgresqlUsername: "example"
+    postgresqlPassword: "!ChangeMe!"
+    postgresqlDatabase: "api"
+    # Persistent Volume Storage configuration.
+    # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+    persistence:
+        enabled: true
+    pullPolicy: IfNotPresent
 
 ingress:
-  enabled: false
-  hostname: betaalservice.local
-  path: /
-  annotations:
-    # kubernetes.io/ingress.global-static-ip-name: chart-ip
-    # kubernetes.io/ingress.class: gce
-    # kubernetes.io/tls-acme: "true"
-  tls:
-    # Secrets must be manually created in the namespace, you can also use cert-manager.
-    # - hosts:
-    # - example.com
+    enabled: false
+    hostname: betaalservice.local
+    path: /
+    type: "traefik"
+    annotations:
+        # kubernetes.io/ingress.global-static-ip-name: chart-ip
+        # kubernetes.io/ingress.class: gce
+        # kubernetes.io/tls-acme: "true"
+    tls:
+        # Secrets must be manually created in the namespace, you can also use cert-manager.
+        # - hosts:
+        # - example.com
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi

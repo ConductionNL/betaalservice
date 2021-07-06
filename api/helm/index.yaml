@@ -5,7 +5,7 @@ entries:
       artifacthub.io/containsSecurityUpdates: "true"
     apiVersion: v2
     appVersion: V1.0
-    created: "2021-07-06T17:48:32.9570679Z"
+    created: "2021-07-06T20:40:33.5936109+02:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -15,9 +15,8 @@ entries:
       name: redis
       repository: https://charts.bitnami.com/bitnami
       version: 12.7.7
-    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
-      beschikbaar.
-    digest: e95fbfa4fdaf98d68d3a80b0987b0873e145f29609974516d8a493b2ac08becf
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.
+    digest: 584c803f8a7865dcc7bbd106ecfdb08f2655819f99fa1578cc18f35565e029b9
     home: https://www.conduction.nl
     icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
     keywords:
@@ -39,15 +38,8 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-07-06T17:48:32.9246239Z"
-    description: Het Betalen Component handelt, bij voorkeur in samenwerking met het
-      Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan
-      en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden
-      de resultaten van de payment provider verwerkt, waarmee een invoice overzicht
-      wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten.
-      Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen),
-      BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van
-      betalingen in de trant van herinneringen en aanmaningen.
+    created: "2021-07-06T20:40:33.585611+02:00"
+    description: Het Betalen Component handelt, bij voorkeur in samenwerking met het Order Registratie Component, betalingen af. Hiervoor maakt het facturen aan en meldt deze (indien gewenst) bij een payment provider aan. Als laatste worden de resultaten van de payment provider verwerkt, waarmee een invoice overzicht wordt gecreëerd dat kan worden gebruikt door zowel organisaties als klanten. Indien gewenst kan het Betalen Component in samenwerking met het WRC (sjablonen), BS (mail en sms) en het Queue Component worden ingezet voor de opvolging van betalingen in de trant van herinneringen en aanmaningen.
     digest: 9348b9325e2a2583f17edfb7fe8af915f33fa7e29725ef52cbb1985ff78ce9b4
     home: https://www.conduction.nl
     icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
@@ -73,13 +65,12 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-07-06T17:48:32.9790224Z"
+    created: "2021-07-06T20:40:33.5976104+02:00"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
       version: 1.x.x
-    description: Chart for PostgreSQL, an object-relational database management system
-      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    description: Chart for PostgreSQL, an object-relational database management system (ORDBMS) with an emphasis on extensibility and on standards-compliance.
     digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
     home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
     icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
@@ -107,16 +98,14 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 6.0.11
-    created: "2021-07-06T17:48:32.9901949Z"
+    created: "2021-07-06T20:40:33.6016148+02:00"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
       tags:
       - bitnami-common
       version: 1.x.x
-    description: Open source, advanced key-value store. It is often referred to as
-      a data structure server since keys can contain strings, hashes, lists, sets
-      and sorted sets.
+    description: Open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.
     digest: 2d70861d16fc410ed6d6c818b97f7b0d519031147e5c7b42c5691d4c38742c44
     home: https://github.com/bitnami/charts/tree/master/bitnami/redis
     icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
@@ -136,4 +125,4 @@ entries:
     urls:
     - charts/redis-12.7.7.tgz
     version: 12.7.7
-generated: "2021-07-06T17:48:32.9099556Z"
+generated: "2021-07-06T20:40:33.5816113+02:00"
