@@ -1,12 +1,19 @@
 {{ if .Values.ingress.enabled }}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
     annotations:
         # add an annotation indicating the issuer to use.
         #    cert-manager.io/acme-challenge-type: http01
         #    cert-manager.io/cluster-issuer: letsencrypt-prod
-        nginx.ingress.kubernetes.io/rewrite-target: /$1
+      {{ if eq .Values.ingress.type "nginx" }}
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      {{ end }}
+      {{ if eq .Values.ingress.type "traefik"}}
+        kubernetes.io/ingress.class: traefik
+        traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ .Release.Name }}-middleware@kubernetescrd
+      {{ end }}
     name: {{ .Release.Name }}-ingress
     labels:
         app.kubernetes.io/name: {{ .Release.Name }}-ingress
@@ -19,12 +26,25 @@ spec:
         - host: {{ $.Values.ingress.hostname }}
           http:
               paths:
-                  - path: {{ $.Values.ingress.path }}/(.*)
+                  - path: {{ $.Values.ingress.path }}{{ if eq .Values.ingress.type "nginx" }}(/|$)(.*){{ end }}
                     backend:
                         serviceName: {{ .Release.Name }}
                         servicePort: 80
-                  - path: {{ $.Values.ingress.path }}(.*)
-                    backend:
-                        serviceName: {{ .Release.Name }}
-                        servicePort: 80
+  {{ end }}
+---
+  {{ if and (eq .Values.ingress.type "traefik") .Values.ingress.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+    name: {{ .Release.Name }}-middleware
+    labels:
+        app.kubernetes.io/name: {{ .Release.Name }}-middleware
+        app.kubernetes.io/part-of: {{ .Release.Name }}
+        helm.sh/chart: {{ include "chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+    stripPrefix:
+        prefixes:
+            - {{ .Values.ingress.path }}
   {{ end }}
