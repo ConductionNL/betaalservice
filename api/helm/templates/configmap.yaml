@@ -1,4 +1,4 @@
-{{ $redisServiceName := printf "%s-redis" }}
+{{- $redisServiceName := include "redis.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -18,9 +18,9 @@ data:
   trusted-proxies: {{ join "," .Values.php.trustedProxies }}
   trusted-hosts: {{ .Values.php.trustedHosts | quote }}
   php-service: {{ .Release.Name }}-php  
-
+  url: {{ printf "https://%s%s" .Values.ingress.hostname .Values.ingress.path | quote }}
   {{- if .Values.redis.enabled }}
-  redis-host: {{ $redisServiceName | quote }}
+  redis-host: {{ printf "%s-headless" $redisServiceName | quote }}
   redis-port: {{ .Values.redis.redisPort | toString | quote }}
 
   {{- end }}

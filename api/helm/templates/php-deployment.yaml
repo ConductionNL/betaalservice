@@ -87,7 +87,7 @@ spec:
                 secretKeyRef:
                   name: {{ template "fullname" . }}
                   key: app_application_key
-          {{ if .Values.redis.enabled }}
+            {{ if .Values.redis.enabled }}
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
@@ -100,7 +100,10 @@ spec:
                   key: redis-port
             {{- end }}
             - name: APP_URL
-              value: https://{{ $.Values.ingress.domain }}/{{ $.Values.ingress.path }}
+              valueFrom:
+                configMapKeyRef:
+                  key: url
+                  name: {{ template "fullname" . }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
